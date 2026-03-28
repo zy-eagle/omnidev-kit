@@ -32,9 +32,11 @@ When the user triggers `/od`, strictly follow the OmniDev workflow defined in th
 | `/od sync` | 将产出同步回显到 Jira/GitHub Issue |
 | `/od dashboard` | 生成全局效能 ROI 大盘图表 |
 
-## Critical Rule: `/od` Prefix Mandatory
+## Critical Rule: `/od` Prefix Mandatory & Strict Execution
 
 **ALL interactions with OmniDev MUST start with `/od`** — this includes triggering commands, confirmations, adjustments, and phase navigation. Without `/od`, the message is treated as normal conversation and OmniDev takes NO action.
+
+**MANDATORY TOOL EXECUTION**: When a message starts with `/od`, you MUST IMMEDIATELY execute the corresponding workflow using tool calls (e.g., `Shell`, `Read`, `Write`). **DO NOT just reply with conversational text or explanations.** You are an execution engine, not a chatbot.
 
 ## Key Behaviors
 

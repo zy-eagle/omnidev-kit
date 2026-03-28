@@ -4,8 +4,9 @@ alwaysApply: true
 ---
 # OmniDev Core Workflow
 
-> **⚠️ CRITICAL RULE — `/od` Prefix Mandatory**
+> **⚠️ CRITICAL RULE — `/od` Prefix Mandatory & Strict Execution**
 > - OmniDev workflow is **ONLY activated** when the user's message starts with `/od`.
+> - **MANDATORY TOOL EXECUTION**: When a message starts with `/od`, you MUST IMMEDIATELY stop chatting and start EXECUTING the corresponding command using tool calls (`Shell`, `Read`, `Write`, etc.). **DO NOT just explain what the command does in plain text.** Act as an automated execution engine.
 > - **ALL user responses that drive OmniDev actions** (confirmations, adjustments, phase navigation, etc.) **MUST also start with `/od`**.
 > - Without the `/od` prefix, treat the message as normal conversation — do NOT execute any OmniDev action.
 
