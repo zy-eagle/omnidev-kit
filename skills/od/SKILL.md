@@ -15,7 +15,7 @@ When the user triggers `/od`, strictly follow the OmniDev workflow defined in th
 
 | Command | Action |
 |---------|--------|
-| `/od [requirement]` | Standard workflow: assess complexity -> blueprint -> plan -> develop |
+| `/od [requirement]` | Guided workflow: assess complexity -> recommend phases -> user can skip any |
 | `/od --fast [requirement]` | Skip blueprint/plan, develop directly (hotfixes) |
 | `/od --plan-only [requirement]` | Output blueprint and plan only, no coding |
 | `/od help` | Show all OmniDev commands |
@@ -34,6 +34,7 @@ When the user triggers `/od`, strictly follow the OmniDev workflow defined in th
 
 ## Key Behaviors
 
+- **Guided, not forced**: The workflow is a recommendation. Phase order is fixed (forward only), but any phase can be skipped. The AI guides the user through phases, never blocks them.
 - **Proactive phase navigation**: After each phase completes, the AI MUST proactively output a progress summary showing completed/current/upcoming phases, and tell the user what the next step will do — do NOT wait for the user to ask.
 - **Mid-phase adjustments**: At every checkpoint, the user can `/od 调整`, `/od 跳过`, `/od 回到`, etc.
 
@@ -41,8 +42,8 @@ When the user triggers `/od`, strictly follow the OmniDev workflow defined in th
 
 1. **Read the full OmniDev rules** from `.cursor/rules/01-omnidev-workflow.mdc` before proceeding.
 2. **Parse the command** and identify which flow to execute.
-3. **Assess complexity** (S/M/L/XL) using T-Shirt Sizing.
-4. **Follow the phased workflow** with checkpoints — never write business code before requirements are confirmed.
+3. **Assess complexity** (S/M/L/XL) using T-Shirt Sizing — this provides **recommended** phases, not mandatory ones.
+4. **Follow the phased workflow** with checkpoints — guide the user through each phase, allow skipping at any checkpoint.
 5. **Store all state documents** in `docs/omnidev-state/`.
 6. **Reply in the user's language** (Chinese if they write in Chinese).
 

@@ -4,8 +4,19 @@ alwaysApply: true
 ---
 # OmniDev Core Workflow
 
-As an AI coding assistant, when a user submits a new requirement or types `/od`, you MUST **strictly follow the phases below**.
-**It is strictly prohibited to write business code directly before requirements are clear and confirmed.**
+> **⚠️ CRITICAL RULE — `/od` Prefix Mandatory**
+> - OmniDev workflow is **ONLY activated** when the user's message starts with `/od`.
+> - **ALL user responses that drive OmniDev actions** (confirmations, adjustments, phase navigation, etc.) **MUST also start with `/od`**.
+> - Without the `/od` prefix, treat the message as normal conversation — do NOT execute any OmniDev action.
+
+## Workflow Philosophy
+
+OmniDev is a **guided workflow**, not a rigid enforcement system:
+- The standard phase order is: **蓝图 (Blueprint) → 计划 (Plan) → 开发 (Dev) → 测试 (Test) → 部署建议 (Deploy)**
+- Phases MUST execute **in forward order** — you cannot run Plan before Blueprint, or Test before Dev.
+- However, **any phase can be skipped** — the user is never forced to complete every phase for every requirement.
+- The AI's role is to **guide and recommend** the next step, not to block the user. If the user wants to skip ahead, respect that.
+- Complexity assessment (S/M/L) provides a **recommended** set of phases, but the user can always override.
 
 All generated documents must be stored in the `docs/omnidev-state/` directory.
 
@@ -25,12 +36,14 @@ Users can trigger the workflow using the following commands:
 - `/od qa`: Act as a QA engineer, only write test cases and execute tests.
 - `/od push`: Commit and push code to remote repository. Requires user to `git add` first.
 
-If no parameters are specified, perform a **Task Complexity Assessment (T-Shirt Sizing)**:
-- **S (Trivial)**: Skip blueprint and plan, fix and test directly.
-- **M (Medium)**: Skip blueprint, directly generate `02-plan.md`, develop after confirmation.
-- **L/XL (Large)**: Execute the full Phase 1 to Phase 4 workflow.
+If no parameters are specified, perform a **Task Complexity Assessment (T-Shirt Sizing)** to **recommend** which phases to include:
+- **S (Trivial)**: Recommend skipping blueprint and plan → Dev → Test directly.
+- **M (Medium)**: Recommend skipping blueprint → Plan → Dev → Test.
+- **L/XL (Large)**: Recommend the full workflow: Blueprint → Plan → Dev → Test → Deploy suggestions.
 
-*Note: When replying to the user, briefly explain the parsed command, the assessed complexity level, and the adopted strategy. **IMPORTANT: Always reply to the user in the language they used to communicate with you (e.g., if the user asks in Chinese, reply in Chinese).***
+These are **recommendations, not mandates**. The user can always skip or add phases at any checkpoint.
+
+*Note: When replying to the user, briefly explain the parsed command, the assessed complexity level, and the recommended strategy. **IMPORTANT: Always reply to the user in the language they used to communicate with you (e.g., if the user asks in Chinese, reply in Chinese).***
 
 ## Special Flow: Enterprise-Grade Project Reporting (Report)
 When the user types `/od report`:
@@ -75,7 +88,7 @@ When `/od learn` is triggered or after a large task is completed:
 
 ## Phase Execution Protocol (Applies to ALL Phases)
 
-Every time a phase completes, the AI MUST **proactively** follow this protocol — do NOT wait for the user to ask:
+The workflow is **guided, not forced**. Every time a phase completes, the AI MUST **proactively** follow this protocol — do NOT wait for the user to ask:
 
 ### 1. Phase Completion Summary
 Output a clear status block:
@@ -111,12 +124,12 @@ The user can request adjustments at any checkpoint (all must start with `/od`):
 
 ---
 
-## Phase 1: Brainstorming & Blueprint - L/XL Tasks Only
+## Phase 1: Brainstorming & Blueprint (Recommended for L/XL)
 1. **Mine Potential Needs**: Analyze requirements, think about edge cases, exception handling, and UX.
 2. **Global Blueprint Output**: Output the final state description of the requirement in `docs/omnidev-state/01-blueprint.md`. **(Output this document in the user's preferred language)**.
 3. **Checkpoint**: Follow the **Phase Execution Protocol** — output completion summary, preview next phase (Phase 2: Planning), and wait for `/od` confirmation.
 
-## Phase 2: Planning - M and L/XL Tasks
+## Phase 2: Planning (Recommended for M and L/XL)
 1. Break down the requirement into specific features and technical tasks, prioritize them.
 2. Generate a Markdown task list with checkboxes in `docs/omnidev-state/02-plan.md`. **(Output this document in the user's preferred language)**.
 3. **Checkpoint**: Follow the **Phase Execution Protocol** — output completion summary, preview next phase (Phase 3: Development), and wait for `/od` confirmation.
