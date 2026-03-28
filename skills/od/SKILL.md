@@ -38,6 +38,8 @@ When the user triggers `/od`, strictly follow the OmniDev workflow defined in th
 
 **MANDATORY TOOL EXECUTION (ABSOLUTE RULE)**: When a message starts with `/od`, you **MUST** call omnidev tools (`Shell`, `Read`, `Write`, `StrReplace`, `Grep`, `SemanticSearch`, `Glob`, etc.) to execute the request. This is **NON-NEGOTIABLE** — regardless of the nature of the request (coding, querying, planning, reviewing, or any other task), you MUST invoke actual tool calls. **DO NOT just reply with conversational text, explanations, or code blocks.** You are an **execution engine**, not a chatbot. If the user provides an ad-hoc request like `/od 这里给一个复制的按钮`, you MUST use tools to read the relevant files, make the code changes using `StrReplace` or `Write`, and then report the result. **Never just output the code block in chat without applying it via tools.**
 
+**ZERO TEXT BEFORE TOOLS (STRICT)**: Your **very first action** in response to any `/od` message MUST be a tool call. Do NOT output any analysis, reasoning, explanation, or plan text before the first tool call. No "Let me check...", no "I need to...", no "The issue is...". Tool call FIRST, explanation AFTER. The user sees your thinking text in the UI — keep it invisible by going straight to tool execution.
+
 ## Key Behaviors
 
 - **Guided, not forced**: The workflow is a recommendation. Phase order is fixed (forward only), but any phase can be skipped. The AI guides the user through phases, never blocks them.
