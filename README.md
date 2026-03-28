@@ -13,9 +13,9 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 - **Short Commands & Multi-Persona**: Instantly wake up the standard workflow with `/od`. Supports `/od --fast` (skip blueprint, code directly), `/od change` (mid-stream requirement changes), `/od <Issue-URL>` (parse requirements from links), and `/od review` (act as an architect for Code Review).
 - **Built-in Help**: Type `/od help` at any time to view all available commands and their meanings.
 
-### 2. Legacy Project Onboarding
+### 2. Legacy Project Onboarding & No Self-Divergence
 - **Autonomous Learning**: With the `/od onboard` command, the AI actively scans the current legacy project's directory structure, dependencies, and configuration files to extract architectural patterns (e.g., DDD, MVC) and coding conventions.
-- **Preventing Architectural Decay**: The learned context is solidified into `00-project-context.md`. When adding new features later, the AI is constrained to follow these historical conventions, ensuring 100% consistency between old and new code.
+- **No Self-Divergence**: The learned context is solidified into `00-project-context.md`. When adding new features later, the AI is constrained to follow these historical conventions. **It must reuse existing utilities and components, and is strictly prohibited from introducing new libraries or "reinventing the wheel" that conflict with the existing code style.** This ensures 100% consistency and prevents architectural decay.
 
 ### 3. Adaptive Scheduling (Token & Cost Optimization)
 - **Dynamic Complexity Assessment (T-Shirt Sizing)**: The AI evaluates the complexity (S/M/L) upon receiving a requirement.
@@ -44,7 +44,7 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 | Command | Description |
 | --- | --- |
 | `/od help` | 📖 View all available commands |
-| `/od onboard` | 🔍 Scan and learn the architecture & conventions of the current legacy project |
+| `/od onboard` | 🔍 Scan and learn legacy project architecture to prevent self-divergence |
 | `/od [requirement]` | 🚀 Start standard workflow (auto-assesses complexity) |
 | `/od --fast [req]` | ⚡ Skip blueprint and plan, code directly (for urgent bug fixes) |
 | `/od --plan-only [req]`| 📝 Only analyze and plan, do not write code |

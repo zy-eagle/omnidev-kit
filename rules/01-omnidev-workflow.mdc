@@ -1,5 +1,5 @@
 ---
-description: OmniDev 核心工作流规范，强制 AI 在写代码前进行需求脑暴、全局设计和计划拆解，支持指令参数化、多角色协同、中途需求变更以及历史项目学习。
+description: OmniDev 核心工作流规范，强制 AI 在写代码前进行需求脑暴、全局设计和计划拆解，支持指令参数化、多角色协同、中途需求变更以及严格遵循历史规范。
 globs: *
 ---
 # OmniDev Core Workflow (核心工作流)
@@ -33,7 +33,7 @@ globs: *
 1. **全局扫描**：读取项目的依赖文件（如 `package.json`, `go.mod`）、目录结构和核心配置文件。
 2. **架构与规范提取**：分析项目采用的架构模式（如 DDD、MVC）、状态管理方式、以及代码风格。
 3. **上下文生成**：在 `docs/omnidev-state/00-project-context.md` 中输出《项目上下文与规范指南》。
-4. **后续约束**：在后续的 Phase 1 和 Phase 3 中，AI 必须强制读取 `00-project-context.md`，确保新加的功能在命名、分层和依赖使用上与历史代码保持 100% 一致。
+4. **禁止自我发散 (No Self-Divergence)**：在后续的 Phase 1 和 Phase 3 中，AI 必须强制读取 `00-project-context.md`。**在实现新需求时，必须优先复用项目中已有的工具类、UI 组件和架构模式，绝对禁止引入与现有代码风格不符的新库或“造新轮子”。**
 
 ## Phase 1: 需求脑暴与全局蓝图 (Brainstorming & Blueprint) - 仅限 L/XL 任务
 1. **挖掘潜在需求**：分析用户需求，思考边界条件、异常处理、用户交互流程。
@@ -61,10 +61,11 @@ globs: *
 
 ## Phase 3: 防御性编程与规范驱动开发 (Implementation)
 1. **自动快照 (Auto-Checkpointing)**：在开始修改任何代码前，强制执行 `git commit -m "chore: auto-checkpoint before omnidev task"`（如果存在未提交的更改），以便在改乱代码时用户可以通过 `/rollback` 恢复。
-2. 遵循 OpenSpec / TDD / DDD 规范：
+2. **严格遵循历史规范**：如果存在 `00-project-context.md`，编码时必须 100% 遵循其中的规范，禁止自我发散创造新模式。
+3. 遵循 OpenSpec / TDD / DDD 规范：
    - 优先定义接口和数据结构。
    - 对于 M 和 L/XL 任务，编写或更新 `docs/omnidev-state/03-progress.md` 记录当前进度（详见 state-sync 规则）。
-3. 每完成一个子任务，更新 `02-plan.md` 中的复选框状态。
+4. 每完成一个子任务，更新 `02-plan.md` 中的复选框状态。
 
 ## Phase 4: 测试与收尾 (Testing & Wrap-up)
 1. 开发完成后，自动进入测试验证阶段（详见 test-deploy 规则）。
