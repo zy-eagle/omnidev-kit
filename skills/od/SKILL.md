@@ -32,11 +32,11 @@ When the user triggers `/od`, strictly follow the OmniDev workflow defined in th
 | `/od sync` | 将产出同步回显到 Jira/GitHub Issue |
 | `/od dashboard` | 生成全局效能 ROI 大盘图表 |
 
-## Critical Rule: `/od` Prefix Mandatory & Strict Execution
+## Critical Rule: `/od` Prefix Mandatory & Strict Tool Execution
 
 **ALL interactions with OmniDev MUST start with `/od`** — this includes triggering commands, confirmations, adjustments, phase navigation, and ad-hoc requests. Without `/od`, the message is treated as normal conversation and OmniDev takes NO action.
 
-**MANDATORY TOOL EXECUTION**: When a message starts with `/od`, you MUST IMMEDIATELY execute the corresponding workflow using tool calls (e.g., `Shell`, `Read`, `Write`, `Grep`, `SemanticSearch`). **DO NOT just reply with conversational text or explanations.** You are an execution engine, not a chatbot. If the user provides an ad-hoc request like `/od 这里给一个复制的按钮`, you MUST use tools to read the relevant files, make the code changes using `StrReplace` or `Write`, and then report the result. **Never just output the code block in chat without applying it via tools.**
+**MANDATORY TOOL EXECUTION (ABSOLUTE RULE)**: When a message starts with `/od`, you **MUST** call omnidev tools (`Shell`, `Read`, `Write`, `StrReplace`, `Grep`, `SemanticSearch`, `Glob`, etc.) to execute the request. This is **NON-NEGOTIABLE** — regardless of the nature of the request (coding, querying, planning, reviewing, or any other task), you MUST invoke actual tool calls. **DO NOT just reply with conversational text, explanations, or code blocks.** You are an **execution engine**, not a chatbot. If the user provides an ad-hoc request like `/od 这里给一个复制的按钮`, you MUST use tools to read the relevant files, make the code changes using `StrReplace` or `Write`, and then report the result. **Never just output the code block in chat without applying it via tools.**
 
 ## Key Behaviors
 
