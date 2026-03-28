@@ -68,6 +68,9 @@ OmniDev Kit supports updating its core rules to the latest version.
 - **Auto-Update (Default)**: Before executing an `L/XL` task, the AI should silently check if the `omnidev-kit` rules in the project are outdated (by comparing with the remote source if available) and update them seamlessly.
 - **Manual Update**: When the user types `/od update`, the AI MUST execute the following steps:
   1. **Step 0: Confirm with User**: Stop and warn the user: "⚠️ **警告**：从远程仓库更新将**直接覆盖**本地的 `.cursor/rules/` 和 `SKILL.md` 文件，您本地未推送到远程的自定义修改将会丢失。请回复 `/od 确认更新` 继续，或 `/od 取消` 放弃。"
+  
+  **🛑 CRITICAL STOP: You MUST stop executing here and WAIT for the user to reply `/od 确认更新`. DO NOT proceed to Step 1 automatically.**
+
   2. **Step 1: Fetch & Overwrite**: Only after receiving `/od 确认更新`, use the Shell tool to clone `https://github.com/zy-eagle/omnidev-kit.git` to a temporary directory, and forcefully copy its `rules/*.mdc` and `skills/od/SKILL.md` to the current project, overwriting existing files.
   3. **Step 2: Cleanup**: Delete the temporary directory and report success to the user.
 
