@@ -46,6 +46,10 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 - **Automated Release Notes**: After development, it automatically summarizes `.env` changes, new dependencies, database migration scripts, etc.
 - **Efficiency Bill (ROI)**: Outputs an intuitive ROI bill upon delivery (e.g., "Saved you 15,000 Tokens and 2.5 hours"), making the AI's value clearly visible.
 
+### 10. Project Reporting & Auto-Updates
+- **One-Click Weekly Reports**: Using `/od report`, the AI combines Git commit history with state files to automatically generate a beautifully formatted project status report (including overall progress, this week's achievements, blockers, and next week's plan).
+- **Tool Auto-Update**: Supports manual (`/od update`) or background auto-updates to fetch the latest rules from the remote repository, ensuring the AI always uses the most cutting-edge engineering practices.
+
 ## Command Reference
 
 | Command | Description |
@@ -53,6 +57,8 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 | `/od help` | 📖 View all available commands |
 | `/od onboard` | 🔍 Scan and learn legacy project architecture to prevent self-divergence |
 | `/od learn` | 🧠 Trigger self-retrospective, extract lessons from errors and write to pitfall guide |
+| `/od report` | 📊 Generate a comprehensive project status report based on Git and state files |
+| `/od update` | 🔄 Update OmniDev Kit rules to the latest version |
 | `/od [requirement]` | 🚀 Start standard workflow (auto-assesses complexity) |
 | `/od --fast [req]` | ⚡ Skip blueprint and plan, code directly (for urgent bug fixes) |
 | `/od --plan-only [req]`| 📝 Only analyze and plan, do not write code |
@@ -70,7 +76,7 @@ omnidev-kit/
 ├── README.md                       # This file
 ├── README.zh-CN.md                 # Chinese documentation
 └── rules/                          # Core Rules
-    ├── 01-omnidev-workflow.mdc     # Core workflow (Project Type, Changes, Self-learning)
+    ├── 01-omnidev-workflow.mdc     # Core workflow (Project Type, Changes, Reporting)
     ├── 02-omnidev-state-sync.mdc   # State persistence (Dual-state, Recovery)
     ├── 03-omnidev-test-deploy.mdc  # Testing & Deployment (Security, ROI Bill)
     ├── 04-omnidev-skills-mcp.mdc   # Pre-configured Skills & MCP norms

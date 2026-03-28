@@ -46,6 +46,10 @@ OmniDev Kit 是一个集成了多个顶尖开源 AI 编码框架核心精华的 
 - **自动生成发布清单**：功能开发完毕后，自动总结 `.env` 变更、新增依赖、数据库迁移脚本等。
 - **效能账单 (Efficiency Bill)**：在交付时输出直观的 ROI 账单（如“本次为您节省了 15,000 Tokens 和 2.5 小时”），让 AI 的价值清晰可见。
 
+### 10. 项目管理与汇报 (Project Reporting & Updates)
+- **一键生成周报**：通过 `/od report` 指令，AI 会结合 Git 提交记录和状态文件，自动生成包含“整体进度、本周完成项、当前卡点、下周计划”的精美项目汇报文档。
+- **工具自动更新**：支持通过 `/od update` 手动或在后台自动拉取远端最新规则进行无损升级，确保 AI 始终掌握最前沿的工程实践。
+
 ## 指令速查表 (Command Reference)
 
 | 指令 | 说明 |
@@ -53,6 +57,8 @@ OmniDev Kit 是一个集成了多个顶尖开源 AI 编码框架核心精华的 
 | `/od help` | 📖 查看所有指令帮助 |
 | `/od onboard` | 🔍 扫描并学习当前历史项目的架构与规范，防止后续开发自我发散 |
 | `/od learn` | 🧠 触发自我复盘，从报错和纠正中提取经验并写入避坑指南 |
+| `/od report` | 📊 结合 Git 记录与状态文件，一键生成项目进度周报 |
+| `/od update` | 🔄 更新 OmniDev Kit 规则到最新版本 |
 | `/od [需求]` | 🚀 启动标准开发工作流（自动评估复杂度） |
 | `/od --fast [需求]` | ⚡ 跳过蓝图和计划，直接写代码（适合紧急修 Bug） |
 | `/od --plan-only [需求]` | 📝 只做需求分析和计划拆解，不写代码 |
@@ -70,7 +76,7 @@ omnidev-kit/
 ├── README.md                       # 英文说明文件
 ├── README.zh-CN.md                 # 本说明文件
 └── rules/                          # 核心规则库
-    ├── 01-omnidev-workflow.mdc     # 核心工作流（含项目类型感知、需求变更、自我学习）
+    ├── 01-omnidev-workflow.mdc     # 核心工作流（含项目类型感知、需求变更、周报生成）
     ├── 02-omnidev-state-sync.mdc   # 状态持久化（双态存储与断点续传）
     ├── 03-omnidev-test-deploy.mdc  # 测试验证（含安全护栏与效能账单）
     ├── 04-omnidev-skills-mcp.mdc   # 预置开源 Skills 与 MCP 协同规范
