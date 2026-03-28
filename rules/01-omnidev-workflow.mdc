@@ -1,5 +1,5 @@
 ---
-description: OmniDev core workflow specification. Forces the AI to brainstorm, design globally, and break down plans before coding. Supports command parameterization, multi-persona collaboration, mid-stream requirement changes, project type awareness, and status reporting.
+description: OmniDev core workflow specification. Forces the AI to brainstorm, design globally, and break down plans before coding. Supports command parameterization, multi-persona collaboration, mid-stream requirement changes, project type awareness, and enterprise-grade status reporting.
 globs: *
 ---
 # OmniDev Core Workflow
@@ -14,7 +14,7 @@ Users can trigger the workflow using the following commands:
 - `/od help`: View the meanings and usage of all OmniDev commands. Output a beautifully formatted help manual.
 - `/od onboard`: Legacy project onboarding. Actively scan the current project directory, analyze the tech stack, architecture, and conventions, and generate a context document.
 - `/od learn`: Self-learning & retrospective mechanism. Analyze recent errors and user corrections, extract lessons, and update the pitfall guide.
-- `/od report`: **Generate a comprehensive project status report**. Useful for team syncs or management reporting.
+- `/od report`: **Generate an enterprise-grade project status report**. Ready for management reporting.
 - `/od update`: **Update OmniDev Kit**. Fetch the latest rules from the remote repository and apply them to the current project.
 - `/od [requirement]`: Standard workflow.
 - `/od --fast [requirement]`: Skip blueprint and planning, enter development directly (for urgent hotfixes).
@@ -31,16 +31,18 @@ If no parameters are specified, perform a **Task Complexity Assessment (T-Shirt 
 
 *Note: When replying to the user, briefly explain the parsed command, the assessed complexity level, and the adopted strategy. **IMPORTANT: Always reply to the user in the language they used to communicate with you (e.g., if the user asks in Chinese, reply in Chinese).***
 
-## Special Flow: Project Status Reporting (Report)
+## Special Flow: Enterprise-Grade Project Reporting (Report)
 When the user types `/od report`:
-1. **Global Scan**: Read `00-project-context.md`, `02-plan.md`, `03-progress.md`, and the `archive/` directory.
+1. **Global Scan**: Read `00-project-context.md`, `02-plan.md`, `03-progress.md`, `05-test-report.md`, `06-release-notes.md`, and the `archive/` directory.
 2. **Git Analysis**: Analyze `git log` to extract commits from the past 7 days.
-3. **Generate Report**: Output a beautifully formatted Markdown report in `docs/omnidev-state/weekly-report-[date].md`.
-4. **Report Content**: The report MUST include:
-   - **Executive Summary**: The overall completion status and health of the project.
-   - **This Week's Progress**: Features completed, bugs fixed, and architectural changes made in the last 7 days.
-   - **Current Blockers**: Any unresolved issues or technical debt.
-   - **Next Week's Plan**: Tasks remaining in the backlog.
+3. **OmniDev Task Aggregation**: Identify all tasks completed via `/od` commands (including bug fixes, refactors, and feature additions) by scanning the state files and commit messages.
+4. **Generate Report**: Output a beautifully formatted, management-ready Markdown report in `docs/omnidev-state/weekly-report-[date].md`.
+5. **Report Content**: The report MUST be professional and include:
+   - **Executive Summary**: Overall health, major milestones achieved, and project completion status.
+   - **AI-Assisted Achievements (OmniDev Impact)**: A specific section summarizing all tasks completed via `/od` this week (e.g., "Resolved 3 bugs via `/od --fast`, delivered 1 major feature via standard workflow, saved approx. X hours").
+   - **This Week's Progress**: Detailed list of features completed, bugs fixed, and architectural changes made in the last 7 days.
+   - **Current Blockers & Risks**: Any unresolved issues, technical debt, or dependencies holding up progress.
+   - **Next Week's Plan**: Actionable tasks remaining in the backlog.
 
 ## Special Flow: Tool Auto-Update (Update)
 OmniDev Kit supports updating its core rules to the latest version.
