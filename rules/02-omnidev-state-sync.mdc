@@ -51,6 +51,7 @@ When a user types `/resume` in a new session, or says "continue the last task":
 1. **Mandatory First Step**: Use the file reading tool to fully read `docs/omnidev-state/02-plan.md` and `docs/omnidev-state/03-progress.md` (prioritize parsing YAML Frontmatter for accurate machine state).
 2. **State Alignment**: Compare with git status (if there are uncommitted changes) to confirm if the current code state matches the record in `03-progress.md`.
 3. **Resume Execution**: Report to the user: "🔄 **Context Restored**. Current status: [status]. Last stopped at: [last state read]. Next, I will execute: [next action]. Shall we continue?"
+   **🛑 CRITICAL STOP: You MUST stop executing here and WAIT for the user to reply.**
 
 ## 5. SDD (Spec-Driven Development) Integration
 Strictly follow OpenSpec principles during coding:

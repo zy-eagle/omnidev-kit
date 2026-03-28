@@ -122,6 +122,8 @@ After the summary, **always pause and ask** (remind the user to use `/od` prefix
 > - `/od 跳过 [阶段名]` — 跳过后续某个阶段
 > - `/od 回到 [阶段名]` — 重新执行之前的阶段"
 
+**🛑 CRITICAL STOP: You MUST stop executing here and WAIT for the user to reply. DO NOT automatically proceed to the next phase.**
+
 ### 3. Handling Mid-Phase Adjustments
 The user can request adjustments at any checkpoint (all must start with `/od`):
 
@@ -149,6 +151,7 @@ The user can request adjustments at any checkpoint (all must start with `/od`):
 When `/od change` is used:
 1. **Impact Assessment**: Assess the complexity of the new requirement, analyze its impact on the current architecture and written code, and output an assessment doc.
 2. **Wait for Confirmation**: Ask the user: "请回复 `/od 确认` 引入此变更，或 `/od 取消` 放弃。"
+   **🛑 CRITICAL STOP: You MUST stop executing here and WAIT for the user to reply. DO NOT automatically proceed to Step 3.**
 3. **Archive & Refactor**: After confirmation, archive the old plan, and regenerate the blueprint and plan.
 
 ## Phase 3: Defensive Programming & Spec-Driven Development

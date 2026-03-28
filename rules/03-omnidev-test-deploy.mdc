@@ -12,6 +12,7 @@ When all development tasks in `docs/omnidev-state/02-plan.md` are marked as comp
 - **No "Blind Confidence"**: Do not just write code without running it. You must write or execute test cases.
 - **MCP Database Interaction**: If the project has a database MCP server configured, you must call MCP tools to insert mock test data and verify data flow integrity.
 - **Third-Party Dependencies**: If the feature depends on external services (e.g., Redis, S3, third-party APIs) and cannot be mocked, proactively pause and ask the user for test credentials.
+  **🛑 CRITICAL STOP: If asking for credentials, you MUST stop executing here and WAIT for the user to reply.**
 
 ### 1.2 Security Guardrails
 - **Absolute Prohibition on Hardcoding**: When automatically generating tests, mock data, or release notes, **it is strictly prohibited to hardcode real API Keys, internal IPs, passwords, or sensitive business logic into any `.md` state files or code**.
@@ -55,3 +56,4 @@ If the task originated from an Issue URL, or if the user explicitly requests it,
 
 ## 3. Archive & Cleanup
 When the user confirms the release notes, prompt the user: "🎉 **Requirement development and verification are fully complete!** You can end this workflow session by committing the code. Would you like me to generate a Git Commit Message for you?"
+**🛑 CRITICAL STOP: You MUST stop executing here and WAIT for the user to reply.**
