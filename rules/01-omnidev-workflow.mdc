@@ -55,7 +55,9 @@ These are **recommendations, not mandates**. The user can always skip or add pha
 ## OmniDev Phase 0: 需求解析 & 复杂度评估
 
 **需求解析**: [1-2 sentences explaining the requirement]
+
 **复杂度评估**: [S/M/L/XL] — [Brief reason]
+
 **推荐策略**: [Recommended phases]
 
 *CRITICAL: NEVER output the words "命令解析" in the heading. Always use "需求解析 & 复杂度评估". Always reply in the user's language.*
