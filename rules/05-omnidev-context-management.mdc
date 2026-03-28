@@ -1,0 +1,38 @@
+---
+description: OmniDev 上下文膨胀与遗忘管理规范，防止长会话导致 AI 产生幻觉或消耗过多 Token。
+globs: *
+---
+# OmniDev Context Management (上下文膨胀与遗忘管理)
+
+在处理 L/XL 级的大型需求或经历超长会话时，状态文件（如 `03-progress.md`）会变得非常庞大。这不仅会消耗大量 Token，还会导致 AI “变笨”、遗忘早期指令或产生幻觉。
+
+为此，必须引入**记忆压缩（Context Pruning）**机制。
+
+## 1. 触发条件 (Trigger Conditions)
+在每次更新 `docs/omnidev-state/03-progress.md` 时，AI 必须检查文件长度或内容复杂度：
+- 当 `03-progress.md` 的内容超过 **200 行**。
+- 或者已经完成了超过 **3 个** M 级的子任务。
+- 或者用户主动输入 `/od compress` 指令。
+
+## 2. 记忆压缩动作 (Pruning Action)
+一旦满足触发条件，AI 必须**主动暂停当前开发动作**，执行以下“记忆压缩”流程：
+
+1. **归档历史**：
+   - 在 `docs/omnidev-state/` 下创建 `archive/` 目录（如果不存在）。
+   - 将 `03-progress.md` 中**已经完全解决、测试通过且不再需要频繁回顾**的详细日志、错误排查过程剪切出来。
+   - 保存到 `docs/omnidev-state/archive/progress-archive-[日期].md` 中。
+
+2. **状态浓缩**：
+   - 将被剪切掉的详细历史，浓缩为 **1-2 句话的摘要**，保留在 `03-progress.md` 的顶部。
+   - **示例**：
+     ```markdown
+     ## 历史摘要 (已归档)
+     - [2026-03-28] 完成了用户登录模块（包含路由、JWT 校验、Redis 缓存），相关排错日志已归档至 `archive/progress-archive-01.md`。
+     ```
+
+3. **保留核心上下文**：
+   - `03-progress.md` 中必须始终保留：YAML Frontmatter（机器状态）、当前正在处理的卡点、以及下一步行动。
+
+## 3. 恢复与反馈
+完成压缩后，向用户报告：
+> 🧹 **上下文记忆已压缩**：为了保持最佳性能和节省 Token，我已经将早期已完成的详细日志归档到了 `archive/` 目录，当前核心状态已保留。我们可以继续高效开发了！

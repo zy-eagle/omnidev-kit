@@ -1,5 +1,5 @@
 ---
-description: OmniDev 状态持久化与断点续传规范，确保 AI 能够跨会话恢复上下文，支持多人协作。
+description: OmniDev 状态持久化与断点续传规范，采用双态存储机制，确保 AI 能够精准跨会话恢复上下文，支持多人协作。
 globs: *
 ---
 # OmniDev State Sync (状态持久化与断点续传)
@@ -15,28 +15,38 @@ globs: *
 - `02-plan.md`：记录任务拆解和复选框进度（如 `[x] 任务A`, `[ ] 任务B`）。
 - `03-progress.md`：**最核心的动态文件**，记录当前会话的详细进度、遇到的问题、未解决的 Bug、以及下一个要执行的动作。
 
-## 2. 状态更新触发器 (State Update Triggers)
-在以下情况下，你必须**主动**更新 `03-progress.md` 和 `02-plan.md`：
-- 完成了一个具体的代码模块或函数。
-- 遇到了一个暂时无法解决的错误，需要切换思路。
-- 当前会话即将结束，或者用户要求暂停。
+## 2. 双态存储机制 (Dual-State Storage)
+为了防止 AI 在读取长篇 Markdown 时产生幻觉，`03-progress.md` 必须采用 **YAML Frontmatter + Markdown** 的双态存储格式。
 
 **更新格式示例 (`03-progress.md`)**：
 ```markdown
-## 状态快照: [YYYY-MM-DD HH:mm:ss]
+---
+status: in_progress
+current_step: 3
+failed_tests: 1
+last_updated: "2026-03-28 10:00:00"
+---
+
+## 状态快照
 - **当前正在做**：实现用户登录接口。
 - **已完成**：路由注册、参数校验。
 - **卡点/问题**：Redis 连接超时，已添加重试逻辑但仍不稳定。
 - **下一步行动**：检查 Docker Compose 中的 Redis 网络配置。
 ```
 
-## 3. 断点续传 (Session Recovery)
-当用户在一个新的会话中输入 `/resume`，或者说“继续上次的任务”时：
-1. **强制第一步**：使用文件读取工具，完整读取 `docs/omnidev-state/02-plan.md` 和 `docs/omnidev-state/03-progress.md`。
-2. **状态对齐**：对比 git 状态（如果有未提交的更改），确认代码现状与 `03-progress.md` 中的记录是否一致（这解决了多人协作时的进度同步问题）。
-3. **恢复执行**：向用户报告：“🔄 **已恢复上下文**。上次停在：[读取到的最后状态]。接下来我将执行：[下一步行动]。是否继续？”
+## 3. 状态更新触发器 (State Update Triggers)
+在以下情况下，你必须**主动**更新 `03-progress.md` 和 `02-plan.md`：
+- 完成了一个具体的代码模块或函数。
+- 遇到了一个暂时无法解决的错误，需要切换思路。
+- 当前会话即将结束，或者用户要求暂停。
 
-## 4. 规范驱动开发 (SDD) 整合
+## 4. 断点续传 (Session Recovery)
+当用户在一个新的会话中输入 `/resume`，或者说“继续上次的任务”时：
+1. **强制第一步**：使用文件读取工具，完整读取 `docs/omnidev-state/02-plan.md` 和 `docs/omnidev-state/03-progress.md`（优先解析 YAML Frontmatter 以获取精准机器状态）。
+2. **状态对齐**：对比 git 状态（如果有未提交的更改），确认代码现状与 `03-progress.md` 中的记录是否一致。
+3. **恢复执行**：向用户报告：“🔄 **已恢复上下文**。当前状态为：[status]。上次停在：[读取到的最后状态]。接下来我将执行：[下一步行动]。是否继续？”
+
+## 5. 规范驱动开发 (SDD) 整合
 在编码过程中，严格遵循 OpenSpec 思想：
 - 任何重大的架构决定或数据结构设计，必须先记录在 `docs/omnidev-state/04-design.md` 中。
 - 代码实现必须与 `04-design.md` 保持一致，若代码需要偏离设计，必须先更新设计文档。

@@ -1,7 +1,12 @@
 # OmniDev Kit 安装与使用指南
 
 > **致 AI 助手 (Cursor / Claude Code / Codex 等)**: 
-> 当用户将此文档交给你时，请立即读取本目录下的所有 `.mdc` 和 `.md` 文件，并根据用户的开发平台，自动将这些规则文件复制或链接到对应的平台配置目录中（例如 Cursor 的 `.cursor/rules/` 目录，或 Claude Code 的 `.claude/skills/` 目录）。
+> 当用户将此文档交给你时，请立即读取本目录下的所有 `.mdc` 和 `.md` 文件，并根据用户的开发平台，自动将这些规则文件复制到对应的平台配置目录中（例如 Cursor 的 `.cursor/rules/` 目录，或 Claude Code 的 `.claude/skills/` 目录）。
+> 
+> **⚠️ 核心合并策略 (Merge Strategy)**：
+> 如果用户的项目中已经存在 `.cursorrules` 文件或 `.cursor/rules/` 目录，**绝对不要直接覆盖**！你必须：
+> 1. 读取用户现有的规则。
+> 2. 将 OmniDev 的规则与用户现有的架构/语言规范进行**无损融合**（例如：保留用户原有的 Go/React 代码风格规范，仅将 OmniDev 的工作流和状态管理机制作为补充条目加入）。
 > 
 > 完成安装后，向用户报告安装成功，并提示用户可以通过输入 `/od` 或直接提出需求来启动标准工作流。
 
@@ -12,9 +17,9 @@ OmniDev Kit 是一个集成了 `obra/superpowers`、`everything-claude-code`、`
 它强制 AI 遵循以下工作流：
 1. **需求脑暴与蓝图 (Brainstorming & Blueprint)**：先思考，挖掘潜在需求，输出全局产品形态，等待用户确认。
 2. **计划与拆解 (Planning)**：拆分功能点，排定优先级，等待用户确认。
-3. **规范驱动与断点续传 (SDD/TDD/DDD & State Sync)**：在 `docs/omnidev-state/` 目录下持久化状态，支持中断恢复和多人协同。
+3. **规范驱动与断点续传 (SDD/TDD/DDD & State Sync)**：在 `docs/omnidev-state/` 目录下持久化状态，采用双态存储（YAML+MD），支持中断恢复和多人协同。
 4. **自动化测试验证 (Testing & Verification)**：利用 MCP 模拟数据流，输出测试报告。
-5. **发布清单 (Deployment Docs)**：自动生成上线必备的配置和环境依赖文档。
+5. **发布清单 (Deployment Docs)**：自动生成上线必备的配置、环境依赖文档以及“效能账单”。
 
 ## 2. 自动安装指南 (交给 AI 执行)
 
