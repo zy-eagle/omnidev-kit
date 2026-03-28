@@ -48,13 +48,15 @@ If no parameters are specified, perform a **Task Complexity Assessment (T-Shirt 
 
 These are **recommendations, not mandates**. The user can always skip or add phases at any checkpoint.
 
-*Note: When replying to the user with the initial assessment, you MUST use the following exact format WITHOUT ANY MARKDOWN HEADERS (No `#` or `##`):*
+*Note: When replying to the user with the initial assessment, you MUST use the following exact format:*
+
+## OmniDev Phase 0: 需求解析 & 复杂度评估
 
 **需求解析**: [1-2 sentences explaining the requirement]
 **复杂度评估**: [S/M/L/XL] — [Brief reason]
 **推荐策略**: [Recommended phases]
 
-*CRITICAL: NEVER output headings like "## OmniDev Phase 0: 命令解析" or "Phase 0". Start directly with the bold text "**需求解析**:". Always reply in the user's language.*
+*CRITICAL: NEVER output the words "命令解析" in the heading. Always use "需求解析 & 复杂度评估". Always reply in the user's language.*
 
 ## Special Flow: Enterprise-Grade Project Reporting (Report)
 When the user types `/od report`:
