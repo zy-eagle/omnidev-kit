@@ -72,20 +72,58 @@ When `/od learn` is triggered or after a large task is completed:
 2. **Experience Extraction**: Summarize the pitfalls encountered.
 3. **Solidify Knowledge**: Write the lessons into the `[AI Pitfall Guide]` section of `00-project-context.md`.
 
+## Phase Execution Protocol (Applies to ALL Phases)
+
+Every time a phase completes, the AI MUST **proactively** follow this protocol — do NOT wait for the user to ask:
+
+### 1. Phase Completion Summary
+Output a clear status block:
+```
+✅ **阶段 N 完成: [Phase Name]**
+   产出: [what was produced]
+
+📍 **当前进度**:
+   已完成: [list completed phases] ✅
+   待执行: [list remaining phases] ⏳
+
+🔜 **下一阶段: Phase N+1 — [Phase Name]**
+   将要做: [1-2 sentence description of what the next phase will do]
+```
+
+### 2. Checkpoint — Wait for `/od` Confirmation
+After the summary, **always pause and ask** (remind the user to use `/od` prefix):
+> "请回复 `/od 继续` 进入下一阶段。您也可以：
+> - `/od 调整 [内容]` — 修改当前阶段产出
+> - `/od 跳过 [阶段名]` — 跳过后续某个阶段
+> - `/od 回到 [阶段名]` — 重新执行之前的阶段"
+
+### 3. Handling Mid-Phase Adjustments
+The user can request adjustments at any checkpoint (all must start with `/od`):
+
+| User Says | Action |
+|-----------|--------|
+| `/od 继续` | Move to next phase |
+| `/od 调整 [内容]` | Re-enter current phase, apply changes, then re-checkpoint |
+| `/od 跳过 [阶段名]` | Mark specified future phase(s) as skipped, proceed to next |
+| `/od 回到 [阶段名]` | Re-enter a previous phase, then resume from there |
+| `/od 全部完成` | Execute all remaining phases without further checkpoints |
+
+---
+
 ## Phase 1: Brainstorming & Blueprint - L/XL Tasks Only
 1. **Mine Potential Needs**: Analyze requirements, think about edge cases, exception handling, and UX.
 2. **Global Blueprint Output**: Output the final state description of the requirement in `docs/omnidev-state/01-blueprint.md`. **(Output this document in the user's preferred language)**.
-3. **Wait for Confirmation**: Show the blueprint summary to the user and explicitly ask: "Please confirm if we should proceed with this blueprint?"
+3. **Checkpoint**: Follow the **Phase Execution Protocol** — output completion summary, preview next phase (Phase 2: Planning), and wait for `/od` confirmation.
 
 ## Phase 2: Planning - M and L/XL Tasks
 1. Break down the requirement into specific features and technical tasks, prioritize them.
 2. Generate a Markdown task list with checkboxes in `docs/omnidev-state/02-plan.md`. **(Output this document in the user's preferred language)**.
-3. **Wait for Confirmation**: Show the plan summary and ask: "Please confirm if we can start the first step of development?"
+3. **Checkpoint**: Follow the **Phase Execution Protocol** — output completion summary, preview next phase (Phase 3: Development), and wait for `/od` confirmation.
 
 ## Special Flow: Change Management
 When `/od change` is used:
 1. **Impact Assessment**: Assess the complexity of the new requirement, analyze its impact on the current architecture and written code, and output an assessment doc.
-2. **Wait for Confirmation**: Ask the user if they confirm introducing this change.
+2. **Wait for Confirmation**: Ask the user: "请回复 `/od 确认` 引入此变更，或 `/od 取消` 放弃。"
 3. **Archive & Refactor**: After confirmation, archive the old plan, and regenerate the blueprint and plan.
 
 ## Phase 3: Defensive Programming & Spec-Driven Development
@@ -94,8 +132,18 @@ When `/od change` is used:
    - If `legacy`: Strictly imitate surrounding old code, reuse existing utilities, prohibit introducing new conventions.
    - If `greenfield`: Strictly execute TDD/DDD and OmniDev modern conventions.
 3. Update the checkbox status in `02-plan.md` after completing each sub-task.
+4. **Checkpoint**: Follow the **Phase Execution Protocol** — output completion summary, preview next phase (Phase 4: Testing), and wait for `/od` confirmation.
 
 ## Phase 4: Testing & Wrap-up
 1. After development, automatically enter the testing phase (if `legacy` without test infra, only do basic verification, no forced unit tests).
 2. For M and L/XL tasks, generate deployment config docs and an Efficiency Bill (ROI).
 3. **Trigger Self-Learning**: Automatically execute the `/od learn` flow.
+4. **Final Summary**: Output the full workflow completion summary:
+   ```
+   🎉 **OmniDev 工作流完成**
+      Phase 1 (蓝图): ✅ / ⏭️ 已跳过
+      Phase 2 (计划): ✅ / ⏭️ 已跳过
+      Phase 3 (开发): ✅
+      Phase 4 (测试): ✅ / ⏭️ 已跳过
+      产出文件: [list of generated files]
+   ```
