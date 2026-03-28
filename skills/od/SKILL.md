@@ -26,6 +26,7 @@ When the user triggers `/od`, strictly follow the OmniDev workflow defined in th
 | `/od change [new requirement]` | Handle mid-stream requirement changes |
 | `/od learn` | Self-learning from recent errors |
 | `/od update` | Update OmniDev Kit rules to latest version |
+| `/od push` | Commit and push code to remote (user must `git add` first) |
 
 ## Critical Rule: `/od` Prefix Mandatory
 

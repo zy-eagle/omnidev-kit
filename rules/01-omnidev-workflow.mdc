@@ -23,6 +23,7 @@ Users can trigger the workflow using the following commands:
 - `/od <Issue-URL>`: Automatically fetch Issue content (e.g., GitHub/Jira) and convert it into a requirement blueprint.
 - `/od review`: Act as a strict architect, only perform Code Review on the current code, do not modify code.
 - `/od qa`: Act as a QA engineer, only write test cases and execute tests.
+- `/od push`: Commit and push code to remote repository. Requires user to `git add` first.
 
 If no parameters are specified, perform a **Task Complexity Assessment (T-Shirt Sizing)**:
 - **S (Trivial)**: Skip blueprint and plan, fix and test directly.
@@ -147,3 +148,34 @@ When `/od change` is used:
       Phase 4 (测试): ✅ / ⏭️ 已跳过
       产出文件: [list of generated files]
    ```
+
+## Special Flow: Push to Remote (Push)
+When the user types `/od push`, the AI MUST execute the following steps:
+
+### Step 1: Check Git Status
+1. Run `git status` to show the current working tree state.
+2. Display the list of modified/untracked files to the user.
+
+### Step 2: Prompt User to `git add`
+If there are unstaged changes, instruct the user:
+> "📋 **以下文件有修改但尚未暂存：**
+> [list of files]
+>
+> 请先在终端执行 `git add` 选择要提交的文件，例如：
+> - `git add .` — 暂存所有修改
+> - `git add <file1> <file2>` — 暂存指定文件
+>
+> 完成后请回复 `/od 已暂存` 继续。"
+
+**Do NOT run `git add` for the user.** The user must do this themselves.
+
+### Step 3: Wait for User Confirmation
+Only proceed after the user replies with `/od 已暂存` (or equivalent `/od`-prefixed confirmation).
+
+### Step 4: Commit & Push
+1. Run `git status` again to verify there are staged changes.
+2. If no staged changes, warn the user and stop.
+3. Analyze the staged changes (`git diff --cached`) and generate a concise commit message following the project's commit conventions (conventional commits: `feat:`, `fix:`, `refactor:`, etc.).
+4. Show the proposed commit message to the user: "📝 **提交信息**: `[message]`。回复 `/od 确认推送` 执行，或 `/od 修改信息 [new message]` 修改。"
+5. After `/od 确认推送`, execute `git commit` and `git push origin <current-branch>`.
+6. Report the result (success or failure) to the user.
