@@ -1,48 +1,48 @@
 ---
-description: OmniDev 测试验证与发布文档生成规范，包含安全护栏与效能账单，确保交付质量和可部署性。
+description: OmniDev testing, verification, and deployment document generation specification. Includes security guardrails and efficiency bills.
 globs: *
 ---
-# OmniDev Test & Deploy (测试与发布规范)
+# OmniDev Test & Deploy
 
-当 `docs/omnidev-state/02-plan.md` 中的所有开发任务标记为完成（`[x]`）后，自动进入测试与发布阶段。
+When all development tasks in `docs/omnidev-state/02-plan.md` are marked as complete (`[x]`), automatically enter the testing and deployment phase.
 
-## 1. 自动化测试验证 (Testing)
+## 1. Automated Testing & Verification
 
-### 1.1 测试数据流模拟
-- **禁止“盲目自信”**：不要只写代码不运行。必须编写或执行测试用例。
-- **MCP 数据库交互**：如果项目配置了数据库 MCP 服务器，必须调用 MCP 工具插入模拟测试数据，并验证数据流的完整性。
-- **第三方依赖处理**：如果功能依赖外部服务（如 Redis、S3、第三方 API），如果无法 mock，必须主动暂停并提醒用户提供测试凭证。
+### 1.1 Test Data Flow Simulation
+- **No "Blind Confidence"**: Do not just write code without running it. You must write or execute test cases.
+- **MCP Database Interaction**: If the project has a database MCP server configured, you must call MCP tools to insert mock test data and verify data flow integrity.
+- **Third-Party Dependencies**: If the feature depends on external services (e.g., Redis, S3, third-party APIs) and cannot be mocked, proactively pause and ask the user for test credentials.
 
-### 1.2 安全护栏 (Security Guardrails)
-- **绝对禁止硬编码**：在自动生成测试、模拟数据或输出发布清单时，**严禁将真实的 API Key、内网 IP、密码或敏感业务逻辑硬编码到任何 `.md` 状态文件或代码中**。
-- **强制脱敏**：必须使用占位符（如 `[REDACTED_API_KEY]`）或读取环境变量（`process.env.XXX`）。
+### 1.2 Security Guardrails
+- **Absolute Prohibition on Hardcoding**: When automatically generating tests, mock data, or release notes, **it is strictly prohibited to hardcode real API Keys, internal IPs, passwords, or sensitive business logic into any `.md` state files or code**.
+- **Mandatory Desensitization**: You must use placeholders (e.g., `[REDACTED_API_KEY]`) or read from environment variables (e.g., `process.env.XXX`).
 
-### 1.3 测试报告生成
-测试完成后，必须在 `docs/omnidev-state/05-test-report.md` 中生成测试报告，包含：
-- **测试范围**：覆盖了哪些功能点。
-- **测试数据**：使用了哪些模拟数据（已脱敏）。
-- **测试结果**：成功/失败的用例。
-- **功能边界与已知限制**：明确指出当前实现不支持的边缘场景。
+### 1.3 Test Report Generation
+After testing, generate a test report in `docs/omnidev-state/05-test-report.md`, including:
+- **Test Scope**: Which features were covered.
+- **Test Data**: What mock data was used (desensitized).
+- **Test Results**: Successful/failed cases.
+- **Boundaries & Known Limitations**: Explicitly point out edge cases not supported by the current implementation.
 
-## 2. 发布清单与效能账单 (Deployment & ROI)
+## 2. Deployment Manifest & Efficiency Bill
 
-在测试报告确认无误后，必须生成需求上线必备的相关配置文档，存放在 `docs/omnidev-state/06-release-notes.md`。
+After the test report is confirmed, generate the necessary configuration documents for deployment in `docs/omnidev-state/06-release-notes.md`.
 
-### 2.1 发布清单
-该文档必须包含：
-1. **环境需求**：新增的依赖包、要求的 Node/Go/Python 版本等。
-2. **配置变更**：新增或修改的环境变量（`.env` 变更）、必须配置的第三方服务密钥（仅列出 Key 名称，不包含 Value）。
-3. **数据库变更**：是否需要执行新的 SQL 迁移脚本？迁移脚本的路径或内容。
-4. **部署步骤**：简要的上线操作指南（如：`pnpm install && pnpm build` 或 `docker compose up -d`）。
+### 2.1 Release Notes
+This document must include:
+1. **Environment Requirements**: New dependencies, required Node/Go/Python versions, etc.
+2. **Config Changes**: New or modified env vars (`.env` changes), required third-party service keys (list key names only, NO values).
+3. **Database Changes**: Are new SQL migration scripts needed? Provide script paths or content.
+4. **Deployment Steps**: Brief deployment guide (e.g., `pnpm install && pnpm build` or `docker compose up -d`).
 
-### 2.2 效能账单 (Efficiency Bill)
-在 `06-release-notes.md` 的末尾，必须附带一个幽默且直观的 **“效能账单”**，向用户展示本次 AI 辅助的 ROI（投资回报率）。
-**示例**：
-> 💰 **本次 OmniDev 效能账单**
-> - **任务复杂度**：M 级
-> - **防坑记录**：通过精准规划，提前发现了 1 处潜在的数据库死锁风险，避免了 2 次无效重构。
-> - **预估节省**：约 15,000 Tokens，折合人类工程师专注编码时间约 2.5 小时。
-> - **评价**：又是一个准时下班的完美交付！☕️
+### 2.2 Efficiency Bill (ROI)
+At the end of `06-release-notes.md`, append a humorous and intuitive **"Efficiency Bill"** to show the user the ROI of this AI-assisted task.
+**Example**:
+> 💰 **OmniDev Efficiency Bill**
+> - **Task Complexity**: Size M
+> - **Pitfalls Avoided**: Accurately planned and identified 1 potential DB deadlock risk in advance, avoiding 2 invalid refactors.
+> - **Estimated Savings**: ~15,000 Tokens, equivalent to ~2.5 hours of human engineer focus time.
+> - **Verdict**: Another perfect delivery for leaving work on time! ☕️
 
-## 3. 归档与清理 (Archive)
-当用户确认发布清单后，提示用户：“🎉 **需求开发与验证已全部完成！** 您可以通过提交代码来结束本次工作流。是否需要我帮您生成 Git Commit Message？”
+## 3. Archive & Cleanup
+When the user confirms the release notes, prompt the user: "🎉 **Requirement development and verification are fully complete!** You can end this workflow session by committing the code. Would you like me to generate a Git Commit Message for you?"

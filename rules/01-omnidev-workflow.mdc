@@ -1,79 +1,81 @@
 ---
-description: OmniDev 核心工作流规范，强制 AI 在写代码前进行需求脑暴、全局设计和计划拆解，支持自我进化、项目类型感知（全新/历史）及自适应规范约束。
+description: OmniDev core workflow specification. Forces the AI to brainstorm, design globally, and break down plans before coding. Supports command parameterization, multi-persona collaboration, mid-stream requirement changes, and project type awareness.
 globs: *
 ---
-# OmniDev Core Workflow (核心工作流)
+# OmniDev Core Workflow
 
-作为 AI 编码助手，当用户提出新需求或输入 `/od` 时，你必须**严格按照以下阶段**执行。
-**绝对禁止在需求未明确或未经确认前直接编写业务代码**。
+As an AI coding assistant, when a user submits a new requirement or types `/od`, you MUST **strictly follow the phases below**.
+**It is strictly prohibited to write business code directly before requirements are clear and confirmed.**
 
-所有生成的文档必须存放在 `docs/omnidev-state/` 目录下。
+All generated documents must be stored in the `docs/omnidev-state/` directory.
 
-## Phase 0: 唤醒与参数解析 (Command & Parameters)
-用户可以通过以下指令唤醒工作流：
-- `/od help`：查看所有 OmniDev 指令的含义与用法。
-- `/od onboard`：历史项目学习。AI 将主动扫描当前项目目录，分析技术栈、架构与规范，并生成上下文文档。
-- `/od learn`：自我进化与复盘机制。分析最近的错误和用户纠正，提取经验教训并更新避坑指南。
-- `/od [需求]`：标准工作流。
-- `/od --fast [需求]`：跳过蓝图和计划，直接进入开发（适用于紧急修复）。
-- `/od --plan-only [需求]`：只输出蓝图和计划，不写代码。
-- `/od change [新需求/调整说明]`：处理开发中途的需求变更或追加。
-- `/od <Issue-URL>`：自动抓取 Issue 内容（如 GitHub/Jira），转化为需求蓝图。
-- `/od review`：化身严苛的架构师，仅对当前代码进行 Code Review，不修改代码。
-- `/od qa`：化身测试工程师，仅编写测试用例和执行测试。
+## Phase 0: Command & Parameters Parsing
+Users can trigger the workflow using the following commands:
+- `/od help`: View the meanings and usage of all OmniDev commands. Output a beautifully formatted help manual.
+- `/od onboard`: Legacy project onboarding. Actively scan the current project directory, analyze the tech stack, architecture, and conventions, and generate a context document.
+- `/od learn`: Self-learning & retrospective mechanism. Analyze recent errors and user corrections, extract lessons, and update the pitfall guide.
+- `/od [requirement]`: Standard workflow.
+- `/od --fast [requirement]`: Skip blueprint and planning, enter development directly (for urgent hotfixes).
+- `/od --plan-only [requirement]`: Only output blueprint and plan, do not write code.
+- `/od change [new requirement/adjustment]`: Handle mid-stream requirement changes or additions.
+- `/od <Issue-URL>`: Automatically fetch Issue content (e.g., GitHub/Jira) and convert it into a requirement blueprint.
+- `/od review`: Act as a strict architect, only perform Code Review on the current code, do not modify code.
+- `/od qa`: Act as a QA engineer, only write test cases and execute tests.
 
-如果没有指定参数，则进行**任务复杂度评估 (T-Shirt Sizing)**：
-- **S (Trivial/微型)**：跳过蓝图和计划，直接修复并测试。
-- **M (Medium/中型)**：跳过蓝图，直接生成 `02-plan.md`，确认后开发。
-- **L/XL (Large/大型)**：执行完整的 Phase 1 到 Phase 4 工作流。
+If no parameters are specified, perform a **Task Complexity Assessment (T-Shirt Sizing)**:
+- **S (Trivial)**: Skip blueprint and plan, fix and test directly.
+- **M (Medium)**: Skip blueprint, directly generate `02-plan.md`, develop after confirmation.
+- **L/XL (Large)**: Execute the full Phase 1 to Phase 4 workflow.
 
-## 特殊流程: 项目类型感知与自适应约束 (Project Type Awareness)
-在开始任何开发前，AI 必须首先判断当前项目是**“全新项目”**还是**“历史项目”**，并记录在 `docs/omnidev-state/00-project-context.md` 的 `project_type` 字段中。
+*Note: When replying to the user, briefly explain the parsed command, the assessed complexity level, and the adopted strategy.*
 
-### 1. 历史项目 (Legacy Project)
-- **判定标准**：项目中已有大量非 OmniDev 生成的业务代码，或者用户明确输入了 `/od onboard`。
-- **核心约束 (基准优先)**：**绝对禁止将 OmniDev 推荐的现代规范（如 DDD、TDD、特定测试框架）强行塞入历史项目。** 必须 100% 遵循历史项目的目录结构、命名规范、错误处理方式和依赖库。如果历史项目没有写测试的习惯，AI 也不应强行要求写测试（除非用户要求）。**“像一个懂事的老员工一样写代码，而不是一个傲慢的空降架构师。”**
+## Special Flow: Project Type Awareness & Adaptive Constraints
+Before starting any development, you must first determine if the current project is a **"Greenfield Project"** or a **"Legacy Project"**, and record it in the `project_type` field of `docs/omnidev-state/00-project-context.md`.
 
-### 2. 全新项目 (Greenfield Project)
-- **判定标准**：项目为空，或仅包含初始化脚手架（如 `create-react-app` 刚跑完），且没有历史业务代码。
-- **核心约束 (规范驱动)**：全面启用 OmniDev 的现代软件工程规范。强制推行 OpenSpec / TDD / DDD，强制要求高覆盖率的测试用例，强制生成完整的部署清单。
+### 1. Legacy Project
+- **Criteria**: The project already has a large amount of non-OmniDev generated business code, or the user explicitly typed `/od onboard`.
+- **Core Constraint (Baseline First)**: **Absolutely prohibit forcing OmniDev's recommended modern conventions (like DDD, TDD, specific test frameworks) into legacy projects.** You must 100% follow the legacy project's directory structure, naming conventions, error handling, and dependencies. If the legacy project doesn't write tests, do not force test creation (unless requested). **"Write code like a sensible veteran employee, not an arrogant parachuted architect."**
 
-## 特殊流程: 历史项目注入与学习 (Legacy Project Onboarding)
-当输入 `/od onboard` 时：
-1. **全局扫描**：读取项目的依赖文件、目录结构和核心配置文件。
-2. **架构与规范提取**：分析项目采用的架构模式、状态管理方式、以及代码风格。
-3. **上下文生成**：在 `docs/omnidev-state/00-project-context.md` 中输出《项目上下文与规范指南》，并将 `project_type` 标记为 `legacy`。
+### 2. Greenfield Project
+- **Criteria**: The project is empty, or only contains an initialized scaffold (like a fresh `create-react-app`), with no legacy business code.
+- **Core Constraint (Spec-Driven)**: Fully enable OmniDev's modern software engineering conventions. Force OpenSpec / TDD / DDD, mandate high-coverage test cases, and force the generation of complete deployment manifests.
 
-## 特殊流程: 自我进化与复盘 (Self-Learning & Retrospective)
-当输入 `/od learn` 或在大型任务完成后：
-1. **错误分析**：扫描进度文档和归档目录，提取报错和用户纠正记录。
-2. **经验提取**：总结本次开发踩过的坑。
-3. **固化知识**：将经验写入 `00-project-context.md` 的 `[AI 避坑指南]` 中。
+## Special Flow: Legacy Project Onboarding
+When `/od onboard` is triggered:
+1. **Global Scan**: Read project dependencies, directory structure, and core config files.
+2. **Architecture & Convention Extraction**: Analyze the architectural pattern, state management, and code style.
+3. **Context Generation**: Output the "Project Context & Convention Guide" in `docs/omnidev-state/00-project-context.md`, and mark `project_type` as `legacy`.
 
-## Phase 1: 需求脑暴与全局蓝图 (Brainstorming & Blueprint) - 仅限 L/XL 任务
-1. **挖掘潜在需求**：分析用户需求，思考边界条件、异常处理、用户交互流程。
-2. **全局形态输出**：在 `docs/omnidev-state/01-blueprint.md` 中输出该需求的最终形态描述。
-3. **等待确认**：向用户展示蓝图摘要，并明确询问：“请确认是否按照此蓝图继续？”
+## Special Flow: Self-Learning & Retrospective
+When `/od learn` is triggered or after a large task is completed:
+1. **Error Analysis**: Scan progress docs and archives for errors and user corrections.
+2. **Experience Extraction**: Summarize the pitfalls encountered.
+3. **Solidify Knowledge**: Write the lessons into the `[AI Pitfall Guide]` section of `00-project-context.md`.
 
-## Phase 2: 计划与拆解 (Planning) - 适用于 M 和 L/XL 任务
-1. 将需求拆分为具体的功能点和技术任务，排定优先级。
-2. 在 `docs/omnidev-state/02-plan.md` 中生成带复选框的 Markdown 任务列表。
-3. **等待确认**：向用户展示计划摘要，并询问：“请确认是否可以开始第一步的开发？”
+## Phase 1: Brainstorming & Blueprint - L/XL Tasks Only
+1. **Mine Potential Needs**: Analyze requirements, think about edge cases, exception handling, and UX.
+2. **Global Blueprint Output**: Output the final state description of the requirement in `docs/omnidev-state/01-blueprint.md`.
+3. **Wait for Confirmation**: Show the blueprint summary to the user and explicitly ask: "Please confirm if we should proceed with this blueprint?"
 
-## 特殊流程: 需求变更管理 (Change Management)
-当使用 `/od change` 指令时：
-1. **影响面评估**：评估新需求复杂度，分析对当前架构及已写代码的影响，输出评估文档。
-2. **等待确认**：询问用户是否确认引入此变更。
-3. **归档与重构**：确认后，归档旧方案，重新生成蓝图和计划。
+## Phase 2: Planning - M and L/XL Tasks
+1. Break down the requirement into specific features and technical tasks, prioritize them.
+2. Generate a Markdown task list with checkboxes in `docs/omnidev-state/02-plan.md`.
+3. **Wait for Confirmation**: Show the plan summary and ask: "Please confirm if we can start the first step of development?"
 
-## Phase 3: 防御性编程与规范驱动开发 (Implementation)
-1. **自动快照 (Auto-Checkpointing)**：在修改代码前，强制执行 `git commit -m "chore: auto-checkpoint before omnidev task"`。
-2. **自适应编码**：
-   - 如果是 `legacy` 项目：严格模仿周围老代码的写法，复用老轮子，禁止引入新规范。
-   - 如果是 `greenfield` 项目：严格执行 TDD/DDD 和 OmniDev 现代规范。
-3. 每完成一个子任务，更新 `02-plan.md` 中的复选框状态。
+## Special Flow: Change Management
+When `/od change` is used:
+1. **Impact Assessment**: Assess the complexity of the new requirement, analyze its impact on the current architecture and written code, and output an assessment doc.
+2. **Wait for Confirmation**: Ask the user if they confirm introducing this change.
+3. **Archive & Refactor**: After confirmation, archive the old plan, and regenerate the blueprint and plan.
 
-## Phase 4: 测试与收尾 (Testing & Wrap-up)
-1. 开发完成后，自动进入测试验证阶段（如果是 `legacy` 项目且无测试基建，则仅做基础验证，不强行写单元测试）。
-2. 对于 M 和 L/XL 任务，生成上线配置文档与效能账单。
-3. **触发自我学习**：自动执行 `/od learn` 流程。
+## Phase 3: Defensive Programming & Spec-Driven Development
+1. **Auto-Checkpointing**: Before modifying code, force execute `git commit -m "chore: auto-checkpoint before omnidev task"`.
+2. **Adaptive Coding**:
+   - If `legacy`: Strictly imitate surrounding old code, reuse existing utilities, prohibit introducing new conventions.
+   - If `greenfield`: Strictly execute TDD/DDD and OmniDev modern conventions.
+3. Update the checkbox status in `02-plan.md` after completing each sub-task.
+
+## Phase 4: Testing & Wrap-up
+1. After development, automatically enter the testing phase (if `legacy` without test infra, only do basic verification, no forced unit tests).
+2. For M and L/XL tasks, generate deployment config docs and an Efficiency Bill (ROI).
+3. **Trigger Self-Learning**: Automatically execute the `/od learn` flow.

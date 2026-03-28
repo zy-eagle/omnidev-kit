@@ -1,48 +1,48 @@
-# OmniDev Kit 安装与使用指南
+# OmniDev Kit Installation & Usage Guide
 
-> **致 AI 助手 (Cursor / Claude Code / Codex 等)**: 
-> 当用户将此文档交给你时，请立即读取本目录下的所有 `.mdc` 和 `.md` 文件，并根据用户的开发平台，自动将这些规则文件复制到对应的平台配置目录中（例如 Cursor 的 `.cursor/rules/` 目录，或 Claude Code 的 `.claude/skills/` 目录）。
+> **To AI Assistant (Cursor / Claude Code / Codex, etc.)**: 
+> When the user hands you this document, please immediately read all `.mdc` and `.md` files in this directory. Based on the user's development platform, automatically copy these rule files to the corresponding platform configuration directory (e.g., `.cursor/rules/` for Cursor, or `.claude/skills/` for Claude Code).
 > 
-> **⚠️ 核心合并策略 (Merge Strategy)**：
-> 如果用户的项目中已经存在 `.cursorrules` 文件或 `.cursor/rules/` 目录，**绝对不要直接覆盖**！你必须：
-> 1. 读取用户现有的规则。
-> 2. 将 OmniDev 的规则与用户现有的架构/语言规范进行**无损融合**（例如：保留用户原有的 Go/React 代码风格规范，仅将 OmniDev 的工作流和状态管理机制作为补充条目加入）。
+> **⚠️ Core Merge Strategy**:
+> If the user's project already has a `.cursorrules` file or `.cursor/rules/` directory, **ABSOLUTELY DO NOT overwrite them directly**! You must:
+> 1. Read the user's existing rules.
+> 2. Perform a **non-destructive merge** of OmniDev's rules with the user's existing architecture/language conventions (e.g., retain the user's original Go/React coding style rules, and only add OmniDev's workflow and state management mechanisms as supplementary clauses).
 > 
-> 完成安装后，向用户报告安装成功，并提示用户可以通过输入 `/od` 或直接提出需求来启动标准工作流。
+> After installation, report success to the user and remind them that they can start the standard workflow by typing `/od` or directly stating their requirements.
 
-## 1. 什么是 OmniDev Kit？
+## 1. What is OmniDev Kit?
 
-OmniDev Kit 是一个集成了 `obra/superpowers`、`everything-claude-code`、`planning-with-files` 和 `OpenSpec` 核心精华的 AI 编码助手增强工具包。
+OmniDev Kit is an advanced AI coding assistant enhancement toolkit that integrates the core essence of `obra/superpowers`, `everything-claude-code`, `planning-with-files`, and `OpenSpec`.
 
-它强制 AI 遵循以下工作流：
-1. **需求脑暴与蓝图 (Brainstorming & Blueprint)**：先思考，挖掘潜在需求，输出全局产品形态，等待用户确认。
-2. **计划与拆解 (Planning)**：拆分功能点，排定优先级，等待用户确认。
-3. **规范驱动与断点续传 (SDD/TDD/DDD & State Sync)**：在 `docs/omnidev-state/` 目录下持久化状态，采用双态存储（YAML+MD），支持中断恢复和多人协同。
-4. **自动化测试验证 (Testing & Verification)**：利用 MCP 模拟数据流，输出测试报告。
-5. **发布清单 (Deployment Docs)**：自动生成上线必备的配置、环境依赖文档以及“效能账单”。
+It forces the AI to follow this workflow:
+1. **Brainstorming & Blueprint**: Think first, mine potential needs, output a global product state, and wait for user confirmation.
+2. **Planning**: Break down features, prioritize, and wait for user confirmation.
+3. **Spec-Driven & State Sync**: Persist state in `docs/omnidev-state/` using dual-state storage (YAML+MD), supporting interruption recovery and multi-person collaboration.
+4. **Automated Testing & Verification**: Use MCP to simulate data flows and output test reports.
+5. **Deployment Docs**: Automatically generate necessary configuration, environment dependency docs, and an "Efficiency Bill".
 
-## 2. 自动安装指南 (交给 AI 执行)
+## 2. Automatic Installation Guide (For AI to Execute)
 
-AI 助手请执行以下步骤：
+AI Assistant, please execute the following steps:
 
-### 对于 Cursor 用户：
-1. 检查项目根目录是否存在 `.cursor/rules/` 文件夹，如果没有则创建。
-2. 将 `omnidev-kit/rules/` 目录下的所有 `.mdc` 文件复制到 `.cursor/rules/` 目录中。
-3. 确保项目根目录的 `.gitignore` 中**不包含** `.cursor/rules/`（规则应被提交到版本库）。
-4. 在项目根目录创建 `docs/omnidev-state/` 文件夹（用于存储状态和产出文档）。
+### For Cursor Users:
+1. Check if the `.cursor/rules/` folder exists in the project root; if not, create it.
+2. Copy all `.mdc` files from the `omnidev-kit/rules/` directory into the `.cursor/rules/` directory.
+3. Ensure the project root's `.gitignore` **does not contain** `.cursor/rules/` (rules should be committed to the repo).
+4. Create a `docs/omnidev-state/` folder in the project root (for storing state and output docs).
 
-### 对于 Claude Code / Codex 用户：
-1. 检查项目根目录是否存在 `.claude/skills/` 或对应平台的技能目录。
-2. 将 `omnidev-kit/rules/` 下的规则转换为对应平台的格式（如 `SKILL.md`）并保存。
-3. 在项目根目录创建 `docs/omnidev-state/` 文件夹。
+### For Claude Code / Codex Users:
+1. Check if `.claude/skills/` or the corresponding platform's skills directory exists in the project root.
+2. Convert the rules under `omnidev-kit/rules/` to the corresponding platform's format (e.g., `SKILL.md`) and save them.
+3. Create a `docs/omnidev-state/` folder in the project root.
 
-## 3. 手动安装指南
+## 3. Manual Installation Guide
 
-如果你想手动安装：
-1. 将 `omnidev-kit/rules/` 里的文件复制到你的 IDE 规则目录（如 Cursor 的 `.cursor/rules/`）。
-2. 在项目根目录新建文件夹 `docs/omnidev-state/`。
-3. 对 AI 说：“启动 OmniDev 工作流，我要开发 [你的需求]” 或直接输入 `/od [你的需求]`。
+If you want to install manually:
+1. Copy the files in `omnidev-kit/rules/` to your IDE's rules directory (e.g., `.cursor/rules/` for Cursor).
+2. Create a new folder named `docs/omnidev-state/` in the project root.
+3. Say to the AI: "Start the OmniDev workflow, I want to develop [your requirement]" or directly type `/od [your requirement]`.
 
-## 4. 产出物说明
+## 4. Output Artifacts Description
 
-所有由本工具包驱动产生的文档（需求蓝图、开发计划、进度状态、测试报告、发布清单）都将统一存放在项目根目录的 **`docs/omnidev-state/`** 文件夹中，以避免污染代码库主目录。
+All documents generated driven by this toolkit (requirement blueprints, development plans, progress states, test reports, release notes) will be uniformly stored in the **`docs/omnidev-state/`** folder in the project root to avoid polluting the main codebase directory.
