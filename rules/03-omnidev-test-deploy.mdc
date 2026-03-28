@@ -18,15 +18,19 @@ When all development tasks in `docs/omnidev-state/02-plan.md` are marked as comp
 - **Mandatory Desensitization**: You must use placeholders (e.g., `[REDACTED_API_KEY]`) or read from environment variables (e.g., `process.env.XXX`).
 
 ### 1.3 Test Report Generation
-After testing, generate a test report in `docs/omnidev-state/05-test-report.md`, including:
+After testing, generate a test report in `docs/omnidev-state/[branch-name]/05-test-report.md`, including:
 - **Test Scope**: Which features were covered.
 - **Test Data**: What mock data was used (desensitized).
 - **Test Results**: Successful/failed cases.
 - **Boundaries & Known Limitations**: Explicitly point out edge cases not supported by the current implementation.
 
+### 1.4 Test Environment Orchestration (Docker)
+- **Sniffing**: Before running tests, proactively check for `docker-compose.yml` or similar environment configs.
+- **Execution**: Offer to automatically run `docker compose up -d` to spin up dependencies (DB, Redis, etc.), execute the tests, and then run `docker compose down` to tear down the sandbox.
+
 ## 2. Deployment Manifest & Efficiency Bill
 
-After the test report is confirmed, generate the necessary configuration documents for deployment in `docs/omnidev-state/06-release-notes.md`.
+After the test report is confirmed, generate the necessary configuration documents for deployment in `docs/omnidev-state/[branch-name]/06-release-notes.md`.
 
 ### 2.1 Release Notes
 This document must include:
@@ -35,7 +39,7 @@ This document must include:
 3. **Database Changes**: Are new SQL migration scripts needed? Provide script paths or content.
 4. **Deployment Steps**: Brief deployment guide (e.g., `pnpm install && pnpm build` or `docker compose up -d`).
 
-### 2.2 Efficiency Bill (ROI)
+### 2.2 Efficiency Bill (ROI) & Global Metrics
 At the end of `06-release-notes.md`, append a humorous and intuitive **"Efficiency Bill"** to show the user the ROI of this AI-assisted task.
 **Example**:
 > 💰 **OmniDev Efficiency Bill**
@@ -43,6 +47,11 @@ At the end of `06-release-notes.md`, append a humorous and intuitive **"Efficien
 > - **Pitfalls Avoided**: Accurately planned and identified 1 potential DB deadlock risk in advance, avoiding 2 invalid refactors.
 > - **Estimated Savings**: ~15,000 Tokens, equivalent to ~2.5 hours of human engineer focus time.
 > - **Verdict**: Another perfect delivery for leaving work on time! ☕️
+
+**Furthermore**, the AI MUST silently append these metrics (Tokens saved, time saved, bugs avoided) to a global `docs/omnidev-state/metrics.json` file. Users can later use `/od dashboard` to visualize the team's total ROI.
+
+### 2.3 Two-Way Issue Sync (`/od sync`)
+If the task originated from an Issue URL, or if the user explicitly requests it, the AI should use available MCPs or APIs to post the `06-release-notes.md` and Test Report back to the GitHub/Jira Issue comments, and suggest moving the ticket status to "Done".
 
 ## 3. Archive & Cleanup
 When the user confirms the release notes, prompt the user: "🎉 **Requirement development and verification are fully complete!** You can end this workflow session by committing the code. Would you like me to generate a Git Commit Message for you?"

@@ -27,6 +27,10 @@ When the user triggers `/od`, strictly follow the OmniDev workflow defined in th
 | `/od learn` | Self-learning from recent errors |
 | `/od update` | Update OmniDev Kit rules to latest version |
 | `/od push` | Commit and push code to remote (user must `git add` first) |
+| `/od stash` | 暂存当前任务上下文（应对紧急插队任务） |
+| `/od pop` | 恢复暂存的任务上下文 |
+| `/od sync` | 将产出同步回显到 Jira/GitHub Issue |
+| `/od dashboard` | 生成全局效能 ROI 大盘图表 |
 
 ## Critical Rule: `/od` Prefix Mandatory
 

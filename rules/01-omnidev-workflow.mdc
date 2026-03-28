@@ -18,7 +18,7 @@ OmniDev is a **guided workflow**, not a rigid enforcement system:
 - The AI's role is to **guide and recommend** the next step, not to block the user. If the user wants to skip ahead, respect that.
 - Complexity assessment (S/M/L) provides a **recommended** set of phases, but the user can always override.
 
-All generated documents must be stored in the `docs/omnidev-state/` directory.
+**State File Isolation**: To avoid Git merge conflicts during team collaboration, global context (`00-project-context.md`) is stored in `docs/omnidev-state/`, but task-specific files (`01-blueprint.md`, `02-plan.md`, `03-progress.md`, etc.) MUST be stored in branch-specific subdirectories: `docs/omnidev-state/[branch-name]/`.
 
 ## Phase 0: Command & Parameters Parsing
 Users can trigger the workflow using the following commands:
@@ -35,6 +35,10 @@ Users can trigger the workflow using the following commands:
 - `/od review`: Act as a strict architect, only perform Code Review on the current code, do not modify code.
 - `/od qa`: Act as a QA engineer, only write test cases and execute tests.
 - `/od push`: Commit and push code to remote repository. Requires user to `git add` first.
+- `/od stash`: 暂存当前任务上下文（应对紧急插队任务）。
+- `/od pop`: 恢复暂存的任务上下文。
+- `/od sync`: 将当前阶段产出或最终报告同步回写到对应的 Issue (GitHub/Jira)。
+- `/od dashboard`: 生成全局效能 ROI 大盘图表。
 
 If no parameters are specified, perform a **Task Complexity Assessment (T-Shirt Sizing)** to **recommend** which phases to include:
 - **S (Trivial)**: Recommend skipping blueprint and plan → Dev → Test directly.
@@ -119,19 +123,19 @@ The user can request adjustments at any checkpoint (all must start with `/od`):
 | `/od 继续` | Move to next phase |
 | `/od 调整 [内容]` | Re-enter current phase, apply changes, then re-checkpoint |
 | `/od 跳过 [阶段名]` | Mark specified future phase(s) as skipped, proceed to next |
-| `/od 回到 [阶段名]` | Re-enter a previous phase, then resume from there |
+| `/od 回到 [阶段名]` | Re-enter a previous phase, then resume from there. **AI MUST ask**: "是否需要执行 `git reset --hard` 回滚代码到该阶段的初始状态？" |
 | `/od 全部完成` | Execute all remaining phases without further checkpoints |
 
 ---
 
 ## Phase 1: Brainstorming & Blueprint (Recommended for L/XL)
 1. **Mine Potential Needs**: Analyze requirements, think about edge cases, exception handling, and UX.
-2. **Global Blueprint Output**: Output the final state description of the requirement in `docs/omnidev-state/01-blueprint.md`. **(Output this document in the user's preferred language)**.
+2. **Global Blueprint Output**: Output the final state description of the requirement in `docs/omnidev-state/[branch-name]/01-blueprint.md`. **MUST use Mermaid.js** for architectural, sequence, or ER diagrams to enhance readability. **(Output this document in the user's preferred language)**.
 3. **Checkpoint**: Follow the **Phase Execution Protocol** — output completion summary, preview next phase (Phase 2: Planning), and wait for `/od` confirmation.
 
 ## Phase 2: Planning (Recommended for M and L/XL)
 1. Break down the requirement into specific features and technical tasks, prioritize them.
-2. Generate a Markdown task list with checkboxes in `docs/omnidev-state/02-plan.md`. **(Output this document in the user's preferred language)**.
+2. Generate a Markdown task list with checkboxes in `docs/omnidev-state/[branch-name]/02-plan.md`. **(Output this document in the user's preferred language)**.
 3. **Checkpoint**: Follow the **Phase Execution Protocol** — output completion summary, preview next phase (Phase 3: Development), and wait for `/od` confirmation.
 
 ## Special Flow: Change Management
