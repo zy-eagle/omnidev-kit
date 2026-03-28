@@ -138,7 +138,7 @@ The user can request adjustments at any checkpoint (all must start with `/od`):
 | `/od 继续` | Move to next phase |
 | `/od 调整 [内容]` | Re-enter current phase, apply changes, then re-checkpoint |
 | `/od 跳过 [阶段名]` | Mark specified future phase(s) as skipped, proceed to next |
-| `/od 回到 [阶段名]` | Re-enter a previous phase, then resume from there. (Note: Code rollback must be done manually by the user; AI should NOT prompt for or execute git reset) |
+| `/od 回到 [阶段名]` | Re-enter a previous phase, then resume from there. **AI MUST output this exact suggestion**: "💡 **建议**：我已经为您回退了逻辑状态。如果您希望代码也回到该阶段的初始状态，请您手动执行 `git reset --hard` 或使用 IDE 的版本控制功能进行回滚。" |
 | `/od 全部完成` | Execute all remaining phases without further checkpoints |
 
 ---
