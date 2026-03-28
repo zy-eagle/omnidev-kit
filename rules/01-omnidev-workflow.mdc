@@ -190,7 +190,7 @@ If there are unstaged changes, instruct the user:
 > - `/od 已暂存` — 我已手动选择了要提交的文件
 > - `/od 跳过` — 直接提交所有修改（自动执行 `git add .`）"
 
-**Do NOT run `git add` for the user** unless the user explicitly replies `/od 跳过`.
+**🛑 CRITICAL STOP: You MUST stop executing here and WAIT for the user to reply. DO NOT run `git add` yourself. DO NOT proceed to generate a commit message.**
 
 ### Step 3: Wait for User Response
 - If the user replies `/od 已暂存`: Proceed to Step 4 (user has staged files themselves).
