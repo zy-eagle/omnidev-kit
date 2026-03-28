@@ -61,11 +61,16 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 | `/od update` | 🔄 Update OmniDev Kit rules to the latest version |
 | `/od [requirement]` | 🚀 Start standard workflow (auto-assesses complexity) |
 | `/od --fast [req]` | ⚡ Skip blueprint and plan, code directly (for urgent bug fixes) |
-| `/od --plan-only [req]`| 📝 Only analyze and plan, do not write code |
-| `/od change [new req]`| 🔄 Add/modify requirements mid-stream, auto-assess impact and rebuild blueprint |
+| `/od --plan-only [req]` | 📝 Only analyze and plan, do not write code |
+| `/od change [new req]` | 🔄 Add/modify requirements mid-stream, auto-assess impact and rebuild blueprint |
 | `/od <Issue-URL>` | 🔗 Parse GitHub/Jira links and convert to a requirement blueprint |
 | `/od review` | 🧐 Act as an architect, only perform Code Review |
 | `/od qa` | 🧪 Act as a QA engineer, only write and execute test cases |
+| `/od push` | 📤 Commit and push code to remote repository |
+| `/od stash` | 📦 Stash current task context (for handling urgent interruptions) |
+| `/od pop` | 📦 Restore previously stashed task context |
+| `/od sync` | 🔗 Sync deliverables back to the corresponding GitHub/Jira Issue |
+| `/od dashboard` | 📈 Generate a global efficiency ROI dashboard |
 | `/resume` | 🔄 Restore the context of the last interrupted session |
 
 ## Directory Structure

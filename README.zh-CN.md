@@ -66,6 +66,11 @@ OmniDev Kit 是一个集成了多个顶尖开源 AI 编码框架核心精华的 
 | `/od <Issue-URL>` | 🔗 抓取 GitHub/Jira 链接内容并转化为需求蓝图 |
 | `/od review` | 🧐 化身架构师，仅对当前代码进行 Code Review |
 | `/od qa` | 🧪 化身测试工程师，仅编写和执行测试用例 |
+| `/od push` | 📤 提交并推送代码到远程仓库 |
+| `/od stash` | 📦 暂存当前任务上下文（应对紧急插队任务） |
+| `/od pop` | 📦 恢复暂存的任务上下文 |
+| `/od sync` | 🔗 将当前阶段产出同步回写到对应的 GitHub/Jira Issue |
+| `/od dashboard` | 📈 生成全局效能 ROI 大盘图表 |
 | `/resume` | 🔄 恢复上一次中断的开发上下文 |
 
 ## 目录结构
