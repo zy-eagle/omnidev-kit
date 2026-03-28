@@ -10,7 +10,7 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 
 ### 1. Minimalist Interaction (One-Command Trigger)
 - **One-Click Install & Non-Destructive Merge**: Just feed `INSTALL.md` to the AI, and it will automatically recognize the platform (Cursor/Claude Code, etc.) and merge the rules with your existing `.cursorrules` seamlessly.
-- **Short Commands & Multi-Persona**: Instantly wake up the standard workflow with `/od`. Supports `/od --fast` (skip blueprint, code directly), `/od <Issue-URL>` (parse requirements from links), and `/od review` (act as an architect for Code Review).
+- **Short Commands & Multi-Persona**: Instantly wake up the standard workflow with `/od`. Supports `/od --fast` (skip blueprint, code directly), `/od change` (mid-stream requirement changes), `/od <Issue-URL>` (parse requirements from links), and `/od review` (act as an architect for Code Review).
 
 ### 2. Adaptive Scheduling (Token & Cost Optimization)
 - **Dynamic Complexity Assessment (T-Shirt Sizing)**: The AI evaluates the complexity (S/M/L) upon receiving a requirement.
@@ -18,6 +18,7 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 
 ### 3. Spec-Driven Engineering Discipline
 - **Forced Brainstorming & Blueprinting**: Prohibits the AI from writing code immediately. It must first consider edge cases, exceptions, and user experience, outputting a global blueprint.
+- **Change Management**: Supports adding or modifying requirements mid-development. The AI will output an impact assessment document first, and upon confirmation, automatically archive the old plan and generate a new blueprint to prevent architectural decay.
 - **Auto-Checkpointing**: Before modifying code, the AI is forced to execute a Git Commit backup. If things get messy, you can `/rollback` at any time.
 
 ### 4. Powerful Cross-Session Memory (State Persistence)
@@ -41,7 +42,7 @@ omnidev-kit/
 ├── README.md                       # This file
 ├── README.zh-CN.md                 # Chinese documentation
 └── rules/                          # Core Rules
-    ├── 01-omnidev-workflow.mdc     # Core workflow (Complexity, Commands, Checkpoints)
+    ├── 01-omnidev-workflow.mdc     # Core workflow (Complexity, Changes, Checkpoints)
     ├── 02-omnidev-state-sync.mdc   # State persistence (Dual-state, Recovery)
     ├── 03-omnidev-test-deploy.mdc  # Testing & Deployment (Security, ROI Bill)
     ├── 04-omnidev-skills-mcp.mdc   # Pre-configured Skills & MCP norms

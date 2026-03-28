@@ -10,7 +10,7 @@ OmniDev Kit 是一个集成了多个顶尖开源 AI 编码框架（如 `obra/sup
 
 ### 1. 极简的交互体验 (One-Command Trigger)
 - **一键安装与无损融合**：只需将 `INSTALL.md` 丢给 AI，AI 即可自动识别平台（Cursor/Claude Code 等）并与现有的 `.cursorrules` 无损融合。
-- **短指令与多角色唤醒**：支持 `/od` 瞬间唤醒标准工作流，支持 `/od --fast`（跳过蓝图直接开发）、`/od <Issue-URL>`（直接解析需求链接）、`/od review`（化身架构师进行 Code Review）。
+- **短指令与多角色唤醒**：支持 `/od` 瞬间唤醒标准工作流，支持 `/od --fast`（跳过蓝图直接开发）、`/od change`（开发中途追加/修改需求）、`/od <Issue-URL>`（直接解析需求链接）、`/od review`（化身架构师进行 Code Review）。
 
 ### 2. 智能自适应调度 (Token & Cost Optimization)
 - **动态复杂度评估 (T-Shirt Sizing)**：AI 拿到需求后会先评估复杂度 (S/M/L)。
@@ -18,6 +18,7 @@ OmniDev Kit 是一个集成了多个顶尖开源 AI 编码框架（如 `obra/sup
 
 ### 3. 谋定而后动的工程纪律 (Spec-Driven)
 - **强制脑暴与蓝图**：禁止 AI 听到需求就直接写代码。必须先思考边界、异常和用户体验，输出全局蓝图。
+- **需求变更管理 (Change Management)**：支持开发中途追加或修改需求。AI 会先输出影响面评估文档，经确认后自动归档旧方案并生成新蓝图，确保架构不腐化。
 - **自动快照防错 (Auto-Checkpointing)**：在开始修改代码前，强制 AI 执行 Git Commit 备份，改乱了随时 `/rollback`。
 
 ### 4. 强大的跨会话记忆 (State Persistence)
@@ -41,7 +42,7 @@ omnidev-kit/
 ├── README.md                       # 英文说明文件
 ├── README.zh-CN.md                 # 本说明文件
 └── rules/                          # 核心规则库
-    ├── 01-omnidev-workflow.mdc     # 核心工作流（含复杂度评估、指令参数化、自动快照）
+    ├── 01-omnidev-workflow.mdc     # 核心工作流（含复杂度评估、需求变更、自动快照）
     ├── 02-omnidev-state-sync.mdc   # 状态持久化（双态存储与断点续传）
     ├── 03-omnidev-test-deploy.mdc  # 测试验证（含安全护栏与效能账单）
     ├── 04-omnidev-skills-mcp.mdc   # 预置开源 Skills 与 MCP 协同规范
