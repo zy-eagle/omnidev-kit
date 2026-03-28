@@ -40,6 +40,8 @@ When the user triggers `/od`, strictly follow the OmniDev workflow defined in th
 
 **ZERO TEXT BEFORE TOOLS (STRICT)**: Your **very first action** in response to any `/od` message MUST be a tool call. Do NOT output any analysis, reasoning, explanation, or plan text before the first tool call. No "Let me check...", no "I need to...", no "The issue is...". Tool call FIRST, explanation AFTER. The user sees your thinking text in the UI — keep it invisible by going straight to tool execution.
 
+**IMAGE ATTACHMENTS**: When the user's `/od` message includes screenshots or images, the same rules apply — tool calls FIRST. Read/analyze the image as needed, but do NOT output any text before invoking tools. If the image provides context for a code change, immediately use tools (`Read`, `Grep`, `Glob`, etc.) to locate the relevant code, then apply changes. **NEVER let image processing become an excuse to skip tool execution or output analysis text first.**
+
 ## Key Behaviors
 
 - **Guided, not forced**: The workflow is a recommendation. Phase order is fixed (forward only), but any phase can be skipped. The AI guides the user through phases, never blocks them.
