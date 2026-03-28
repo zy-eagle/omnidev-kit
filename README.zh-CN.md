@@ -75,12 +75,15 @@ omnidev-kit/
 ├── INSTALL.md                      # 安装与使用指南（请将此文件交给 AI）
 ├── README.md                       # 英文说明文件
 ├── README.zh-CN.md                 # 本说明文件
-└── rules/                          # 核心规则库
-    ├── 01-omnidev-workflow.mdc     # 核心工作流（含项目类型感知、需求变更、企业级汇报）
-    ├── 02-omnidev-state-sync.mdc   # 状态持久化（双态存储与断点续传）
-    ├── 03-omnidev-test-deploy.mdc  # 测试验证（含安全护栏与效能账单）
-    ├── 04-omnidev-skills-mcp.mdc   # 预置开源 Skills 与 MCP 协同规范
-    └── 05-omnidev-context-management.mdc # 上下文膨胀与遗忘管理（记忆压缩）
+├── rules/                          # 核心规则库
+│   ├── 01-omnidev-workflow.mdc     # 核心工作流（含项目类型感知、需求变更、企业级汇报）
+│   ├── 02-omnidev-state-sync.mdc   # 状态持久化（双态存储与断点续传）
+│   ├── 03-omnidev-test-deploy.mdc  # 测试验证（含安全护栏与效能账单）
+│   ├── 04-omnidev-skills-mcp.mdc   # 预置开源 Skills 与 MCP 协同规范
+│   └── 05-omnidev-context-management.mdc # 上下文膨胀与遗忘管理（记忆压缩）
+└── skills/                         # Cursor Skills（斜杠命令）
+    └── od/
+        └── SKILL.md                # /od 斜杠命令 — 触发 OmniDev 工作流
 ```
 
 ## 快速开始

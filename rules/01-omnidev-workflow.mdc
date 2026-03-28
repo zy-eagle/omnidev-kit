@@ -1,6 +1,6 @@
 ---
 description: OmniDev core workflow specification. Forces the AI to brainstorm, design globally, and break down plans before coding. Supports command parameterization, multi-persona collaboration, mid-stream requirement changes, project type awareness, and enterprise-grade status reporting.
-globs: *
+alwaysApply: true
 ---
 # OmniDev Core Workflow
 

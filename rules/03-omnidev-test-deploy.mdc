@@ -1,6 +1,6 @@
 ---
 description: OmniDev testing, verification, and deployment document generation specification. Includes security guardrails and efficiency bills.
-globs: *
+alwaysApply: true
 ---
 # OmniDev Test & Deploy
 

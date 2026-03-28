@@ -1,6 +1,6 @@
 ---
 description: OmniDev Skills & MCP integration specification. Guides the AI on how to use built-in skills from mainstream open-source frameworks and MCP servers.
-globs: *
+alwaysApply: true
 ---
 # OmniDev Skills & MCP Integration
 

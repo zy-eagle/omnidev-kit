@@ -28,20 +28,24 @@ AI Assistant, please execute the following steps:
 ### For Cursor Users:
 1. Check if the `.cursor/rules/` folder exists in the project root; if not, create it.
 2. Copy all `.mdc` files from the `omnidev-kit/rules/` directory into the `.cursor/rules/` directory.
-3. Ensure the project root's `.gitignore` **does not contain** `.cursor/rules/` (rules should be committed to the repo).
-4. Create a `docs/omnidev-state/` folder in the project root (for storing state and output docs).
+3. Check if the `.cursor/skills/` folder exists in the project root; if not, create it.
+4. Copy the `omnidev-kit/skills/od/` directory (containing `SKILL.md`) into `.cursor/skills/od/`. This enables the `/od` slash command in Cursor's autocomplete.
+5. Ensure the project root's `.gitignore` **does not contain** `.cursor/rules/` or `.cursor/skills/` (both should be committed to the repo).
+6. Create a `docs/omnidev-state/` folder in the project root (for storing state and output docs).
 
 ### For Claude Code / Codex Users:
 1. Check if `.claude/skills/` or the corresponding platform's skills directory exists in the project root.
 2. Convert the rules under `omnidev-kit/rules/` to the corresponding platform's format (e.g., `SKILL.md`) and save them.
-3. Create a `docs/omnidev-state/` folder in the project root.
+3. Copy the `omnidev-kit/skills/od/SKILL.md` as a reference for creating platform-specific skill triggers.
+4. Create a `docs/omnidev-state/` folder in the project root.
 
 ## 3. Manual Installation Guide
 
 If you want to install manually:
 1. Copy the files in `omnidev-kit/rules/` to your IDE's rules directory (e.g., `.cursor/rules/` for Cursor).
-2. Create a new folder named `docs/omnidev-state/` in the project root.
-3. Say to the AI: "Start the OmniDev workflow, I want to develop [your requirement]" or directly type `/od [your requirement]`.
+2. Copy the `omnidev-kit/skills/od/` directory to `.cursor/skills/od/` (enables the `/od` slash command in Cursor's autocomplete).
+3. Create a new folder named `docs/omnidev-state/` in the project root.
+4. Say to the AI: "Start the OmniDev workflow, I want to develop [your requirement]" or directly type `/od [your requirement]`.
 
 ## 4. Output Artifacts Description
 

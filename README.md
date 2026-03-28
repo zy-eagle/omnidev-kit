@@ -75,12 +75,15 @@ omnidev-kit/
 ├── INSTALL.md                      # Installation guide (Feed this to AI)
 ├── README.md                       # This file
 ├── README.zh-CN.md                 # Chinese documentation
-└── rules/                          # Core Rules
-    ├── 01-omnidev-workflow.mdc     # Core workflow (Project Type, Changes, Enterprise Reporting)
-    ├── 02-omnidev-state-sync.mdc   # State persistence (Dual-state, Recovery)
-    ├── 03-omnidev-test-deploy.mdc  # Testing & Deployment (Security, ROI Bill)
-    ├── 04-omnidev-skills-mcp.mdc   # Pre-configured Skills & MCP norms
-    └── 05-omnidev-context-management.mdc # Context Pruning & Memory Compression
+├── rules/                          # Core Rules
+│   ├── 01-omnidev-workflow.mdc     # Core workflow (Project Type, Changes, Enterprise Reporting)
+│   ├── 02-omnidev-state-sync.mdc   # State persistence (Dual-state, Recovery)
+│   ├── 03-omnidev-test-deploy.mdc  # Testing & Deployment (Security, ROI Bill)
+│   ├── 04-omnidev-skills-mcp.mdc   # Pre-configured Skills & MCP norms
+│   └── 05-omnidev-context-management.mdc # Context Pruning & Memory Compression
+└── skills/                         # Cursor Skills (slash commands)
+    └── od/
+        └── SKILL.md                # /od slash command — triggers OmniDev workflow
 ```
 
 ## Quick Start

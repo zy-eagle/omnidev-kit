@@ -1,6 +1,6 @@
 ---
 description: OmniDev state persistence and session recovery specification. Uses dual-state storage to ensure accurate cross-session context recovery and support multi-person collaboration.
-globs: *
+alwaysApply: true
 ---
 # OmniDev State Sync
 
