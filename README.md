@@ -17,25 +17,28 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 - **Autonomous Learning**: With the `/od onboard` command, the AI actively scans the current legacy project's directory structure, dependencies, and configuration files to extract architectural patterns (e.g., DDD, MVC) and coding conventions.
 - **No Self-Divergence**: The learned context is solidified into `00-project-context.md`. When adding new features later, the AI is constrained to follow these historical conventions. **It must reuse existing utilities and components, and is strictly prohibited from introducing new libraries or "reinventing the wheel" that conflict with the existing code style.** This ensures 100% consistency and prevents architectural decay.
 
-### 3. Adaptive Scheduling (Token & Cost Optimization)
+### 3. Self-Learning & Retrospective
+- **AI Pitfall Guide**: Triggered by the `/od learn` command or automatically after a large task, the AI scans development logs for errors, blockers, and user corrections. It extracts lessons learned and solidifies them into its own "Pitfall Guide". **"The AI will never fall into the same trap twice."**
+
+### 4. Adaptive Scheduling (Token & Cost Optimization)
 - **Dynamic Complexity Assessment (T-Shirt Sizing)**: The AI evaluates the complexity (S/M/L) upon receiving a requirement.
 - **No Dogmatism**: For a typo (Size S), the AI fixes and tests it directly; for a large new feature (Size L), it strictly follows the "Blueprint -> Plan -> Develop -> Test" full lifecycle.
 
-### 4. Spec-Driven Engineering Discipline
+### 5. Spec-Driven Engineering Discipline
 - **Forced Brainstorming & Blueprinting**: Prohibits the AI from writing code immediately. It must first consider edge cases, exceptions, and user experience, outputting a global blueprint.
 - **Change Management**: Supports adding or modifying requirements mid-development. The AI will output an impact assessment document first, and upon confirmation, automatically archive the old plan and generate a new blueprint to prevent architectural decay.
 - **Auto-Checkpointing**: Before modifying code, the AI is forced to execute a Git Commit backup. If things get messy, you can `/rollback` at any time.
 
-### 5. Powerful Cross-Session Memory (State Persistence)
+### 6. Powerful Cross-Session Memory (State Persistence)
 - **Dual-State Storage**: Uses `YAML Frontmatter + Markdown` to record state, ensuring 100% accurate machine reading while remaining human-readable.
 - **Context Pruning**: When long sessions cause state files to bloat, it automatically triggers "memory compression" to archive historical details, preventing AI hallucinations and saving Tokens.
 - **Session Recovery**: Just type `/resume`, and the AI will read the progress file, compare it with the local Git state, and instantly restore context to continue working.
 
-### 6. Closed-Loop Quality Assurance (Automated Verification)
+### 7. Closed-Loop Quality Assurance (Automated Verification)
 - **No "Blind Confidence"**: Forces the AI to write test cases or use MCP to simulate real data flows (e.g., inserting data into DB, calling Playwright for UI clicks) for verification.
 - **Security Guardrails**: Strictly prohibits hardcoding real API keys or sensitive information in state files or generated code.
 
-### 7. DevOps-Ready Deliverables
+### 8. DevOps-Ready Deliverables
 - **Automated Release Notes**: After development, it automatically summarizes `.env` changes, new dependencies, database migration scripts, etc.
 - **Efficiency Bill (ROI)**: Outputs an intuitive ROI bill upon delivery (e.g., "Saved you 15,000 Tokens and 2.5 hours"), making the AI's value clearly visible.
 
@@ -45,6 +48,7 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 | --- | --- |
 | `/od help` | 📖 View all available commands |
 | `/od onboard` | 🔍 Scan and learn legacy project architecture to prevent self-divergence |
+| `/od learn` | 🧠 Trigger self-retrospective, extract lessons from errors and write to pitfall guide |
 | `/od [requirement]` | 🚀 Start standard workflow (auto-assesses complexity) |
 | `/od --fast [req]` | ⚡ Skip blueprint and plan, code directly (for urgent bug fixes) |
 | `/od --plan-only [req]`| 📝 Only analyze and plan, do not write code |
@@ -62,7 +66,7 @@ omnidev-kit/
 ├── README.md                       # This file
 ├── README.zh-CN.md                 # Chinese documentation
 └── rules/                          # Core Rules
-    ├── 01-omnidev-workflow.mdc     # Core workflow (Complexity, Changes, Onboarding)
+    ├── 01-omnidev-workflow.mdc     # Core workflow (Complexity, Changes, Self-learning)
     ├── 02-omnidev-state-sync.mdc   # State persistence (Dual-state, Recovery)
     ├── 03-omnidev-test-deploy.mdc  # Testing & Deployment (Security, ROI Bill)
     ├── 04-omnidev-skills-mcp.mdc   # Pre-configured Skills & MCP norms
