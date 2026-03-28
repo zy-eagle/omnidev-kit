@@ -165,12 +165,15 @@ If there are unstaged changes, instruct the user:
 > - `git add .` — 暂存所有修改
 > - `git add <file1> <file2>` — 暂存指定文件
 >
-> 完成后请回复 `/od 已暂存` 继续。"
+> 完成后请回复：
+> - `/od 已暂存` — 我已手动选择了要提交的文件
+> - `/od 跳过` — 直接提交所有修改（自动执行 `git add .`）"
 
-**Do NOT run `git add` for the user.** The user must do this themselves.
+**Do NOT run `git add` for the user** unless the user explicitly replies `/od 跳过`.
 
-### Step 3: Wait for User Confirmation
-Only proceed after the user replies with `/od 已暂存` (or equivalent `/od`-prefixed confirmation).
+### Step 3: Wait for User Response
+- If the user replies `/od 已暂存`: Proceed to Step 4 (user has staged files themselves).
+- If the user replies `/od 跳过`: Execute `git add .` to stage all changes, then proceed to Step 4.
 
 ### Step 4: Commit & Push
 1. Run `git status` again to verify there are staged changes.
