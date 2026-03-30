@@ -31,6 +31,7 @@ Users can trigger the workflow using the following commands:
 - `/od learn`: Self-learning & retrospective mechanism. Analyze recent errors and user corrections, extract lessons, and update the pitfall guide.
 - `/od report`: **Generate an enterprise-grade project status report**. Ready for management reporting.
 - `/od update`: **Update OmniDev Kit**. Fetch the latest rules from the remote repository and apply them to the current project.
+- `/od install <repo-url>`: **Install OmniDev Kit from a remote Git repository**. Clone the repo to a temp directory, copy rules and skills to the current project, then clean up.
 - `/od [requirement]`: Standard workflow.
 - `/od --fast [requirement]`: Skip blueprint and planning, enter development directly (for urgent hotfixes).
 - `/od --plan-only [requirement]`: Only output blueprint and plan, do not write code.
@@ -86,6 +87,22 @@ OmniDev Kit supports updating its core rules to the latest version.
 
   2. **Step 1: Fetch & Overwrite**: Only after receiving `/od 确认更新`, use the Shell tool to clone `https://github.com/zy-eagle/omnidev-kit.git` to a temporary directory, and forcefully copy its `rules/*.mdc` and `skills/od/SKILL.md` to the current project, overwriting existing files.
   3. **Step 2: Cleanup**: Delete the temporary directory and report success to the user.
+
+## Special Flow: Remote Install (Install)
+OmniDev Kit supports installing directly from a remote Git repository URL, eliminating the need to manually clone the repository first.
+
+When the user types `/od install <repo-url>` (where `<repo-url>` is a valid Git repository URL, e.g., `https://github.com/zy-eagle/omnidev-kit.git`), the AI MUST execute the following steps:
+
+1. **Step 1: Clone to Temp Directory**: Use the Shell tool to clone the repository to a temporary directory (e.g., `_omnidev-kit-tmp` under the project root or system temp folder).
+   ```
+   git clone --depth 1 <repo-url> _omnidev-kit-tmp
+   ```
+2. **Step 2: Validate Repository**: Verify that the cloned directory contains the expected OmniDev Kit structure (`rules/*.mdc` and `skills/od/SKILL.md`). If not, report an error and clean up.
+3. **Step 3: Read INSTALL.md**: Read the `INSTALL.md` from the cloned repository and follow its **Method B** installation instructions to copy rules and skills into the current project. Apply the **Core Merge Strategy** — if the user already has existing rules, perform a non-destructive merge.
+4. **Step 4: Cleanup**: Delete the temporary directory (`_omnidev-kit-tmp`) to keep the project clean.
+5. **Step 5: Report**: Report success to the user and remind them that they can start the workflow by typing `/od` or directly stating their requirements.
+
+**Shorthand**: The user can also trigger this by simply saying "请帮我安装这个工具包：<repo-url>" without the `/od` prefix — the AI should recognize the intent and execute the same flow.
 
 ## Special Flow: Project Type Awareness & Adaptive Constraints
 Before starting any development, you must first determine if the current project is a **"Greenfield Project"** or a **"Legacy Project"**, and record it in the `project_type` field of `docs/omnidev-state/00-project-context.md`.

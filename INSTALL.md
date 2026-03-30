@@ -25,7 +25,22 @@ It forces the AI to follow this workflow:
 
 AI Assistant, please execute the following steps:
 
-### For Cursor Users:
+### Method A: Install from Remote Repository URL (Recommended)
+
+If the user provides a **Git repository URL** (e.g., `https://github.com/zy-eagle/omnidev-kit.git`) instead of a local path, execute the following steps:
+
+1. Use the Shell tool to clone the repository to a **temporary directory** (e.g., `_omnidev-kit-tmp` in the system temp folder or project root).
+2. Follow the same installation steps as **Method B** below, using the cloned temporary directory as the source.
+3. After installation is complete, **delete the temporary directory** to keep the project clean.
+
+This allows users to install OmniDev Kit with a single command like:
+> "请帮我安装这个工具包：https://github.com/zy-eagle/omnidev-kit.git"
+
+### Method B: Install from Local Directory
+
+If the user has already cloned or downloaded `omnidev-kit` locally:
+
+#### For Cursor Users:
 1. Check if the `.cursor/rules/` folder exists in the project root; if not, create it.
 2. Copy all `.mdc` files from the `omnidev-kit/rules/` directory into the `.cursor/rules/` directory.
 3. Check if the `.cursor/skills/` folder exists in the project root; if not, create it.
@@ -33,7 +48,7 @@ AI Assistant, please execute the following steps:
 5. Ensure the project root's `.gitignore` **does not contain** `.cursor/rules/` or `.cursor/skills/` (both should be committed to the repo).
 6. Create a `docs/omnidev-state/` folder in the project root (for storing state and output docs).
 
-### For Claude Code / Codex Users:
+#### For Claude Code / Codex Users:
 1. Check if `.claude/skills/` or the corresponding platform's skills directory exists in the project root.
 2. Convert the rules under `omnidev-kit/rules/` to the corresponding platform's format (e.g., `SKILL.md`) and save them.
 3. Copy the `omnidev-kit/skills/od/SKILL.md` as a reference for creating platform-specific skill triggers.

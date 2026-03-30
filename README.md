@@ -14,7 +14,7 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 - **Greenfield Projects (Spec-Driven)**: For new projects, the AI transforms into a "strict architect", fully enabling OmniDev's modern software engineering conventions, mandating TDD/DDD and high-coverage testing.
 
 ### 2. Minimalist Interaction (One-Command Trigger)
-- **One-Click Install & Non-Destructive Merge**: Just feed `INSTALL.md` to the AI, and it will automatically recognize the platform and merge the rules with your existing `.cursorrules` seamlessly.
+- **One-Click Install & Non-Destructive Merge**: Just feed `INSTALL.md` to the AI, and it will automatically recognize the platform and merge the rules with your existing `.cursorrules` seamlessly. You can also install directly from a remote Git URL — no need to clone the repository first.
 - **Short Commands & Multi-Persona**: Instantly wake up the standard workflow with `/od`. Supports `/od --fast` (skip blueprint, code directly), `/od change` (mid-stream requirement changes), and `/od review` (act as an architect for Code Review).
 - **Built-in Help**: Type `/od help` at any time to view all available commands and their meanings.
 
@@ -59,6 +59,7 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 | `/od learn` | 🧠 Trigger self-retrospective, extract lessons from errors and write to pitfall guide |
 | `/od report` | 📊 Generate an enterprise-grade project status report, highlighting AI-assisted achievements |
 | `/od update` | 🔄 Update OmniDev Kit rules to the latest version |
+| `/od install <repo-url>` | 📥 Install OmniDev Kit from a remote Git repository URL |
 | `/od [requirement]` | 🚀 Start standard workflow (auto-assesses complexity) |
 | `/od --fast [req]` | ⚡ Skip blueprint and plan, code directly (for urgent bug fixes) |
 | `/od --plan-only [req]` | 📝 Only analyze and plan, do not write code |
@@ -92,6 +93,15 @@ omnidev-kit/
 ```
 
 ## Quick Start
+
+**Option 1: Install from Remote URL (Recommended)**
+
+Simply tell your AI assistant:
+> "Please install this toolkit: https://github.com/zy-eagle/omnidev-kit.git"
+
+The AI will automatically clone the repository, install the rules and skills into your project, and clean up — no manual cloning required.
+
+**Option 2: Install from Local Directory**
 
 Drag the `INSTALL.md` file into your AI assistant's chat (Cursor / Claude Code, etc.) and say: "Please help me install this toolkit." The AI will automatically read the rules and configure them in your project.
 

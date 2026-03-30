@@ -26,6 +26,7 @@ When the user triggers `/od`, strictly follow the OmniDev workflow defined in th
 | `/od change [new requirement]` | Handle mid-stream requirement changes |
 | `/od learn` | Self-learning from recent errors |
 | `/od update` | Update OmniDev Kit rules to latest version |
+| `/od install <repo-url>` | Install OmniDev Kit from a remote Git repo URL (no manual clone needed) |
 | `/od push` | Commit and push code to remote (user must `git add` first) |
 | `/od stash` | 暂存当前任务上下文（应对紧急插队任务） |
 | `/od pop` | 恢复暂存的任务上下文 |
