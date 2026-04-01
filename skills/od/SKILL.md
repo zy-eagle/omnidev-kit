@@ -13,25 +13,37 @@ When the user triggers `/od`, strictly follow the OmniDev workflow defined in th
 
 ## Quick Reference
 
-| Command | Action |
-|---------|--------|
-| `/od [requirement]` | Guided workflow: assess complexity -> recommend phases -> user can skip any |
-| `/od --fast [requirement]` | Skip blueprint/plan, develop directly (hotfixes) |
-| `/od --plan-only [requirement]` | Output blueprint and plan only, no coding |
-| `/od help` | Show all OmniDev commands |
-| `/od onboard` | Scan legacy project, generate context document |
-| `/od report` | Generate enterprise-grade weekly status report |
-| `/od review` | Code review only (no modifications) |
-| `/od qa` | Write and execute test cases |
-| `/od change [new requirement]` | Handle mid-stream requirement changes |
-| `/od learn` | Self-learning from recent errors |
-| `/od update` | Update OmniDev Kit rules to latest version |
-| `/od install <repo-url>` | Install OmniDev Kit from a remote Git repo URL (no manual clone needed) |
-| `/od push` | Commit and push code to remote (user must `git add` first) |
-| `/od stash` | 暂存当前任务上下文（应对紧急插队任务） |
-| `/od pop` | 恢复暂存的任务上下文 |
-| `/od sync` | 将产出同步回显到 Jira/GitHub Issue |
-| `/od dashboard` | 生成全局效能 ROI 大盘图表 |
+All commands support English shorthand aliases. The AI MUST treat aliases as equivalent to the full command.
+
+| Command | Alias | Action |
+|---------|-------|--------|
+| `/od [requirement]` | — | Guided workflow: assess complexity -> recommend phases -> user can skip any |
+| `/od --fast [requirement]` | `/od -f` | Skip blueprint/plan, develop directly (hotfixes) |
+| `/od --plan-only [requirement]` | `/od -p` | Output blueprint and plan only, no coding |
+| `/od help` | `/od h` | Show all OmniDev commands |
+| `/od onboard` | `/od ob` | Scan legacy project, generate context document |
+| `/od report` | `/od rp` | Generate enterprise-grade weekly status report |
+| `/od review` | `/od rv` | Code review only (no modifications) |
+| `/od qa` | — | Write and execute test cases |
+| `/od change [new requirement]` | `/od ch` | Handle mid-stream requirement changes |
+| `/od learn` | `/od ln` | Self-learning from recent errors |
+| `/od update` | `/od up` | Update OmniDev Kit rules to latest version |
+| `/od install <repo-url>` | `/od i` | Install OmniDev Kit from a remote Git repo URL (no manual clone needed) |
+| `/od push` | `/od ps` | Commit and push code to remote (user must `git add` first) |
+| `/od stash` | `/od st` | 暂存当前任务上下文（应对紧急插队任务） |
+| `/od pop` | — | 恢复暂存的任务上下文 |
+| `/od sync` | `/od sy` | 将产出同步回显到 Jira/GitHub Issue |
+| `/od dashboard` | `/od db` | 生成全局效能 ROI 大盘图表 |
+
+### Phase Navigation Aliases
+
+| Command | Alias | Action |
+|---------|-------|--------|
+| `/od 继续` | `/od c`, `/od next` | 进入下一阶段 |
+| `/od 调整 [内容]` | `/od adj [内容]` | 修改当前阶段产出，重新执行当前阶段 |
+| `/od 跳过 [阶段名]` | `/od sk [阶段名]` | 跳过后续某个阶段 |
+| `/od 回到 [阶段名]` | `/od back [阶段名]` | 回退到之前的阶段重新执行 |
+| `/od 全部完成` | `/od all` | 自动执行所有剩余阶段，不再逐步确认 |
 
 ## Critical Rule: `/od` Prefix Mandatory & Strict Tool Execution
 
@@ -47,7 +59,7 @@ When the user triggers `/od`, strictly follow the OmniDev workflow defined in th
 
 - **Guided, not forced**: The workflow is a recommendation. Phase order is fixed (forward only), but any phase can be skipped. The AI guides the user through phases, never blocks them.
 - **Proactive phase navigation**: After each phase completes, the AI MUST proactively output a progress summary showing completed/current/upcoming phases, and tell the user what the next step will do — do NOT wait for the user to ask.
-- **Mid-phase adjustments**: At every checkpoint, the user can `/od 调整`, `/od 跳过`, `/od 回到`, etc.
+- **Mid-phase adjustments**: At every checkpoint, the user can `/od 调整` (`/od adj`), `/od 跳过` (`/od sk`), `/od 回到` (`/od back`), etc.
 
 ## Workflow
 

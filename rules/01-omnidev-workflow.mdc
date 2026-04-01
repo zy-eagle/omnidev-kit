@@ -25,25 +25,28 @@ OmniDev is a **guided workflow**, not a rigid enforcement system:
 **State File Isolation**: To avoid Git merge conflicts during team collaboration, global context (`00-project-context.md`) is stored in `docs/omnidev-state/`, but task-specific files (`01-blueprint.md`, `02-plan.md`, `03-progress.md`, etc.) MUST be stored in branch-specific subdirectories: `docs/omnidev-state/[branch-name]/`.
 
 ## Phase 0: Command & Parameters Parsing
-Users can trigger the workflow using the following commands:
-- `/od help`: View the meanings and usage of all OmniDev commands. Output a beautifully formatted help manual.
-- `/od onboard`: Legacy project onboarding. Actively scan the current project directory, analyze the tech stack, architecture, and conventions, and generate a context document.
-- `/od learn`: Self-learning & retrospective mechanism. Analyze recent errors and user corrections, extract lessons, and update the pitfall guide.
-- `/od report`: **Generate an enterprise-grade project status report**. Ready for management reporting.
-- `/od update`: **Update OmniDev Kit**. Fetch the latest rules from the remote repository and apply them to the current project.
-- `/od install <repo-url>`: **Install OmniDev Kit from a remote Git repository**. Clone the repo to a temp directory, copy rules and skills to the current project, then clean up.
-- `/od [requirement]`: Standard workflow.
-- `/od --fast [requirement]`: Skip blueprint and planning, enter development directly (for urgent hotfixes).
-- `/od --plan-only [requirement]`: Only output blueprint and plan, do not write code.
-- `/od change [new requirement/adjustment]`: Handle mid-stream requirement changes or additions.
-- `/od <Issue-URL>`: Automatically fetch Issue content (e.g., GitHub/Jira) and convert it into a requirement blueprint.
-- `/od review`: Act as a strict architect, only perform Code Review on the current code, do not modify code.
-- `/od qa`: Act as a QA engineer, only write test cases and execute tests.
-- `/od push`: Commit and push code to remote repository. Requires user to `git add` first.
-- `/od stash`: 暂存当前任务上下文（应对紧急插队任务）。
-- `/od pop`: 恢复暂存的任务上下文。
-- `/od sync`: 将当前阶段产出或最终报告同步回写到对应的 Issue (GitHub/Jira)。
-- `/od dashboard`: 生成全局效能 ROI 大盘图表。
+Users can trigger the workflow using the following commands (English shorthand aliases are supported — the AI MUST treat them as equivalent):
+
+| Command | Alias | Description |
+|---------|-------|-------------|
+| `/od help` | `/od h` | View the meanings and usage of all OmniDev commands. Output a beautifully formatted help manual. |
+| `/od onboard` | `/od ob` | Legacy project onboarding. Scan the current project directory, analyze tech stack, architecture, and conventions, generate a context document. |
+| `/od learn` | `/od ln` | Self-learning & retrospective mechanism. Analyze recent errors and user corrections, extract lessons, update the pitfall guide. |
+| `/od report` | `/od rp` | **Generate an enterprise-grade project status report**. Ready for management reporting. |
+| `/od update` | `/od up` | **Update OmniDev Kit**. Fetch the latest rules from the remote repository and apply them to the current project. |
+| `/od install <repo-url>` | `/od i <repo-url>` | **Install OmniDev Kit from a remote Git repository**. Clone the repo to a temp directory, copy rules and skills to the current project, then clean up. |
+| `/od [requirement]` | — | Standard workflow. |
+| `/od --fast [requirement]` | `/od -f [requirement]` | Skip blueprint and planning, enter development directly (for urgent hotfixes). |
+| `/od --plan-only [requirement]` | `/od -p [requirement]` | Only output blueprint and plan, do not write code. |
+| `/od change [new requirement]` | `/od ch [new requirement]` | Handle mid-stream requirement changes or additions. |
+| `/od <Issue-URL>` | — | Automatically fetch Issue content (e.g., GitHub/Jira) and convert it into a requirement blueprint. |
+| `/od review` | `/od rv` | Act as a strict architect, only perform Code Review on the current code, do not modify code. |
+| `/od qa` | — | Act as a QA engineer, only write test cases and execute tests. |
+| `/od push` | `/od ps` | Commit and push code to remote repository. Requires user to `git add` first. |
+| `/od stash` | `/od st` | 暂存当前任务上下文（应对紧急插队任务）。 |
+| `/od pop` | — | 恢复暂存的任务上下文。 |
+| `/od sync` | `/od sy` | 将当前阶段产出或最终报告同步回写到对应的 Issue (GitHub/Jira)。 |
+| `/od dashboard` | `/od db` | 生成全局效能 ROI 大盘图表。 |
 
 If no parameters are specified, perform a **Task Complexity Assessment (T-Shirt Sizing)** to **recommend** which phases to include:
 - **S (Trivial)**: Recommend skipping blueprint and plan → Dev → Test directly.
@@ -155,15 +158,15 @@ After the summary, **always pause and ask** (remind the user to use `/od` prefix
 **🛑 CRITICAL STOP: You MUST stop executing here and WAIT for the user to reply. DO NOT automatically proceed to the next phase.**
 
 ### 3. Handling Mid-Phase Adjustments
-The user can request adjustments at any checkpoint (all must start with `/od`):
+The user can request adjustments at any checkpoint (all must start with `/od`). English shorthand aliases are supported:
 
-| User Says | Action |
-|-----------|--------|
-| `/od 继续` | Move to next phase |
-| `/od 调整 [内容]` | Re-enter current phase, apply changes, then re-checkpoint |
-| `/od 跳过 [阶段名]` | Mark specified future phase(s) as skipped, proceed to next |
-| `/od 回到 [阶段名]` | Re-enter a previous phase, then resume from there. **AI MUST output this exact suggestion**: "💡 **建议**：我已经为您回退了逻辑状态。如果您希望代码也回到该阶段的初始状态，请您手动执行 `git reset --hard` 或使用 IDE 的版本控制功能进行回滚。" |
-| `/od 全部完成` | Execute all remaining phases without further checkpoints |
+| User Says | Alias | Action |
+|-----------|-------|--------|
+| `/od 继续` | `/od c`, `/od next` | Move to next phase |
+| `/od 调整 [内容]` | `/od adj [内容]` | Re-enter current phase, apply changes, then re-checkpoint |
+| `/od 跳过 [阶段名]` | `/od sk [阶段名]` | Mark specified future phase(s) as skipped, proceed to next |
+| `/od 回到 [阶段名]` | `/od back [阶段名]` | Re-enter a previous phase, then resume from there. **AI MUST output this exact suggestion**: "💡 **建议**：我已经为您回退了逻辑状态。如果您希望代码也回到该阶段的初始状态，请您手动执行 `git reset --hard` 或使用 IDE 的版本控制功能进行回滚。" |
+| `/od 全部完成` | `/od all` | Execute all remaining phases without further checkpoints |
 
 ---
 
