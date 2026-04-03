@@ -5,4 +5,8 @@ globs: []
 ---
 # OmniDev Trigger
 
-When the user's message starts with `/od`, read and follow the OmniDev Skill (`.cursor/skills/od/SKILL.md`).
+When the user's message starts with `/od`:
+
+- Read and follow the OmniDev Skill (`.cursor/skills/od/SKILL.md`).
+- Treat the following rule docs as **OmniDev-only context** (they are not always applied in normal chat):
+  - `rules/06-omnidev-self-evolution.mdc`

@@ -1,6 +1,6 @@
 ---
 description: OmniDev self-evolution specification. Enables the AI to continuously improve its own rules, skills, and conventions by learning from real usage patterns, user corrections, and project-specific feedback.
-alwaysApply: true
+alwaysApply: false
 ---
 # OmniDev Self-Evolution (Auto-Evolution Engine)
 
