@@ -36,7 +36,7 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 ### 7. Powerful Cross-Session Memory (State Persistence)
 - **Dual-State Storage**: Uses `YAML Frontmatter + Markdown` to record state, ensuring 100% accurate machine reading while remaining human-readable.
 - **Context Pruning**: When long sessions cause state files to bloat, it automatically triggers "memory compression" to archive historical details, preventing AI hallucinations and saving Tokens.
-- **Session Recovery**: Just type `/resume`, and the AI will read the progress file, compare it with the local Git state, and instantly restore context to continue working.
+- **Session Recovery**: Type **`/od resume`** so OmniDev rules apply; the AI reads progress files, compares with Git, and restores context. (Bare `/resume` does not load this toolkit's rules.)
 
 ### 8. Closed-Loop Quality Assurance (Automated Verification)
 - **No "Blind Confidence"**: Forces the AI to write test cases or use MCP to simulate real data flows (e.g., inserting data into DB, calling Playwright for UI clicks) for verification.
@@ -51,7 +51,7 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 - **Tool Auto-Update**: Supports manual (`/od update`) or background auto-updates to fetch the latest rules from the remote repository, ensuring the AI always uses the most cutting-edge engineering practices.
 
 ### 11. Self-Evolution Engine (Auto-Evolution)
-- **Passive Learning**: The AI silently observes user corrections, repeated patterns, and error resolutions, logging them as evolution signals in `evolution-log.jsonl`.
+- **Passive Learning**: During **`/od`** work only, the AI may log corrections, repeated patterns, and error resolutions to `evolution-log.jsonl` (no OmniDev logging on plain chat).
 - **Smart Proposals**: When signals accumulate (5+ of the same category, or any single high-confidence signal), the AI generates concrete rule/skill improvement proposals — rule amendments, new pitfall entries, workflow tweaks, or even new skills.
 - **User-Controlled**: All rule modifications require explicit user approval. Use `/od evolve` to review proposals, selectively adopt or reject them. The AI never silently changes its own behavioral rules.
 - **Safety Guardrails**: The evolution engine cannot weaken core safety rules (like the `/od` prefix mandate or security guardrails). Every evolution is logged with rollback capability via `/od evolve --rollback [N]`.
@@ -82,7 +82,7 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 | `/od evolve` | 🧬 Self-evolution: review and apply accumulated learning signals to improve rules/skills |
 | `/od evolve --review` | 🔍 View the current evolution log and pending proposals |
 | `/od evolve --rollback [N]` | ⏪ Revert a specific evolution using git history |
-| `/resume` | 🔄 Restore the context of the last interrupted session |
+| `/od resume` | 🔄 Restore the last interrupted OmniDev session (loads toolkit rules; prefer over bare `/resume`) |
 
 ## Directory Structure
 

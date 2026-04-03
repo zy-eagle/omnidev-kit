@@ -5,8 +5,9 @@ globs: []
 ---
 # OmniDev Trigger
 
-When the user's message starts with `/od`:
+**Scope (Token & context optimization)**
 
-- Read and follow the OmniDev Skill (`.cursor/skills/od/SKILL.md`).
-- Treat the following rule docs as **OmniDev-only context** (they are not always applied in normal chat):
-  - `rules/06-omnidev-self-evolution.mdc`
+- **ONLY** when the user's **current message** starts with `/od` (after optional whitespace): load and follow the OmniDev Skill (`.cursor/skills/od/SKILL.md`). That skill is the **sole** source of OmniDev workflow, state files, testing discipline, MCP norms, context pruning, and self-evolution rules.
+- If the message does **not** start with `/od`: **do not** apply OmniDev rules, **do not** create or update `docs/omnidev-state/**`, **do not** write `evolution-log.jsonl`, and **do not** run OmniDev phases or commands. Treat the chat as a normal coding conversation (other project rules may still apply).
+
+When `/od` applies, read and follow the OmniDev Skill end-to-end.
