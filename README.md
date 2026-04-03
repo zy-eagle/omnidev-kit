@@ -50,6 +50,13 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 - **One-Click Weekly Reports**: Using `/od report`, the AI combines Git commit history with state files to automatically generate a beautifully formatted, **management-ready project status report**. The report not only covers overall progress, blockers, and next week's plan, but also **specifically aggregates all AI-assisted tasks completed via OmniDev**, highlighting R&D efficiency gains.
 - **Tool Auto-Update**: Supports manual (`/od update`) or background auto-updates to fetch the latest rules from the remote repository, ensuring the AI always uses the most cutting-edge engineering practices.
 
+### 11. Self-Evolution Engine (Auto-Evolution)
+- **Passive Learning**: The AI silently observes user corrections, repeated patterns, and error resolutions, logging them as evolution signals in `evolution-log.jsonl`.
+- **Smart Proposals**: When signals accumulate (5+ of the same category, or any single high-confidence signal), the AI generates concrete rule/skill improvement proposals — rule amendments, new pitfall entries, workflow tweaks, or even new skills.
+- **User-Controlled**: All rule modifications require explicit user approval. Use `/od evolve` to review proposals, selectively adopt or reject them. The AI never silently changes its own behavioral rules.
+- **Safety Guardrails**: The evolution engine cannot weaken core safety rules (like the `/od` prefix mandate or security guardrails). Every evolution is logged with rollback capability via `/od evolve --rollback [N]`.
+- **"The more you use it, the smarter it gets"** — OmniDev adapts to your project's unique conventions, coding style, and architectural patterns over time.
+
 ## Command Reference
 
 | Command | Description |
@@ -72,6 +79,9 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 | `/od pop` | 📦 Restore previously stashed task context |
 | `/od sync` | 🔗 Sync deliverables back to the corresponding GitHub/Jira Issue |
 | `/od dashboard` | 📈 Generate a global efficiency ROI dashboard |
+| `/od evolve` | 🧬 Self-evolution: review and apply accumulated learning signals to improve rules/skills |
+| `/od evolve --review` | 🔍 View the current evolution log and pending proposals |
+| `/od evolve --rollback [N]` | ⏪ Revert a specific evolution using git history |
 | `/resume` | 🔄 Restore the context of the last interrupted session |
 
 ## Directory Structure

@@ -34,6 +34,10 @@ This file is the **single source of truth** for all OmniDev rules. The lightweig
 | `/od pop` | — | Restore stashed task context |
 | `/od sync` | `/od sy` | Sync output back to Jira/GitHub Issue |
 | `/od dashboard` | `/od db` | Generate global ROI dashboard |
+| `/od evolve` | `/od ev` | Self-evolution: scan learning signals, propose rule/skill improvements |
+| `/od evolve --review` | `/od ev -r` | View evolution log and pending proposals |
+| `/od evolve --apply` | `/od ev -a` | Apply all pending proposals without review |
+| `/od evolve --rollback [N]` | `/od ev --rb [N]` | Revert evolution #N |
 
 ### Phase Navigation
 
@@ -124,7 +128,8 @@ Then ask: "请回复 `/od 继续` 进入下一阶段。" and **STOP — WAIT for
 2. Generate `05-test-report.md` (scope, mock data, results, limitations).
 3. For M+: generate `06-release-notes.md` with efficiency bill.
 4. Trigger `/od learn` flow.
-5. Final summary → STOP.
+5. **Evolution Signal Check**: Scan `docs/omnidev-state/evolution-log.jsonl` for unprocessed signals. If any exist, append: "🧬 **进化信号**: 检测到 N 条新学习信号。回复 `/od evolve` 查看进化提案。"
+6. Final summary → STOP.
 
 ---
 
@@ -154,7 +159,8 @@ Proactively update `03-progress.md` and `02-plan.md` when:
 ### Session Recovery (`/resume`)
 1. Read `03-progress.md` and `02-plan.md` (parse YAML frontmatter first).
 2. Compare with `git status`.
-3. Report: "🔄 **Context Restored**. Status: [X]. Next: [Y]. Continue?" → WAIT.
+3. Check `evolution-log.jsonl` for unprocessed high-confidence signals. If any: "💡 有 N 条待处理的进化信号，可随时使用 `/od evolve` 查看。"
+4. Report: "🔄 **Context Restored**. Status: [X]. Next: [Y]. Continue?" → WAIT.
 
 ### SDD (Spec-Driven Development)
 - Major architectural decisions must first be recorded in `04-design.md`.
@@ -243,6 +249,16 @@ When user confirms release notes, prompt: "🎉 Requirement complete! Would you 
 ### Learn (`/od learn`)
 1. Scan progress docs/archives for errors and user corrections.
 2. Extract lessons, write to `[AI Pitfall Guide]` in `00-project-context.md`.
+3. **Feed Evolution Engine**: Each extracted pitfall MUST also be logged as an `error_resolution` signal in `docs/omnidev-state/evolution-log.jsonl`.
+
+### Evolve (`/od evolve`)
+See `rules/06-omnidev-self-evolution.mdc` for the full specification. Summary:
+1. Read `docs/omnidev-state/evolution-log.jsonl`, cluster signals by category.
+2. Generate concrete proposals (rule amendments, pitfall updates, workflow tweaks, new skills).
+3. Present proposals → WAIT for user to adopt/reject.
+4. Apply approved changes, mark signals as processed, log to `evolution-history.md`.
+- **Passive learning** (silent): Log user corrections, repeated patterns, error resolutions to `evolution-log.jsonl`.
+- **Safety**: Cannot weaken `/od` prefix rule, checkpoints, or security guardrails.
 
 ### Project Type Awareness
 - **Legacy**: Follow existing conventions 100%. No forced DDD/TDD. "Write code like a sensible veteran employee."
