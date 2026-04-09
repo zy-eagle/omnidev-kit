@@ -43,11 +43,27 @@ This file is the **single source of truth** for all OmniDev rules. The lightweig
 
 | Command | Alias | Action |
 |---------|-------|--------|
-| `/od 继续` | `/od c`, `/od next` | Next phase |
-| `/od 调整 [内容]` | `/od adj [内容]` | Revise current phase output |
-| `/od 跳过 [阶段名]` | `/od sk [阶段名]` | Skip a future phase |
-| `/od 回到 [阶段名]` | `/od back [阶段名]` | Re-enter a previous phase |
-| `/od 全部完成` | `/od all` | Execute all remaining phases without checkpoints |
+| `/od next` | `/od c` | Next phase |
+| `/od adj [content]` | — | Revise current phase output |
+| `/od sk [phase]` | — | Skip a future phase |
+| `/od back [phase]` | — | Re-enter a previous phase |
+| `/od all` | — | Execute all remaining phases without checkpoints |
+
+### Confirmation Commands
+
+| Command | Action |
+|---------|--------|
+| `/od confirm-update` | Confirm OmniDev Kit update |
+| `/od cancel` | Cancel the current operation |
+| `/od confirm` | Confirm a change request (`/od change`) |
+| `/od staged` | Confirm files have been manually staged (`/od push`) |
+| `/od skip-add` | Skip manual staging, auto-run `git add .` (`/od push`) |
+| `/od confirm-push` | Confirm and execute git commit & push |
+| `/od edit-msg [msg]` | Modify the proposed commit message |
+| `/od evolve accept-all` | Accept all evolution proposals |
+| `/od evolve accept [N,N]` | Accept specific proposals by number |
+| `/od evolve reject` | Reject all proposals |
+| `/od evolve adjust [N] [feedback]` | Adjust a specific proposal |
 
 ---
 
@@ -93,13 +109,13 @@ For **S tasks**: Do NOT generate state files. Resolve directly.
 
 After each phase completes, output:
 ```
-✅ **阶段 N 完成: [Phase Name]**
-   产出: [what was produced]
-📍 **当前进度**: 已完成: [...] ✅ | 待执行: [...] ⏳
-🔜 **下一阶段: Phase N+1 — [Phase Name]**
-   将要做: [description]
+✅ **Phase N Complete: [Phase Name]**
+   Deliverables: [what was produced]
+📍 **Current Progress**: Completed: [...] ✅ | Remaining: [...] ⏳
+🔜 **Next Phase: Phase N+1 — [Phase Name]**
+   Will do: [description]
 ```
-Then ask: "请回复 `/od 继续` 进入下一阶段。" and **STOP — WAIT for user reply**.
+Then ask: "Reply `/od next` to proceed. You can also: `/od adj [content]`, `/od sk [phase]`, `/od back [phase]`." and **STOP — WAIT for user reply**.
 
 ---
 
@@ -128,7 +144,7 @@ Then ask: "请回复 `/od 继续` 进入下一阶段。" and **STOP — WAIT for
 2. Generate `05-test-report.md` (scope, mock data, results, limitations).
 3. For M+: generate `06-release-notes.md` with efficiency bill.
 4. Trigger `/od learn` flow.
-5. **Evolution Signal Check**: Scan `docs/omnidev-state/evolution-log.jsonl` for unprocessed signals. If any exist, append: "🧬 **进化信号**: 检测到 N 条新学习信号。回复 `/od evolve` 查看进化提案。"
+5. **Evolution Signal Check**: Scan `docs/omnidev-state/evolution-log.jsonl` for unprocessed signals. If any exist, append: "🧬 **Evolution Signals**: Detected N new learning signals. Reply `/od evolve` to review evolution proposals."
 6. Final summary → STOP.
 
 ---
@@ -162,8 +178,8 @@ Use **`/od resume`** (not bare `/resume`) so this skill loads and OmniDev state 
 
 1. Read `03-progress.md` and `02-plan.md` (parse YAML frontmatter first).
 2. Compare with `git status`.
-3. Check `evolution-log.jsonl` for unprocessed high-confidence signals. If any: "💡 有 N 条待处理的进化信号，可随时使用 `/od evolve` 查看。"
-4. Report: "🔄 **Context Restored**. Status: [X]. Next: [Y]. Continue?" → WAIT.
+3. Check `evolution-log.jsonl` for unprocessed high-confidence signals. If any: "💡 There are N pending evolution signals. Use `/od evolve` to review."
+4. Report: "🔄 **Context Restored**. Status: [X]. Last stopped at: [Z]. Next: [Y]. Reply `/od next` to continue." → **STOP — WAIT**.
 
 ### SDD (Spec-Driven Development)
 - Major architectural decisions must first be recorded in `04-design.md`.
@@ -196,7 +212,7 @@ Include: env requirements, config changes, DB migrations, deployment steps, effi
 Append ROI metrics to `docs/omnidev-state/metrics.json`.
 
 ### Archive & Cleanup
-When user confirms release notes, prompt: "🎉 Requirement complete! Would you like me to generate a Git Commit Message?" → WAIT.
+When user confirms release notes, prompt: "🎉 **Requirement development and verification are fully complete!** Would you like me to generate a Git Commit Message? Reply `/od confirm` to proceed." → **STOP — WAIT**.
 
 ---
 
@@ -225,19 +241,30 @@ When user confirms release notes, prompt: "🎉 Requirement complete! Would you 
 
 ### Change Management (`/od change`)
 1. Impact assessment on current architecture.
-2. Ask confirmation → WAIT.
-3. Archive old plan, regenerate blueprint/plan.
+2. Ask: "Reply `/od confirm` to apply this change, or `/od cancel` to abort." → **STOP — WAIT**.
+3. After `/od confirm`: archive old plan, regenerate blueprint/plan.
 
 ### Push (`/od push`)
 1. `git status` → show modified files.
-2. Prompt user to `git add` → WAIT.
-3. After staging: analyze diff, generate commit message, show to user → WAIT.
-4. After confirmation: `git commit` + `git push`.
+2. Prompt user:
+   > "📋 **The following files have been modified but are not yet staged:** [list]
+   > Please run `git add` in the terminal. When done, reply:
+   > - `/od staged` — I have manually selected the files to commit
+   > - `/od skip-add` — Commit all changes directly (auto-run `git add .`)"
+   **STOP — WAIT.**
+3. After `/od staged` or `/od skip-add`: analyze diff, generate commit message, show to user:
+   > "📝 **Commit message**: `[message]`. Reply `/od confirm-push` to execute, or `/od edit-msg [new message]` to modify."
+   **STOP — WAIT.**
+4. After `/od confirm-push`: `git commit` + `git push origin <current-branch>`. Report result.
 
 ### Update (`/od update`)
-1. Warn user about overwrite → WAIT for `/od 确认更新`.
-2. Clone `https://github.com/zy-eagle/omnidev-kit.git` to temp dir, copy rules/skills.
-3. Cleanup temp dir.
+1. **Confirm**: Stop and warn the user:
+   > "⚠️ **Warning**: Updating from the remote repository will **directly overwrite** local `.cursor/rules/` and `SKILL.md` files with the same name, and **delete** any local files that no longer exist in the remote repository. Your local customizations that have not been pushed to remote will be lost. Reply `/od confirm-update` to proceed, or `/od cancel` to abort."
+   **🛑 STOP — WAIT for `/od confirm-update`. DO NOT proceed automatically.**
+2. **Fetch & Overwrite**: Only after `/od confirm-update`, clone `https://github.com/zy-eagle/omnidev-kit.git` to a temp dir, then:
+   - **Overwrite same-name files**: Forcefully copy all `rules/*.mdc` and `skills/od/SKILL.md` from the cloned repo to the current project, overwriting existing files.
+   - **Delete obsolete files**: Compare local `rules/` and `skills/od/` with the cloned repo. Delete any local files that do **not** exist in the remote (i.e., removed upstream).
+3. **Cleanup**: Delete the temp dir. Report success, listing which files were overwritten and which were deleted.
 
 ### Install (`/od install <url>`)
 1. `git clone --depth 1 <url> _omnidev-kit-tmp`.
@@ -365,13 +392,13 @@ Propose evolution when **any**:
 **Step 3 — Present** (then **STOP — WAIT**):
 
 ```
-🧬 **OmniDev 进化提案** (基于 N 条学习信号)
+🧬 **OmniDev Evolution Proposals** (based on N learning signals)
 ...
-请回复：
-- `/od evolve 全部采纳`
-- `/od evolve 采纳 1,3`
-- `/od evolve 拒绝`
-- `/od evolve 调整 [编号] [修改意见]`
+Reply:
+- `/od evolve accept-all` — Accept all proposals
+- `/od evolve accept 1,3` — Accept specific proposals
+- `/od evolve reject` — Reject all proposals
+- `/od evolve adjust [N] [feedback]` — Adjust a specific proposal
 ```
 
 **Step 4 — Apply** (after user confirmation): Patch files; mark signals `processed` in JSONL; append `docs/omnidev-state/evolution-history.md`; confirm success.
@@ -395,5 +422,5 @@ Rule/skill/workflow changes **always** need explicit user approval via `/od evol
 ### L.7 Integration
 
 - **`/od learn`**: Each pitfall → also `error_resolution` row in `evolution-log.jsonl`.
-- **Phase 4**: If unprocessed signals, remind: `🧬 **进化信号**... /od evolve`.
+- **Phase 4**: If unprocessed signals, remind: `🧬 **Evolution Signals**... /od evolve`.
 - **`/od resume`**: If log has pending high-confidence signals, mention `/od evolve`.

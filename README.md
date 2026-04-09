@@ -31,7 +31,7 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 ### 6. Spec-Driven Engineering Discipline
 - **Forced Brainstorming & Blueprinting**: Prohibits the AI from writing code immediately. It must first consider edge cases, exceptions, and user experience, outputting a global blueprint.
 - **Change Management**: Supports adding or modifying requirements mid-development. The AI will output an impact assessment document first, and upon confirmation, automatically archive the old plan and generate a new blueprint to prevent architectural decay.
-- **Auto-Checkpointing**: Before modifying code, the AI is forced to execute a Git Commit backup. If things get messy, you can `/rollback` at any time.
+- **Auto-Checkpointing**: Before modifying code, the AI is forced to execute a Git Commit backup. If things get messy, you can use `git reset --hard` or your IDE's version control to rollback.
 
 ### 7. Powerful Cross-Session Memory (State Persistence)
 - **Dual-State Storage**: Uses `YAML Frontmatter + Markdown` to record state, ensuring 100% accurate machine reading while remaining human-readable.
@@ -46,9 +46,9 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 - **Automated Release Notes**: After development, it automatically summarizes `.env` changes, new dependencies, database migration scripts, etc.
 - **Efficiency Bill (ROI)**: Outputs an intuitive ROI bill upon delivery (e.g., "Saved you 15,000 Tokens and 2.5 hours"), making the AI's value clearly visible.
 
-### 10. Enterprise-Grade Reporting & Auto-Updates
+### 10. Enterprise-Grade Reporting & Manual Updates
 - **One-Click Weekly Reports**: Using `/od report`, the AI combines Git commit history with state files to automatically generate a beautifully formatted, **management-ready project status report**. The report not only covers overall progress, blockers, and next week's plan, but also **specifically aggregates all AI-assisted tasks completed via OmniDev**, highlighting R&D efficiency gains.
-- **Tool Auto-Update**: Supports manual (`/od update`) or background auto-updates to fetch the latest rules from the remote repository, ensuring the AI always uses the most cutting-edge engineering practices.
+- **Tool Manual Update**: Use `/od update` to fetch the latest rules from the remote repository. Updates are never automatic — the user must explicitly trigger them. The update will overwrite same-name files and delete obsolete local files that no longer exist in the remote.
 
 ### 11. Self-Evolution Engine (Auto-Evolution)
 - **Passive Learning**: During **`/od`** work only, the AI may log corrections, repeated patterns, and error resolutions to `evolution-log.jsonl` (no OmniDev logging on plain chat).
@@ -102,8 +102,8 @@ omnidev-kit/
 
 **Option 1: Install from Remote URL (Recommended)**
 
-Simply tell your AI assistant:
-> "Please install this toolkit: https://github.com/zy-eagle/omnidev-kit.git"
+Type the following command in your AI assistant:
+> `/od install https://github.com/zy-eagle/omnidev-kit.git`
 
 The AI will automatically clone the repository, install the rules and skills into your project, and clean up — no manual cloning required.
 

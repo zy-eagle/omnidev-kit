@@ -33,8 +33,8 @@ If the user provides a **Git repository URL** (e.g., `https://github.com/zy-eagl
 2. Follow the same installation steps as **Method B** below, using the cloned temporary directory as the source.
 3. After installation is complete, **delete the temporary directory** to keep the project clean.
 
-This allows users to install OmniDev Kit with a single command like:
-> "请帮我安装这个工具包：https://github.com/zy-eagle/omnidev-kit.git"
+This allows users to install OmniDev Kit with the command:
+> `/od install https://github.com/zy-eagle/omnidev-kit.git`
 
 ### Method B: Install from Local Directory
 

@@ -31,7 +31,7 @@ OmniDev Kit 是一个集成了多个顶尖开源 AI 编码框架核心精华的 
 ### 6. 谋定而后动的工程纪律 (Spec-Driven)
 - **强制脑暴与蓝图**：禁止 AI 听到需求就直接写代码。必须先思考边界、异常和用户体验，输出全局蓝图。
 - **需求变更管理 (Change Management)**：支持开发中途追加或修改需求。AI 会先输出影响面评估文档，经确认后自动归档旧方案并生成新蓝图，确保架构不腐化。
-- **自动快照防错 (Auto-Checkpointing)**：在开始修改代码前，强制 AI 执行 Git Commit 备份，改乱了随时 `/rollback`。
+- **自动快照防错 (Auto-Checkpointing)**：在开始修改代码前，强制 AI 执行 Git Commit 备份，改乱了可通过 `git reset --hard` 或 IDE 版本控制功能回滚。
 
 ### 7. 强大的跨会话记忆 (State Persistence)
 - **双态存储 (Dual-State Storage)**：采用 `YAML Frontmatter + Markdown` 格式记录状态，确保机器读取 100% 精准，人类阅读依旧友好。
@@ -46,9 +46,9 @@ OmniDev Kit 是一个集成了多个顶尖开源 AI 编码框架核心精华的 
 - **自动生成发布清单**：功能开发完毕后，自动总结 `.env` 变更、新增依赖、数据库迁移脚本等。
 - **效能账单 (Efficiency Bill)**：在交付时输出直观的 ROI 账单（如"本次为您节省了 15,000 Tokens 和 2.5 小时"），让 AI 的价值清晰可见。
 
-### 10. 企业级汇报与自动更新 (Enterprise Reporting & Auto-Updates)
+### 10. 企业级汇报与手动更新 (Enterprise Reporting & Manual Updates)
 - **一键生成汇报级周报**：通过 `/od report` 指令，AI 会结合 Git 提交记录和状态文件，自动生成**可直接用于向上管理的精美周报**。报告不仅包含项目整体进度、卡点和下周计划，还会**专门归纳总结本周通过 OmniDev 完成的所有 AI 辅助任务**，凸显研发效能的提升。
-- **工具自动更新**：支持通过 `/od update` 手动或在后台自动拉取远端最新规则进行无损升级，确保 AI 始终掌握最前沿的工程实践。
+- **工具手动更新**：通过 `/od update` 手动拉取远端最新规则进行更新。更新不会自动触发，必须由用户手动执行。更新时会直接覆盖同名文件，并删除远端已不存在的本地旧文件。
 
 ### 11. 自动进化引擎 (Self-Evolution Engine)
 - **被动学习**：仅在 **`/od`** 会话中，AI 可将纠正、重复模式与错误修复记录为 `evolution-log.jsonl` 中的进化信号（普通对话不写入）。
@@ -102,8 +102,8 @@ omnidev-kit/
 
 **方式一：通过远程仓库地址安装（推荐）**
 
-直接告诉你的 AI 助手：
-> "请帮我安装这个工具包：https://github.com/zy-eagle/omnidev-kit.git"
+在 AI 助手中输入以下命令：
+> `/od install https://github.com/zy-eagle/omnidev-kit.git`
 
 AI 会自动克隆仓库、安装规则和技能到你的项目中，并清理临时文件——无需手动克隆仓库。
 
