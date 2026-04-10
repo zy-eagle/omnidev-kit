@@ -50,7 +50,12 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 - **One-Click Weekly Reports**: Using `/od report`, the AI combines Git commit history with state files to automatically generate a beautifully formatted, **management-ready project status report**. The report not only covers overall progress, blockers, and next week's plan, but also **specifically aggregates all AI-assisted tasks completed via OmniDev**, highlighting R&D efficiency gains.
 - **Tool Manual Update**: Use `/od update` to fetch the latest rules from the remote repository. Updates are never automatic — the user must explicitly trigger them. The update will overwrite same-name files and delete obsolete local files that no longer exist in the remote.
 
-### 11. Self-Evolution Engine (Auto-Evolution)
+### 11. Interactive Mode (Structured Choice UI)
+- **On by Default**: Enabled by default. The AI presents structured choice UIs at every decision point — complexity assessment, phase navigation, change management, and more. Disable with `/od config interactive off` if you prefer typing commands manually.
+- **One-Click Decisions**: Instead of typing commands like `/od 继续` or `/od 跳过`, the AI presents clickable options for you to choose from, reducing friction and keeping the entire conversation in a single request flow.
+- **Persistent Preference**: Your choice is stored in `docs/omnidev-state/config.json` and persists across sessions. Disable anytime with `/od config interactive off`.
+
+### 12. Self-Evolution Engine (Auto-Evolution)
 - **Passive Learning**: During **`/od`** work only, the AI may log corrections, repeated patterns, and error resolutions to `evolution-log.jsonl` (no OmniDev logging on plain chat).
 - **Smart Proposals**: When signals accumulate (5+ of the same category, or any single high-confidence signal), the AI generates concrete rule/skill improvement proposals — rule amendments, new pitfall entries, workflow tweaks, or even new skills.
 - **User-Controlled**: All rule modifications require explicit user approval. Use `/od ln` to review proposals, selectively adopt or reject them. The AI never silently changes its own behavioral rules.
@@ -63,27 +68,29 @@ All commands support **short aliases** (1-2 letters). Users can reply with **num
 
 | Command | Alias | Description |
 | --- | --- | --- |
-| `/od h` | `/od help` | 📖 显示所有命令 |
-| `/od ob` | `/od onboard` | 🔍 扫描项目，生成上下文文档 |
-| `/od ln` | `/od learn` | 🧠 自学习：回顾错误 + 提炼规则 + 演化提案 |
-| `/od ln -r` | — | 🔍 查看学习日志和待处理提案 |
-| `/od ln --rb [N]` | — | ⏪ 回滚第 N 条演化 |
-| `/od rp` | `/od report` | 📊 生成周报 |
-| `/od up` | `/od update` | 🔄 更新 OmniDev Kit 到最新版本 |
-| `/od i <url>` | `/od install` | 📥 从远程 Git 仓库安装 |
-| `/od [需求]` | — | 🚀 引导式工作流（自动评估复杂度） |
-| `/od -f [需求]` | — | ⚡ 快速模式：跳过蓝图/计划，直接开发 |
-| `/od -p [需求]` | — | 📝 仅规划：只输出蓝图和计划 |
-| `/od ch [新需求]` | `/od change` | 🔄 需求变更管理 |
-| `/od <Issue-URL>` | — | 🔗 解析 GitHub/Jira 链接为需求蓝图 |
-| `/od rv` | `/od review` | 🧐 代码审查（只读） |
-| `/od qa` | — | 🧪 依赖分析 → Mock → 场景覆盖 → 韧性测试 |
-| `/od ps` | `/od push` | 📤 提交并推送代码 |
-| `/od st` | `/od stash` | 📦 暂存当前任务上下文 |
-| `/od po` | `/od pop` | 📦 恢复暂存的任务上下文 |
-| `/od sy` | `/od sync` | 🔗 同步输出到 Jira/GitHub Issue |
-| `/od db` | `/od dashboard` | 📈 生成全局效率 ROI 面板 |
-| `/od re` | `/od resume` | 🔄 恢复上次中断的会话 |
+| `/od h` | `/od help` | 📖 Show all commands |
+| `/od ob` | `/od onboard` | 🔍 Scan project, generate context document |
+| `/od ln` | `/od learn` | 🧠 Self-learning: retrospective + rule extraction + evolution proposals |
+| `/od ln -r` | — | 🔍 View learning log and pending proposals |
+| `/od ln --rb [N]` | — | ⏪ Rollback evolution #N |
+| `/od rp` | `/od report` | 📊 Generate weekly report |
+| `/od up` | `/od update` | 🔄 Update OmniDev Kit to latest version |
+| `/od i <url>` | `/od install` | 📥 Install from remote Git repo |
+| `/od [requirement]` | — | 🚀 Guided workflow (auto-assess complexity) |
+| `/od -f [req]` | — | ⚡ Fast mode: skip blueprint/plan, develop directly |
+| `/od -p [req]` | — | 📝 Plan only: output blueprint and plan, no coding |
+| `/od ch [new req]` | `/od change` | 🔄 Change management |
+| `/od <Issue-URL>` | — | 🔗 Parse GitHub/Jira link into requirement blueprint |
+| `/od rv` | `/od review` | 🧐 Code review (read-only) |
+| `/od qa` | — | 🧪 Dependency analysis → Mock → Scenario coverage → Resilience testing |
+| `/od ps` | `/od push` | 📤 Commit and push code |
+| `/od st` | `/od stash` | 📦 Stash current task context |
+| `/od po` | `/od pop` | 📦 Restore stashed task context |
+| `/od sy` | `/od sync` | 🔗 Sync output to Jira/GitHub Issue |
+| `/od db` | `/od dashboard` | 📈 Generate global efficiency ROI dashboard |
+| `/od re` | `/od resume` | 🔄 Restore last interrupted session |
+| `/od cfg` | `/od config` | ⚙️ View current OmniDev configuration |
+| `/od cfg -i on/off` | — | 🎛️ Enable/disable interactive mode (structured choice UI; default: on) |
 
 ## Directory Structure
 
