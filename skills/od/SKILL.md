@@ -140,7 +140,7 @@ OmniDev stores user preferences in `docs/omnidev-state/config.json`. If the file
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
 | `interactive_mode` | boolean | `true` | When `true`, use the **AskQuestion** tool to present structured choice UIs at decision points instead of numbered text prompts. Saves requests and tokens. |
-| `ask_mode_after_od` | boolean | `true` | When `true`, automatically switch to **Ask mode** (read-only Q&A) after every `/od` command completes, keeping the user in a low-cost conversational mode until the next `/od` command. |
+| `ask_mode_after_od` | boolean | `true` | When `true`, enter a **Q&A loop** after every `/od` command — present actionable options and accept free-form input so the user stays in an interactive workflow with full tool access until `/od x`. |
 | `update_source_url` | string | `"https://github.com/zy-eagle/omnidev-kit.git"` | Remote Git repository URL used by `/od up` to fetch the latest version. Written automatically during `/od install`. |
 
 #### Config Commands
@@ -165,19 +165,51 @@ When `interactive_mode` is **`false`**, use numbered text prompts as defined in 
 
 **On first `/od` activation in a session**: Read `docs/omnidev-state/config.json` (if it exists) to load `interactive_mode` and `ask_mode_after_od`. If the file does not exist, assume both are `true` (default).
 
-### B.8 Auto Ask Mode (自动问答模式)
+### B.8 Auto Q&A Loop (自动问答模式)
 
-When `ask_mode_after_od` is **`true`** (default), the AI MUST call the **`SwitchMode`** tool to switch to **Ask mode** (`target_mode_id: "ask"`) as the **final action** of every `/od` command completion. This ensures:
+When `ask_mode_after_od` is **`true`** (default), the AI enters a **Q&A loop** after every `/od` command completes. Instead of silently stopping, it presents actionable options AND accepts free-form input, keeping the user in an interactive workflow with full tool access.
 
-1. **Cost-efficient follow-up**: After each `/od` task, the user enters read-only Ask mode. They can ask questions, review output, and think — all at lower token cost and without accidental code edits.
-2. **Seamless re-entry**: When the user issues the next `/od` command, the skill naturally requires Agent mode to execute tool calls. The system will prompt the user to switch back to Agent mode at that point.
-3. **Persistent preference**: The setting is stored in `config.json` and persists across sessions.
+#### Trigger
 
-**Rules**:
-- After **every** `/od` command finishes its work (phase completion, checkpoint presentation, help display, config change, push, review, learn, etc.), if `ask_mode_after_od` is `true`, call `SwitchMode` with `target_mode_id: "ask"` and `explanation: "OmniDev task complete — switching to Ask mode for follow-up discussion."`.
-- The `SwitchMode` call is the **very last action** in the response — after all output, checkpoints, and AskQuestion calls.
-- When `ask_mode_after_od` is **`false`**, do NOT call `SwitchMode`. The user stays in Agent mode as before.
-- `/od cfg -i off` disables both `interactive_mode` and `ask_mode_after_od` together. `/od cfg -i on` re-enables both.
+After every `/od` command finishes its primary work (phase execution, help display, config change, push, review, learn, update, etc.), the AI MUST present the Q&A prompt as the **final action** of the response.
+
+#### Q&A Prompt Format
+
+**If `interactive_mode` is `true`** — use **AskQuestion** tool with these options:
+
+| id | label |
+|----|-------|
+| `next_phase` | 继续下一阶段 (`/od n`) |
+| `review` | 代码审查 (`/od rv`) |
+| `push` | 提交推送 (`/od ps`) |
+| `other` | 其他指令或提问（请直接输入） |
+| `exit` | 结束本次任务 (`/od x`) |
+
+> The options above are **context-adaptive**: only show `next_phase` when there is a next phase; only show `push` when there are uncommitted changes. Always show `other` and `exit`.
+
+**If `interactive_mode` is `false`** — display text prompt:
+```
+💬 任务已完成，你可以：
+  1. 继续下一阶段 (`/od n`)
+  2. 代码审查 (`/od rv`)
+  3. 提交推送 (`/od ps`)
+  4. 输入其他指令或提问
+  5. 结束本次任务 (`/od x`)
+```
+
+#### Loop Behavior
+
+- **User selects a preset option** → AI executes the corresponding `/od` command, then presents the Q&A prompt again.
+- **User selects "其他" or types free-form text** (question, instruction, or any non-`/od` input) → AI treats it as a **continuation of the OmniDev session** — OmniDev rules remain active, AI uses tools to fulfill the request, then presents the Q&A prompt again.
+- **User selects "结束" or types `/od x`** → AI outputs a brief closing summary and stops. The Q&A loop ends.
+- **User types a new `/od` command** → AI executes it normally, then the Q&A loop continues.
+
+#### Rules
+
+1. The Q&A prompt is always the **very last action** — after all output, checkpoints, and phase-specific AskQuestion calls.
+2. Every response within the loop also ends with the Q&A prompt (the loop persists until explicit exit).
+3. When `ask_mode_after_od` is **`false`**, skip the Q&A loop entirely. The AI completes the `/od` command and stops.
+4. `/od cfg -i off` disables both `interactive_mode` and `ask_mode_after_od`. `/od cfg -i on` re-enables both.
 
 ---
 

@@ -53,7 +53,7 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 ### 11. Interactive Mode (Structured Choice UI)
 - **On by Default**: Enabled by default. The AI presents structured choice UIs at every decision point — complexity assessment, phase navigation, change management, and more. Disable with `/od cfg -i off` if you prefer typing commands manually.
 - **One-Click Decisions**: Instead of typing commands like `/od 继续` or `/od 跳过`, the AI presents clickable options for you to choose from, reducing friction and keeping the entire conversation in a single request flow.
-- **Auto Ask Mode**: After every `/od` command completes, the AI automatically switches to **Ask mode** (read-only Q&A). This keeps you in a cost-efficient conversational mode for follow-up questions and review, without risk of accidental code edits. The next `/od` command seamlessly re-enters Agent mode.
+- **Auto Q&A Loop**: After every `/od` command completes, the AI doesn't just stop — it enters a **Q&A loop**, actively asking what you need next. You can keep asking questions or giving instructions, and the AI continues using tools to handle them. Type `/od x` to exit the loop when you're done.
 - **Persistent Preference**: Your choice is stored in `docs/omnidev-state/config.json` and persists across sessions. Disable both interactive mode and auto ask mode anytime with `/od cfg -i off`.
 
 ### 12. Self-Evolution Engine (Auto-Evolution)
