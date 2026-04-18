@@ -42,8 +42,8 @@ All commands support **short aliases** (1-2 letters). Users can also reply with 
 | `/od db` | `/od dashboard` | 生成全局效率 ROI 面板 |
 | `/od re` | `/od resume` | 恢复上次中断的会话（加载 OmniDev 规则） |
 | `/od cfg` | `/od config` | 查看当前 OmniDev 配置 |
-| `/od cfg -i on` | — | 开启交互模式（决策点使用结构化选择 UI；默认开启） |
-| `/od cfg -i off` | — | 关闭交互模式 |
+| `/od cfg -i on` | — | 开启交互模式 + 自动问答模式（决策点使用结构化选择 UI；任务结束后自动切换 Ask 模式；默认开启） |
+| `/od cfg -i off` | — | 关闭交互模式 + 自动问答模式 |
 
 ### Phase Navigation (阶段导航)
 
@@ -131,19 +131,21 @@ OmniDev stores user preferences in `docs/omnidev-state/config.json`. If the file
 
 ```json
 {
-  "interactive_mode": true
+  "interactive_mode": true,
+  "ask_mode_after_od": true
 }
 ```
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
 | `interactive_mode` | boolean | `true` | When `true`, use the **AskQuestion** tool to present structured choice UIs at decision points instead of numbered text prompts. Saves requests and tokens. |
+| `ask_mode_after_od` | boolean | `true` | When `true`, automatically switch to **Ask mode** (read-only Q&A) after every `/od` command completes, keeping the user in a low-cost conversational mode until the next `/od` command. |
 
 #### Config Commands
 
 - **`/od cfg`** — Read and display current `config.json` (create with defaults if missing).
-- **`/od cfg -i on`** — Set `interactive_mode` to `true`.
-- **`/od cfg -i off`** — Set `interactive_mode` to `false`.
+- **`/od cfg -i on`** — Set `interactive_mode` to `true` **and** `ask_mode_after_od` to `true`.
+- **`/od cfg -i off`** — Set `interactive_mode` to `false` **and** `ask_mode_after_od` to `false`.
 
 ### B.7 Interactive Mode
 
@@ -159,7 +161,21 @@ When `interactive_mode` is **`true`** (default) in `config.json`, the AI MUST us
 
 When `interactive_mode` is **`false`**, use numbered text prompts as defined in §B.4. **Do not** use AskQuestion.
 
-**On first `/od` activation in a session**: Read `docs/omnidev-state/config.json` (if it exists) to load `interactive_mode`. If the file does not exist, assume `true` (default).
+**On first `/od` activation in a session**: Read `docs/omnidev-state/config.json` (if it exists) to load `interactive_mode` and `ask_mode_after_od`. If the file does not exist, assume both are `true` (default).
+
+### B.8 Auto Ask Mode (自动问答模式)
+
+When `ask_mode_after_od` is **`true`** (default), the AI MUST call the **`SwitchMode`** tool to switch to **Ask mode** (`target_mode_id: "ask"`) as the **final action** of every `/od` command completion. This ensures:
+
+1. **Cost-efficient follow-up**: After each `/od` task, the user enters read-only Ask mode. They can ask questions, review output, and think — all at lower token cost and without accidental code edits.
+2. **Seamless re-entry**: When the user issues the next `/od` command, the skill naturally requires Agent mode to execute tool calls. The system will prompt the user to switch back to Agent mode at that point.
+3. **Persistent preference**: The setting is stored in `config.json` and persists across sessions.
+
+**Rules**:
+- After **every** `/od` command finishes its work (phase completion, checkpoint presentation, help display, config change, push, review, learn, etc.), if `ask_mode_after_od` is `true`, call `SwitchMode` with `target_mode_id: "ask"` and `explanation: "OmniDev task complete — switching to Ask mode for follow-up discussion."`.
+- The `SwitchMode` call is the **very last action** in the response — after all output, checkpoints, and AskQuestion calls.
+- When `ask_mode_after_od` is **`false`**, do NOT call `SwitchMode`. The user stays in Agent mode as before.
+- `/od cfg -i off` disables both `interactive_mode` and `ask_mode_after_od` together. `/od cfg -i on` re-enables both.
 
 ---
 

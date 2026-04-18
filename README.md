@@ -51,9 +51,10 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 - **Tool Manual Update**: Use `/od update` to fetch the latest rules from the remote repository. Updates are never automatic — the user must explicitly trigger them. The update will overwrite same-name files and delete obsolete local files that no longer exist in the remote.
 
 ### 11. Interactive Mode (Structured Choice UI)
-- **On by Default**: Enabled by default. The AI presents structured choice UIs at every decision point — complexity assessment, phase navigation, change management, and more. Disable with `/od config interactive off` if you prefer typing commands manually.
+- **On by Default**: Enabled by default. The AI presents structured choice UIs at every decision point — complexity assessment, phase navigation, change management, and more. Disable with `/od cfg -i off` if you prefer typing commands manually.
 - **One-Click Decisions**: Instead of typing commands like `/od 继续` or `/od 跳过`, the AI presents clickable options for you to choose from, reducing friction and keeping the entire conversation in a single request flow.
-- **Persistent Preference**: Your choice is stored in `docs/omnidev-state/config.json` and persists across sessions. Disable anytime with `/od config interactive off`.
+- **Auto Ask Mode**: After every `/od` command completes, the AI automatically switches to **Ask mode** (read-only Q&A). This keeps you in a cost-efficient conversational mode for follow-up questions and review, without risk of accidental code edits. The next `/od` command seamlessly re-enters Agent mode.
+- **Persistent Preference**: Your choice is stored in `docs/omnidev-state/config.json` and persists across sessions. Disable both interactive mode and auto ask mode anytime with `/od cfg -i off`.
 
 ### 12. Self-Evolution Engine (Auto-Evolution)
 - **Passive Learning**: During **`/od`** work only, the AI may log corrections, repeated patterns, and error resolutions to `evolution-log.jsonl` (no OmniDev logging on plain chat).
@@ -90,7 +91,7 @@ All commands support **short aliases** (1-2 letters). Users can reply with **num
 | `/od db` | `/od dashboard` | 📈 Generate global efficiency ROI dashboard |
 | `/od re` | `/od resume` | 🔄 Restore last interrupted session |
 | `/od cfg` | `/od config` | ⚙️ View current OmniDev configuration |
-| `/od cfg -i on/off` | — | 🎛️ Enable/disable interactive mode (structured choice UI; default: on) |
+| `/od cfg -i on/off` | — | 🎛️ Enable/disable interactive mode + auto ask mode (default: on) |
 
 ## Directory Structure
 
