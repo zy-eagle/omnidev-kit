@@ -65,7 +65,88 @@ context_requires:
 3. Retain: YAML frontmatter, current blockers, next action.
 4. Keep `03-progress.md` under 50 lines.
 
-## 5. Update & Install
+## 5. Update (`/od up`)
 
-- **Update (`/od up`)**: Warn user. Overwrite same-name files, delete obsolete local files.
-- **Install (`/od i <url>`)**: Clone to `_omnidev-kit-tmp`, copy rules/skills, cleanup.
+```yaml
+context_requires:
+  read:
+    - docs/omnidev-state/config.json   # load update_source_url
+  skip:
+    - all other state files
+```
+
+**Source**: Always use the `update_source_url` from `config.json`. If not set, default to `https://github.com/zy-eagle/omnidev-kit.git`.
+
+**Steps**:
+
+1. **Clone remote to temp directory**:
+   ```
+   git clone --depth 1 <update_source_url> _omnidev-kit-tmp
+   ```
+2. **Build file manifest** — list all files under the following directories in both remote (`_omnidev-kit-tmp/`) and local (`.cursor/`):
+
+   | Remote source path | Local target path |
+   |--------------------|-------------------|
+   | `_omnidev-kit-tmp/rules/` | `.cursor/rules/` |
+   | `_omnidev-kit-tmp/skills/od/` | `.cursor/skills/od/` |
+
+3. **Diff & present change summary** — compare remote vs local and categorize every file:
+
+   | Category | Meaning |
+   |----------|---------|
+   | **新增 (New)** | File exists in remote but not locally |
+   | **更新 (Changed)** | File exists in both, content differs |
+   | **删除 (Obsolete)** | File exists locally but not in remote — will be deleted |
+   | **未变 (Unchanged)** | File exists in both, content identical |
+
+   Output a summary table to the user:
+   ```
+   📦 OmniDev Kit 更新预览
+   ┌──────────┬──────────────────────────────────┐
+   │ 操作     │ 文件                              │
+   ├──────────┼──────────────────────────────────┤
+   │ 🆕 新增  │ skills/od/phases/05-deploy.md     │
+   │ 📝 更新  │ skills/od/SKILL.md                │
+   │ 📝 更新  │ rules/01-omnidev-workflow.mdc     │
+   │ 🗑️ 删除  │ skills/od/engine/deprecated.md    │
+   │ ✅ 未变  │ skills/od/phases/00-assessment.md │
+   └──────────┴──────────────────────────────────┘
+   ```
+
+4. **Confirm with user** — the update **MUST NOT** proceed without explicit user approval:
+
+   - If `interactive_mode` is `true`: use **AskQuestion** tool:
+     - **确认更新 (Confirm)**: Apply all changes listed above.
+     - **取消 (Cancel)**: Abort, delete temp directory, no changes.
+   - If `interactive_mode` is `false`: display numbered prompt:
+     ```
+     请选择：
+       1. 确认更新 — 应用以上所有变更 (`/od y`)
+       2. 取消更新 (`/od x`)
+     ```
+
+   **STOP — WAIT for user reply.** Do NOT proceed until the user confirms.
+
+5. **Apply changes** (only after user confirms):
+   - **New + Changed files**: Copy from `_omnidev-kit-tmp/` to `.cursor/`, overwriting existing files.
+   - **Obsolete files**: Delete from `.cursor/`.
+   - **Unchanged files**: Skip.
+
+6. **Cleanup**: Delete `_omnidev-kit-tmp/` directory.
+
+7. **Report result**:
+   ```
+   ✅ OmniDev Kit 更新完成
+      新增: N 个文件
+      更新: N 个文件
+      删除: N 个文件
+      未变: N 个文件
+   ```
+
+**Error handling**:
+- If `git clone` fails (network, auth, etc.): report error, suggest checking URL and network, abort.
+- If temp directory already exists from a previous failed update: delete it first, then retry.
+
+## 6. Install (`/od i <url>`)
+
+**Steps**: Clone to `_omnidev-kit-tmp`, copy rules/skills per INSTALL.md, write `update_source_url` to `config.json`, cleanup temp directory.

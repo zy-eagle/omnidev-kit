@@ -30,7 +30,7 @@ AI Assistant, please execute the following steps:
 If the user provides a **Git repository URL** (e.g., `https://github.com/zy-eagle/omnidev-kit.git`) instead of a local path, execute the following steps:
 
 1. Use the Shell tool to clone the repository to a **temporary directory** (e.g., `_omnidev-kit-tmp` in the system temp folder or project root).
-2. Follow the same installation steps as **Method B** below, using the cloned temporary directory as the source.
+2. Follow the same installation steps as **Method B** below, using the cloned temporary directory as the source. **Important**: In step 7, use the Git URL provided by the user as the `update_source_url` value.
 3. After installation is complete, **delete the temporary directory** to keep the project clean.
 
 This allows users to install OmniDev Kit with the command:
@@ -44,9 +44,17 @@ If the user has already cloned or downloaded `omnidev-kit` locally:
 1. Check if the `.cursor/rules/` folder exists in the project root; if not, create it.
 2. Copy all `.mdc` files from the `omnidev-kit/rules/` directory into the `.cursor/rules/` directory.
 3. Check if the `.cursor/skills/` folder exists in the project root; if not, create it.
-4. Copy the `omnidev-kit/skills/od/` directory (containing `SKILL.md`) into `.cursor/skills/od/`. This enables the `/od` slash command in Cursor's autocomplete.
+4. Copy the `omnidev-kit/skills/od/` directory (containing `SKILL.md` and all subdirectories) into `.cursor/skills/od/`. This enables the `/od` slash command in Cursor's autocomplete.
 5. Ensure the project root's `.gitignore` **does not contain** `.cursor/rules/` or `.cursor/skills/` (both should be committed to the repo).
 6. Create a `docs/omnidev-state/` folder in the project root (for storing state and output docs).
+7. Write the source repository URL into `docs/omnidev-state/config.json` so that `/od update` knows where to fetch future updates. If the file already exists, merge; if not, create it:
+   ```json
+   {
+     "interactive_mode": true,
+     "ask_mode_after_od": true,
+     "update_source_url": "<the Git URL used for installation>"
+   }
+   ```
 
 #### For Claude Code / Codex Users:
 1. Check if `.claude/skills/` or the corresponding platform's skills directory exists in the project root.

@@ -132,7 +132,8 @@ OmniDev stores user preferences in `docs/omnidev-state/config.json`. If the file
 ```json
 {
   "interactive_mode": true,
-  "ask_mode_after_od": true
+  "ask_mode_after_od": true,
+  "update_source_url": "https://github.com/zy-eagle/omnidev-kit.git"
 }
 ```
 
@@ -140,6 +141,7 @@ OmniDev stores user preferences in `docs/omnidev-state/config.json`. If the file
 |---------|------|---------|-------------|
 | `interactive_mode` | boolean | `true` | When `true`, use the **AskQuestion** tool to present structured choice UIs at decision points instead of numbered text prompts. Saves requests and tokens. |
 | `ask_mode_after_od` | boolean | `true` | When `true`, automatically switch to **Ask mode** (read-only Q&A) after every `/od` command completes, keeping the user in a low-cost conversational mode until the next `/od` command. |
+| `update_source_url` | string | `"https://github.com/zy-eagle/omnidev-kit.git"` | Remote Git repository URL used by `/od up` to fetch the latest version. Written automatically during `/od install`. |
 
 #### Config Commands
 
