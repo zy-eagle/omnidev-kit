@@ -175,27 +175,23 @@ After every `/od` command finishes its primary work (phase execution, help displ
 
 #### Q&A Prompt Format
 
-**If `interactive_mode` is `true`** — use **AskQuestion** tool with these options:
+Use the **AskQuestion** tool with `allow_multiple: false`. The question prompt should be `"✅ 任务已完成，请选择下一步操作："`.
 
-| id | label |
-|----|-------|
-| `next_phase` | 继续下一阶段 (`/od n`) |
-| `review` | 代码审查 (`/od rv`) |
-| `push` | 提交推送 (`/od ps`) |
-| `other` | 其他指令或提问（请直接输入） |
-| `exit` | 结束本次任务 (`/od x`) |
+Options are **context-adaptive** — include only the ones relevant to the current state. Always include `other` and `exit`.
 
-> The options above are **context-adaptive**: only show `next_phase` when there is a next phase; only show `push` when there are uncommitted changes. Always show `other` and `exit`.
+| id | label | When to show |
+|----|-------|-------------|
+| `next_phase` | 继续下一阶段 (`/od n`) | A workflow is active and has remaining phases |
+| `adjust` | 修订当前输出 (`/od ad`) | A phase just completed and its output can be revised |
+| `review` | 代码审查 (`/od rv`) | Code has been written or modified |
+| `test` | 运行测试 (`/od qa`) | Code has been written or modified |
+| `push` | 提交并推送 (`/od ps`) | There are uncommitted changes |
+| `learn` | 自学习与复盘 (`/od ln`) | A task of M/L/XL complexity just finished |
+| `report` | 生成周报 (`/od rp`) | Always (low priority, show near bottom) |
+| `other` | 其他（直接输入指令或提问） | **Always** |
+| `exit` | 结束本次任务 (`/od x`) | **Always** |
 
-**If `interactive_mode` is `false`** — display text prompt:
-```
-💬 任务已完成，你可以：
-  1. 继续下一阶段 (`/od n`)
-  2. 代码审查 (`/od rv`)
-  3. 提交推送 (`/od ps`)
-  4. 输入其他指令或提问
-  5. 结束本次任务 (`/od x`)
-```
+> When `interactive_mode` is `false`, display the same applicable options as a numbered text list instead of AskQuestion.
 
 #### Loop Behavior
 
