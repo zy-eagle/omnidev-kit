@@ -237,6 +237,8 @@ After each phase completes, output:
    将执行: [description]
 ```
 
+**Phase 3 special rule**: When Phase 3 (Development) completes, the checkpoint MUST include the **Change Impact Summary** (defined in `03-development.md` §2) before the standard checkpoint output above. This ensures the user sees all modified files, affected features, and dependency/config changes before deciding the next step.
+
 **If `interactive_mode` is `false`**: Display the numbered list above. Accept number (`1`–`5`), alias (`/od n`), or full command (`/od next`). **STOP — WAIT for user reply**.
 
 **If `interactive_mode` is `true`** (default): Use **AskQuestion** tool to present the same options as a structured choice UI. **STOP — WAIT for user selection**.

@@ -42,21 +42,26 @@ It upgrades the AI from a "typist who only writes code on command" to a **"senio
 - **No "Blind Confidence"**: Forces the AI to write test cases or use MCP to simulate real data flows (e.g., inserting data into DB, calling Playwright for UI clicks) for verification.
 - **Security Guardrails**: Strictly prohibits hardcoding real API keys or sensitive information in state files or generated code.
 
-### 9. DevOps-Ready Deliverables
+### 9. Change Impact Summary (Modification Awareness)
+- **Auto-Generated After Every Task Group**: After each development task group completes, the AI automatically outputs a structured **Change Impact Summary** — listing all modified files, affected features, dependency changes, and configuration changes.
+- **Pre-Push Visibility**: Before every `/od push`, the AI shows a complete impact summary so you know exactly what you're committing. No surprises — every file change is categorized, and functional impact is mapped to business features.
+- **Dependency & Config Tracking**: Automatically detects new dependencies, environment variable changes, and database migration scripts, ensuring nothing is overlooked during deployment.
+
+### 10. DevOps-Ready Deliverables (Deployment Readiness)
 - **Automated Release Notes**: After development, it automatically summarizes `.env` changes, new dependencies, database migration scripts, etc.
 - **Efficiency Bill (ROI)**: Outputs an intuitive ROI bill upon delivery (e.g., "Saved you 15,000 Tokens and 2.5 hours"), making the AI's value clearly visible.
 
-### 10. Enterprise-Grade Reporting & Manual Updates
+### 11. Enterprise-Grade Reporting & Manual Updates
 - **One-Click Weekly Reports**: Using `/od report`, the AI combines Git commit history with state files to automatically generate a beautifully formatted, **management-ready project status report**. The report not only covers overall progress, blockers, and next week's plan, but also **specifically aggregates all AI-assisted tasks completed via OmniDev**, highlighting R&D efficiency gains.
 - **Tool Manual Update**: Use `/od update` to fetch the latest rules from the remote repository. Updates are never automatic — the user must explicitly trigger them. The update will overwrite same-name files and delete obsolete local files that no longer exist in the remote.
 
-### 11. Interactive Mode (Structured Choice UI)
+### 12. Interactive Mode (Structured Choice UI)
 - **On by Default**: Enabled by default. The AI presents structured choice UIs at every decision point — complexity assessment, phase navigation, change management, and more. Disable with `/od cfg -i off` if you prefer typing commands manually.
 - **One-Click Decisions**: Instead of typing commands like `/od 继续` or `/od 跳过`, the AI presents clickable options for you to choose from, reducing friction and keeping the entire conversation in a single request flow.
 - **Auto Q&A Loop**: After every `/od` command completes, the AI doesn't just stop — it enters a **Q&A loop**, actively asking what you need next. You can keep asking questions or giving instructions, and the AI continues using tools to handle them. Type `/od x` to exit the loop when you're done.
 - **Persistent Preference**: Your choice is stored in `docs/omnidev-state/config.json` and persists across sessions. Disable both interactive mode and auto ask mode anytime with `/od cfg -i off`.
 
-### 12. Self-Evolution Engine (Auto-Evolution)
+### 13. Self-Evolution Engine (Auto-Evolution)
 - **Passive Learning**: During **`/od`** work only, the AI may log corrections, repeated patterns, and error resolutions to `evolution-log.jsonl` (no OmniDev logging on plain chat).
 - **Smart Proposals**: When signals accumulate (5+ of the same category, or any single high-confidence signal), the AI generates concrete rule/skill improvement proposals — rule amendments, new pitfall entries, workflow tweaks, or even new skills.
 - **User-Controlled**: All rule modifications require explicit user approval. Use `/od ln` to review proposals, selectively adopt or reject them. The AI never silently changes its own behavioral rules.

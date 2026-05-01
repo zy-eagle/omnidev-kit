@@ -6,12 +6,29 @@
 context_requires:
   scan:
     - git status                     # modified files list
+    - git diff --stat                # file-level change summary
     - git diff --staged              # after staging, for commit message generation
   skip:
     - all state files                # push doesn't need OmniDev state
 ```
 
-1. `git status` → show modified files.
+1. `git diff --stat HEAD` → generate **Change Impact Summary** and display to user:
+   ```
+   📋 **本次提交影响总结 (Pre-Push Impact Summary)**
+
+   ### 文件变更 (N 个文件)
+   | 操作 | 文件路径 | 说明 |
+   |------|---------|------|
+   | 📝 修改 | src/routes/user.ts | 新增登录接口 |
+   | 🆕 新增 | src/services/auth.ts | 认证服务模块 |
+   | 🗑️ 删除 | src/utils/legacy.ts | 废弃旧认证逻辑 |
+
+   ### 功能影响
+   - **[模块名]**: [影响描述]
+
+   ### 依赖与配置变更
+   - [列出变更，若无则标注"无"]
+   ```
 2. If `interactive_mode` is `true`, use `AskQuestion`:
    - **一键全自动 (One-click)**: `git add .` -> auto-generate message -> commit -> push.
    - **手动选择 (Manual)**: wait for user to `git add`, then generate message.
