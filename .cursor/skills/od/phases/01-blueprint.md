@@ -54,7 +54,7 @@ Score each approach as ✅ (strong) / ⚠️ (moderate) / ❌ (weak) on each dim
 **Rules**:
 
 - Always include at least 2 approaches. If only one is feasible, state why others are infeasible.
-- **MUST** invoke [interactive-prompt.md](../engine/interactive-prompt.md) §3.3 `blueprint_approach` via §4/§5/§6 (same turn).
+- **MUST** invoke [interactive-prompt.md](../engine/interactive-prompt.md) §3.3 `blueprint_approach` via §4/§5/§6/§7 (same turn).
 - **STOP — WAIT** before proceeding.
 
 ---
@@ -76,7 +76,7 @@ After user selects the approach, explicitly list all unvalidated assumptions:
 - 🔴 **blocking**: if wrong, entire approach collapses — must validate before Phase 3.
 - 🟡 **acceptable**: significant rework but approach still viable.
 - 🟢 **low**: minor adjustment if wrong.
-- Output assumptions table (short), **same turn** invoke §3.4 `assumptions_confirm` via §4/§5/§6 → **STOP — WAIT**.
+- Output assumptions table (short), **same turn** invoke §3.4 `assumptions_confirm` via §4/§5/§6/§7 → **STOP — WAIT**.
 
 ---
 
@@ -94,7 +94,7 @@ After user selects the approach, explicitly list all unvalidated assumptions:
 
 - Sort by blocking impact — blueprint-structure questions first.
 - Provide a reasonable default for each.
-- Output open questions table as prose **first**, then same turn invoke §3.5 `open_questions` via §4/§5/§6.
+- Output open questions table as prose **first**, then same turn invoke §3.5 `open_questions` via §4/§5/§6/§7.
   - `accept_defaults` → accept all defaults, proceed.
   - `review_one_by_one` → sequential single-question prompts (one per turn).
 - **STOP — WAIT**. When `interactive_mode=false`, use §9 (only after user explicitly disables).

@@ -33,7 +33,7 @@ context_requires:
    - [List changes, or "None"]
    ```
 
-2. **MUST** invoke [interactive-prompt.md](interactive-prompt.md) §3.6 `push_confirm` via §4/§5/§6 (same turn):
+2. **MUST** invoke [interactive-prompt.md](interactive-prompt.md) §3.6 `push_confirm` via §4/§5/§6/§7 (same turn):
    - `commit` — `git add` (per convention) → use the message above → commit → push
    - `edit_msg` — user edits the message, then confirms again
    - `cancel` — cancel
@@ -68,7 +68,7 @@ Determine whether the change is:
 - **Lightweight**: modifies details within an existing feature (e.g., field rename, validation rule change). Strategy: update `04-design.md` + `05-test-plan.md` inline with CHANGE_LOG markers. Do NOT regenerate `02-plan.md`. Archive feature snapshot to `04-design-history.md` only if the feature file content changes substantively.
 - **Structural**: alters architecture, data flow, or feature boundaries. Strategy: **archive** then regenerate `04-design.md` + `05-test-plan.md` + `02-plan.md` per [document-history.md](document-history.md).
 
-Present the classification to user via §3.6 `change_confirm` (or classify first, then `change_confirm`) — **MUST** §4/§5/§6 → **STOP — WAIT**.
+Present the classification to user via §3.6 `change_confirm` (or classify first, then `change_confirm`) — **MUST** §4/§5/§6/§7 → **STOP — WAIT**.
 
 For Structural changes: spawn 1 worker per feature to regenerate `04-design.md` sections in parallel, then 1 worker per feature for `05-test-plan.md`. Main agent handles `02-plan.md` traceability merge and final sync report.
 
@@ -85,7 +85,7 @@ For Structural changes: spawn 1 worker per feature to regenerate `04-design.md` 
    ⏳ Not yet generated: [list — will be generated in later phases]
    ```
 
-3. **MUST** invoke §3.6 `change_confirm` via §4/§5/§6 → **STOP — WAIT** (Proceed / Revise / Cancel).
+3. **MUST** invoke §3.6 `change_confirm` via §4/§5/§6/§7 → **STOP — WAIT** (Proceed / Revise / Cancel).
 4. **Global document sync** (per B.14, after confirmation):
    - Archive previous active content to paired `*-history.md` per [document-history.md](document-history.md) §2 (before any overwrite).
    - Update each affected **active** state file to reflect the new requirements.
@@ -128,6 +128,7 @@ After every phase exit:
    - Cursor → §4 `AskQuestion` (mandatory when tool present)
    - Claude Code → §5 `AskUserQuestion`
    - Codex → §6 `request_user_input`
+   - DSH → §7 `ask_user_question`
    - On failure → §8 Markdown table → **STOP — WAIT**
 
 Standard checkpoint options:

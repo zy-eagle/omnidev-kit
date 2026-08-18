@@ -203,7 +203,7 @@ Per affected `[pkg:name]`:
 
 ### §2.2 Consent prompt (legacy — required)
 
-**MUST** invoke [interactive-prompt.md](../engine/interactive-prompt.md) §3.10 `deploy_consent` via §4/§5/§6 (same turn).
+**MUST** invoke [interactive-prompt.md](../engine/interactive-prompt.md) §3.10 `deploy_consent` via §4/§5/§6/§7 (same turn).
 
 First output a ≤6-line issue summary, then show the popup:
 
@@ -305,7 +305,7 @@ Include:
 
 If user requests deploy to **staging/production**:
 
-1. **MUST** invoke §3.10 `deploy_prod` (production) or use `b0_confirm` for staging as well (blocking) via §4/§5/§6 → **STOP — WAIT**
+1. **MUST** invoke §3.10 `deploy_prod` (production) or use `b0_confirm` for staging as well (blocking) via §4/§5/§6/§7 → **STOP — WAIT**
 2. On `yes`: run **`make deploy-<mode>`** or `ENV=staging make deploy MODE=<mode>`
 3. Post-deploy smoke: critical TC-IDs from `05-test-plan.md`
 4. Record timestamp + mode + one-click command + result in `06-release-notes.md`
@@ -313,7 +313,7 @@ If user requests deploy to **staging/production**:
 ## Step 6: Metrics & Checkpoint
 
 - `metrics.json` → `deploy` event with `deploy_modes`, `deploy_autonomy`
-- **MUST** invoke §3.1 `checkpoint` (B.8) via §4/§5/§6 → **STOP — WAIT** (when options include `/od ps` semantics, use a label that points to `/od ps`)
+- **MUST** invoke §3.1 `checkpoint` (B.8) via §4/§5/§6/§7 → **STOP — WAIT** (when options include `/od ps` semantics, use a label that points to `/od ps`)
 
 ### Handoff Checklist
 

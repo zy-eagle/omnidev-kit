@@ -1,4 +1,4 @@
-﻿# Phase 4 Instructions (Testing & Wrap-up)
+# Phase 4 Instructions (Testing & Wrap-up)
 → Platform mapping: SKILL.md §F (Platform Abstraction Layer)
 → **Test strategy**: [test-strategy.md](../engine/test-strategy.md) — layer composition, gates, gap backfill
 
@@ -93,7 +93,7 @@ Phase 4 is **not** "run a few smoke cases". Per [test-strategy.md](../engine/tes
 | Gap Backfill path selection | §3.9 `gap_backfill` |
 | Phase 4 end | §3.1 `checkpoint` |
 
-Same turn §4/§5/§6; on failure → §8 Markdown table. **STOP — WAIT**. Do not use prose numbered options or drawn frames.
+Same turn §4/§5/§6/§7; on failure → §8 Markdown table. **STOP — WAIT**. Do not use prose numbered options or drawn frames.
 
 ---
 

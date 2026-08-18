@@ -15,6 +15,7 @@
 | **Cursor** | `AskQuestion` — §4 |
 | **Claude Code** | `AskUserQuestion` — §5 |
 | **Codex** | `request_user_input` — §6 (needs flag; **forbid** default `autoResolutionMs`) |
+| **DeepSeek Harness (DSH)** | `ask_user_question` — §7 (native multi-select) |
 | **CLI** | §8 Markdown fallback table |
 
 1. Short chat summary (Phase 0 ≤6 lines; phase-end Handoff Block ≤18 lines per SKILL.md §C.1)
@@ -35,7 +36,7 @@
 
 ```
 INPUT:  decision_point (from §3), options[{id,label}]?, title_zh?, allow_multiple?, blocking?
-OUTPUT: selected id(s) | null; method: cursor_ask|claude_ask|codex_input|md_table|text_fallback|index_pick
+OUTPUT: selected id(s) | null; method: cursor_ask|claude_ask|codex_input|dsh_ask|md_table|text_fallback|index_pick
 ```
 
 | Step | Action |
@@ -43,7 +44,7 @@ OUTPUT: selected id(s) | null; method: cursor_ask|claude_ask|codex_input|md_tabl
 | A | `interactive_mode=false` → §9 |
 | B | resolve platform (`platform_override` → activation §2) |
 | C | If `flow-board.autopilot`/`mode=auto` and decision is **soft** ([board.md](board.md) §2.5) → auto-pick default, log, **no STOP** |
-| D | native in list → §3 catalog → §4/§5/§6 |
+| D | native in list → §3 catalog → §4/§5/§6/§7 |
 | E | missing/error → §8 Markdown table (with platform hint) |
 | F | Write `pending_decision` (§8.1); if autopilot hard gate → footer resume hint → **STOP — WAIT** |
 
@@ -55,7 +56,7 @@ OUTPUT: selected id(s) | null; method: cursor_ask|claude_ask|codex_input|md_tabl
 
 | ❌ | ✅ |
 |---|---|
-| Skip native UI (including S-level) | Call matching §3 catalog + §4/§5/§6 |
+| Skip native UI (including S-level) | Call matching §3 catalog + §4/§5/§6/§7 |
 | Codex default `autoResolutionMs` | Omit the field; wait for user |
 | Auto-continue after §8 table | STOP — WAIT |
 | Worker asks user | Write disk only; return ≤30 lines to Orchestrator |
@@ -154,7 +155,7 @@ Codex multi-select: sequential single-select or §8 "multi-select OK; explain in
 | `board_next` | manual mode phase-end pause | `next`[default]→`/od board next` · `revise`→`/od ad` · `end`→`/od x` |
 | `board_resume` | `start` while already running/paused | `continue`[default] · `reset`→`/od board reset` · `cancel` |
 
-Skip optional phases: Cursor/Claude may use multi-select on phases 1/2/4/5; Codex sequential or free-text `1,5` / `none`. Never offer skip for 0 or 3.
+Skip optional phases: Cursor/Claude/DSH may use multi-select on phases 1/2/4/5 (DSH: `multi_select: true`); Codex sequential or free-text `1,5` / `none`. Never offer skip for 0 or 3.
 
 ### 3.15 Security Audit (`security_iterate_confirm`) — [security-audit.md](security-audit.md)
 
@@ -252,6 +253,36 @@ When unavailable, hint once per session → §8 STOP — WAIT. May record `codex
 
 ---
 
+## 7. DeepSeek Harness (DSH) — `ask_user_question`
+
+```json
+{
+  "questions": [
+    {
+      "id": "<decision_point>",
+      "question": "<prompt from §3>",
+      "header": "<title_zh>",
+      "options": [
+        {"label": "<label incl. command>", "description": "<one sentence>"}
+      ],
+      "multi_select": false
+    }
+  ]
+}
+```
+
+- **Must call same turn**; send all pending questions in one call (multiple `questions` supported).
+- `id` MUST equal the §3 `decision_point` — it is echoed verbatim in the answer.
+- `options[].label` MUST include the Send command (e.g. `Continue (/od n)`), matching §3 catalog.
+- **Native multi-select**: set `multi_select: true` when `allow_multiple: true` (e.g. §3.5 `skill_select`, board optional-phase skip). No sequential-single workaround needed.
+- Order options with the **default/recommended first**; the answer returns `selected` label array + optional `custom`.
+- `ask_user_question` is the **only DSH native interactive tool**; it replaces the Codex `request_user_input` path on DSH.
+- On tool absent/error → §8 Markdown fallback table (STOP — WAIT). Do **not** silently downgrade to prose.
+
+**Answer mapping**: `answers[].selected` are user-facing labels (or custom text). Map each selected label back to its §3 option `id`; treat a single selection as `selected[0]`. `multi_select` returns multiple selected labels.
+
+---
+
 ## 8. Markdown Fallback Table
 
 (Legacy name in logs: `pseudo_popup` → prefer method `md_table`.)
@@ -279,7 +310,7 @@ When `pending_decision.autopilot_resume: true`, append one line:
 
 `Autopilot paused · confirm to resume full flow · /od 1 or /od y`
 
-Hint (one line, native missing only): `No native UI here. Cursor: Claude/GPT or Plan · Codex: enable default_mode_request_user_input.`
+Hint (one line, native missing only): `No native UI here. Cursor: Claude/GPT or Plan · Codex: enable default_mode_request_user_input · DSH: ensure ask_user_question is available.`
 
 **Same turn** before STOP: write `pending_decision` (§8.1). **STOP — WAIT**. Forbid YAML/`od_interactive` in chat; **forbid any drawn UI**.
 
@@ -323,7 +354,7 @@ Choose (`/od 1` or bare `1` OK when pending; or full command):
 ## 10. Logging (session-log only)
 
 ```json
-{"type":"interactive_prompt","method":"cursor_ask|claude_ask|codex_input|md_table|text_fallback|index_pick","platform":"cursor","decision_point":"phase0_complexity","native_attempted":true,"index":1}
+{"type":"interactive_prompt","method":"cursor_ask|claude_ask|codex_input|dsh_ask|md_table|text_fallback|index_pick","platform":"cursor","decision_point":"phase0_complexity","native_attempted":true,"index":1}
 ```
 
 ---
@@ -335,4 +366,5 @@ Choose (`/od 1` or bare `1` OK when pending; or full command):
 | Cursor | §4 | §8 + `/od N` / bare `N` |
 | Claude | §5 | §8 + `/od N` / bare `N` |
 | Codex | §6 (no autoResolution) | §6.1 + §8 + `$od N` |
+| DeepSeek Harness (DSH) | §7 | §8 + `/od N` / bare `N` |
 | CLI | §8 | §9 |

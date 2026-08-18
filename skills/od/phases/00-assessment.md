@@ -111,6 +111,7 @@ After the ≤6-line prose summary, **same turn** invoke [interactive-prompt.md](
 | **Cursor** | §4 `AskQuestion` — **must call** when tool is in the list |
 | **Claude Code** | §5 `AskUserQuestion` |
 | **Codex** | §6 `request_user_input` (no autoResolutionMs) |
+| **DeepSeek Harness (DSH)** | §7 `ask_user_question` |
 
 On native missing/error → §8 Markdown table → **STOP — WAIT**.
 

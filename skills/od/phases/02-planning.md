@@ -202,7 +202,7 @@ Print **Phase Handoff Block** (SKILL.md §C.1) for **Phase 3 — Dev** (what Dev
 1. §3.11 `phase2_plan_ready` — confirm design/plan ready for development
 2. §3.1 `checkpoint` (B.8) — Continue (`/od n`) / Revise (`/od ad`) / …
 
-Platform: §4 / §5 / §6; on failure → §8 Markdown table. **STOP — WAIT**. Workers must not show options UI.
+Platform: §4 / §5 / §6 / §7; on failure → §8 Markdown table. **STOP — WAIT**. Workers must not show options UI.
 
 ---
 

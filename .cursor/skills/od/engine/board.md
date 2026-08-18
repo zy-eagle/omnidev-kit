@@ -2,7 +2,7 @@
 
 **Load when**: `/od board` · `$od board` · `board start|next|apply|run` · Phase 0 open when `config.board_ui: true` and status is `idle` (optional offer).
 
-**Principle**: One shared state machine for all platforms. Shells differ (Cursor Canvas optional · Codex/Claude popup wizard · Markdown table everywhere). **Default mode = manual. Only `board start` begins execution.**
+**Principle**: One shared state machine for all platforms. Shells differ (Cursor Canvas optional · Codex/Claude popup wizard · DSH `ask_user_question` wizard · Markdown table everywhere). **Default mode = manual. Only `board start` begins execution.**
 
 → PAL: SKILL.md §F · Interactive catalogs: [interactive-prompt.md](interactive-prompt.md) §3.10 · Templates: `templates/flow-board.*`
 
@@ -181,12 +181,12 @@ After user affirms via UI pick / `/od y` / `/od n` (when that maps to proceed) /
 
 Every board command: print ≤12-line summary + ensure `flow-board.md` updated. Never dump full JSON in chat.
 
-### 4.2 Codex / Claude / CLI — Wizard (`board_wizard`)
+### 4.2 Codex / Claude / CLI / DSH — Wizard (`board_wizard`)
 
 When user runs bare `/od board` / `$od board` and `status=idle`:
 
 1. `board_mode` — options: `manual`[default] · `auto` · `cancel`
-2. Skip optional phases — Codex: sequential yes/no per optional phase **or** one question "skip list (e.g. 1,5 or none)". Claude: `allow_multiple` on optional phases if supported.
+2. Skip optional phases — Codex: sequential yes/no per optional phase **or** one question "skip list (e.g. 1,5 or none)". Claude: `allow_multiple` on optional phases if supported. DSH: `multi_select: true` on optional phases.
 3. `board_confirm_start` — `start`[default] · `edit` · `cancel`
 
 On `start` → run §2.2 with chosen mode/skip.

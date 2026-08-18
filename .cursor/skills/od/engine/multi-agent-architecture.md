@@ -12,7 +12,7 @@
 |-----------|------|
 | **One orchestrator always** | User interaction, routing, checkpoint, B.0, merge, `/od re` — **only** main agent |
 | **Workers are ephemeral** | Spawn → write disk → ≤30 line summary → exit; never hold user session |
-| **Workers never prompt users** | Forbidden: AskQuestion / AskUserQuestion / request_user_input / §8 table; product decisions return to Orchestrator |
+| **Workers never prompt users** | Forbidden: AskQuestion / AskUserQuestion / request_user_input / ask_user_question / §8 table; product decisions return to Orchestrator |
 | **State files are the contract** | Workers read/write `docs/omnidev-state/` only; no worker-to-worker chat |
 | **Spawn when ROI > cost** | S/M serial; L/XL parallel when ≥3 units OR heavy I/O isolation |
 | **Phase 0/1/5 default serial** | Light, interactive, or consent-heavy — orchestrator direct |
@@ -87,6 +87,7 @@ Spawn worker only if **all** true:
    |----------|-------------------|
    | Cursor / Claude | ~8000 tokens |
    | Codex thread | ~4000 tokens |
+   | DeepSeek Harness (DSH) | ~8000 tokens |
 
 4. No shared-file write conflict (different `outputs` paths or different features)
 
@@ -163,10 +164,10 @@ Use sparingly; only when T2 alone insufficient.
 
 ## 7. Platform Mapping
 
-| Worker | Cursor | Claude Code | Codex |
-|--------|--------|-------------|-------|
-| T2 Task | built-in worker | `Task` | `create_thread` + `send_message_to_thread` |
-| T1 Phase | built-in worker (long prompt) | `Task` (phase scope) | dedicated thread per phase bundle |
+| Worker | Cursor | Claude Code | Codex | DeepSeek Harness (DSH) |
+|--------|--------|-------------|-------|------------------------|
+| T2 Task | built-in worker | `Task` | `create_thread` + `send_message_to_thread` | `subagent` (standalone prompt) |
+| T1 Phase | built-in worker (long prompt) | `Task` (phase scope) | dedicated thread per phase bundle | `subagent_fork` (inherits conversation context) |
 
 Same contract all platforms.
 

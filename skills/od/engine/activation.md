@@ -80,10 +80,11 @@ Check `config.json` → `platform_override` first. If null, detect:
 | 1 | `AskUserQuestion` in tool list | **claude_code** |
 | 2 | `AskQuestion` in tool list | **cursor** |
 | 3 | `request_user_input` OR `create_thread` | **codex** |
-| 4 | `Task` without AskQuestion/AskUserQuestion | **claude_code** (likely) |
-| 5 | None of above | **cli_other** |
+| 4 | `ask_user_question` in tool list | **dsh** |
+| 5 | `Task` without AskQuestion/AskUserQuestion | **claude_code** (likely) |
+| 6 | None of above | **cli_other** |
 
-AskUserQuestion **before** AskQuestion, to avoid misdetecting dual-tool environments. Persist: `platform: cursor|claude_code|codex|cli_other`
+AskUserQuestion **before** AskQuestion, to avoid misdetecting dual-tool environments. `ask_user_question` detects **DSH**. Persist: `platform: cursor|claude_code|codex|dsh|cli_other`
 
 → PAL: SKILL.md §F.1 · Interactive: [interactive-prompt.md](interactive-prompt.md)
 
@@ -136,19 +137,20 @@ At **every** decision point:
    - Cursor → `AskQuestion` (§4) — **must call** when tool is in the list
    - Claude → `AskUserQuestion` (§5)
    - Codex → `request_user_input` (§6)
+   - DSH → `ask_user_question` (§7)
 3. Native missing/fails → **§8 Markdown table** (`/od` or `$od` commands; forbid "reply 1/2/3"; **forbid** box-drawing / `||` frames) → **always STOP — WAIT** (forbid autoResolution / auto-continue)
 4. **NEVER** end with prose-only "continue?" when `interactive_mode=true`
 5. Advance via UI pick (same turn), `/od N` / bare `N` (pending), or Send-column `/od`/`$od` command
 6. Cover [interactive-prompt.md](interactive-prompt.md) §3 Decision Matrix (including S-level `phase0_s_fastpath`, Phase 2/4/5 gates)
 
-**Failure fix**: Tool exists but was skipped → violation; re-call §4/§5/§6. Cursor without AskQuestion → §8 table + switch model/Plan. Codex → §6.1 flag; **do not add** autoResolutionMs by default.
+**Failure fix**: Tool exists but was skipped → violation; re-call §4/§5/§6/§7. Cursor without AskQuestion → §8 table + switch model/Plan. Codex → §6.1 flag; **do not add** autoResolutionMs by default. DSH without `ask_user_question` → §8 table.
 
 ---
 
 ## 6. Activation Acknowledgment (after tools, ≤4 lines)
 
 ```
-🚀 OmniDev activated · Platform: [cursor|claude_code|codex|cli_other]
+🚀 OmniDev activated · Platform: [cursor|claude_code|codex|dsh|cli_other]
 📍 Route: [command] → Phase [N] — [phase name]
 ```
 
@@ -166,6 +168,7 @@ Then phase work. Do not repeat SKILL.md.
 | Skill loaded but phase file unread | Read phase file first |
 | AskQuestion failed → proceed | §8 Markdown table + **WAIT** |
 | Skip AskQuestion when tool exists | **Must call** §4 |
+| Skip `ask_user_question` on DSH | **Must call** §7 |
 | Dump Phase 0 + YAML in chat | ≤6 lines + native UI; details → session-log |
 | "Reply 1/2/3" without pending / `/od` | `/od 1` or bare `1` **with** `pending_decision` |
 | Drawn ASCII / `||` "modal" | Copy §8 table only |
@@ -181,6 +184,7 @@ Then phase work. Do not repeat SKILL.md.
 | Cursor | `.cursor/skills/od/` + `.cursor/rules/01-omnidev-workflow.mdc` (`alwaysApply: true`) + `AGENTS.md` |
 | Claude Code | `.claude/skills/od/` or `~/.claude/skills/od/` + `CLAUDE.md` |
 | Codex | `~/.codex/skills/od/` + optional `rules/03-omnidev-workflow.codex.md` |
+| DeepSeek Harness (DSH) | repo `skills/od/` (SSOT) + session skill catalog loads `od` |
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|

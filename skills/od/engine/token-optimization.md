@@ -148,6 +148,7 @@ estimated_tokens =
 | Cursor | 8000 | Full sub-agent session overhead |
 | Claude Code | 8000 | Task tool round-trip |
 | Codex | **4000** | Thread create + message + await; lower than Task tool |
+| DeepSeek Harness (DSH) | 8000 | `subagent` / `subagent_fork` full child session |
 | CLI / Other | 0 | Serial execution only |
 
 For Codex, apply `codex_compaction_multiplier` (default 1.3) to the final total after platform overhead.

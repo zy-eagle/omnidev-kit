@@ -22,6 +22,7 @@
 | Cursor | `.cursor/skills/od/` (project) / `~/.cursor/skills/od/` (user) | `AskQuestion` |
 | Claude Code | `.claude/skills/od/` or `~/.claude/skills/od/` | `AskUserQuestion` |
 | Codex | `~/.codex/skills/od/` | `request_user_input` |
+| DeepSeek Harness (DSH) | repo `skills/od/` (SSOT) + session skill catalog | `ask_user_question` |
 
 Install / update: `/od up` or `/od i` — default **`project`** scope; `--scope user` for user-level. See [INSTALL.md](INSTALL.md).
 

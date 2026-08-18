@@ -99,7 +99,7 @@ Interactive confirmations use platform native prompt (SKILL.md §F.2). User conf
 
 | Key | Default | Description |
 |-----|---------|-------------|
-| `interactive_mode` | `true` | **Primary working mode** — Decision Matrix §3 native UI throughout; platforms §4/§5/§6; failure → §8 Markdown table STOP-WAIT |
+| `interactive_mode` | `true` | **Primary working mode** — Decision Matrix §3 native UI throughout; platforms §4/§5/§6/§7; failure → §8 Markdown table STOP-WAIT |
 | `board_ui` | `true` | Enable flow board (`/od board`); seed `flow-board.json` on install |
 | `board_default_mode` | `"manual"` | Wizard default: manual step-by-step |
 | `board_cursor_canvas` | `true` | Cursor: materialize Canvas from `templates/board.canvas.tsx` when useful |
@@ -132,7 +132,7 @@ Interactive confirmations use platform native prompt (SKILL.md §F.2). User conf
 | `max_hot_lines` | `150` | HOT layer line cap |
 | `max_resident_lines` | `300` | HOT+WARM combined cap |
 | `checkpoint_max_lines` | `18` | Phase Handoff Block + checkpoint prose cap (SKILL.md §C.1) |
-| `platform_override` | `null` | Manual platform override: `"cursor"`, `"claude_code"`, `"codex"`, `"cli_other"`, or `null` (auto) |
+| `platform_override` | `null` | Manual platform override: `"cursor"`, `"claude_code"`, `"codex"`, `"dsh"`, `"cli_other"`, or `null` (auto) |
 | `codex_compaction_multiplier` | `1.3` | Codex token estimate multiplier (compensate invisible compaction cost) |
 | `codex_conservative_occupancy` | `true` | Whether Codex uses defensive context occupancy |
 | `codex_thread_overhead_tokens` | `4000` | Token overhead per Codex sub-agent thread |

@@ -119,10 +119,11 @@ Workflow advances when:
 | **Cursor** | `AskQuestion` | Built-in sub-agents | `.cursor/skills/od/` (project) / `~/.cursor/skills/od/` (user) | `.cursor/rules/01-omnidev-workflow.mdc` + `AGENTS.md` |
 | **Claude Code** | `AskUserQuestion` | `Task` tool | `.claude/skills/od/` or `~/.claude/skills/od/` | `CLAUDE.md` + `rules/02-omnidev-workflow.claude.md` |
 | **Codex** | `request_user_input` | `create_thread` | `~/.codex/skills/od/` | `rules/03-omnidev-workflow.codex.md` + skill `description` |
+| **DeepSeek Harness (DSH)** | `ask_user_question` | `subagent` / `subagent_fork` | repo `skills/od/` (SSOT) + session skill catalog | `AGENTS.md` + skill `description` |
 
 **Codex**: enable `default_mode_request_user_input = true`; prefixes `/od` and `$od` are equivalent.
 
-**Config**: `platform_override`: `"cursor" | "claude_code" | "codex" | "cli_other"`.
+**Config**: `platform_override`: `"cursor" | "claude_code" | "codex" | "dsh" | "cli_other"`.
 
 ---
 
@@ -135,6 +136,7 @@ Workflow advances when:
 | Mid-sentence `/od up` talk | **Expected** — only line-start `/od`/`$od` activates |
 | User sent `1` but tip shown | No `pending_decision` on disk — use `/od 1` after a decision table, or `/od n` |
 | Codex `$od` | Same trigger as `/od`; if still broken check skill install |
+| DSH no `ask_user_question` | §8 Markdown table + `pending_decision`; tool exists but skipped = violation |
 | Cursor no AskQuestion | §8 Markdown table + switch to Claude/GPT or Plan; tool exists but skipped = violation |
 | Phase 0 output messy | ≤6 lines; details → session-log; forbid `od_interactive:` |
 | skills vs .cursor drift | From repo root: `bash scripts/sync-skills.sh` |
@@ -148,5 +150,6 @@ Workflow advances when:
 | Cursor | `.cursor/rules/01-omnidev-workflow.mdc` + `AGENTS.md` |
 | Claude Code | `CLAUDE.md` + `rules/02-omnidev-workflow.claude.md` |
 | Codex | `rules/03-omnidev-workflow.codex.md` + skill `description` |
+| DeepSeek Harness (DSH) | `AGENTS.md` + skill `description` |
 
 See [INSTALL.md](../../../INSTALL.md). Kit maintainers: keep `skills/od/` SSOT → sync to `.cursor/skills/od/` via `scripts/sync-skills.sh`.

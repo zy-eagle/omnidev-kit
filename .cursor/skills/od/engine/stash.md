@@ -72,7 +72,7 @@ context_requires:
 
 3. **Handle uncommitted code**:
    - Run `git status --short` to check for uncommitted changes.
-   - If there are uncommitted changes, **MUST** invoke [interactive-prompt.md](interactive-prompt.md) `b0_confirm` or custom options via §4/§5/§6 → **STOP — WAIT**:
+   - If there are uncommitted changes, **MUST** invoke [interactive-prompt.md](interactive-prompt.md) `b0_confirm` or custom options via §4/§5/§6/§7 → **STOP — WAIT**:
 
    | id | Option |
    |----|--------|
@@ -114,7 +114,7 @@ context_requires:
 
 2. **Select restore target**:
    - If only 1 stash entry, confirm whether to restore.
-   - If multiple, **MUST** invoke [interactive-prompt.md](interactive-prompt.md) via §4/§5/§6 to list entries → **STOP — WAIT**:
+   - If multiple, **MUST** invoke [interactive-prompt.md](interactive-prompt.md) via §4/§5/§6/§7 to list entries → **STOP — WAIT**:
 
    | id | Option |
    |----|--------|

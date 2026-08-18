@@ -57,7 +57,7 @@ Match the user's request against each discovered skill using a two-step process:
 
 **NEVER auto-load an external skill without interactive confirmation.**
 
-**MUST** invoke [interactive-prompt.md](interactive-prompt.md) §3.5 `skill_select` via §4/§5/§6 (`allow_multiple: true`) → **STOP — WAIT**.
+**MUST** invoke [interactive-prompt.md](interactive-prompt.md) §3.5 `skill_select` via §4/§5/§6/§7 (`allow_multiple: true`) → **STOP — WAIT**.
 
 Prompt: `"🔍 Troubleshooting/fix request detected. Found these specialized skills:"`
 
@@ -79,6 +79,7 @@ Prompt: `"🔍 Troubleshooting/fix request detected. Found these specialized ski
 | **Cursor** | §4 `AskQuestion` + `allow_multiple: true` |
 | **Claude Code** | §5 `AskUserQuestion` + `allow_multiple: true` |
 | **Codex** | §6 sequential single-select or §8 multi-select instructions (no native multi; no autoResolutionMs) |
+| **DeepSeek Harness (DSH)** | §7 `ask_user_question` + `multi_select: true` |
 | **CLI / Other** | §8 / §9 |
 
 Workers must not show prompts; when confirmation is needed, return to the Orchestrator.
@@ -97,7 +98,7 @@ After the user confirms which skills to load:
 When the external skill's workflow completes (user selects "end" or the skill reaches its final checkpoint):
 
 1. **Summarize findings**: Output a brief summary of the troubleshooting results.
-2. **Bridge back to OmniDev**: **MUST** `present_options` via §4/§5/§6 → **STOP — WAIT**:
+2. **Bridge back to OmniDev**: **MUST** `present_options` via §4/§5/§6/§7 → **STOP — WAIT**:
 
    Prompt: `"🔧 Troubleshooting complete. Continue with a fix in OmniDev?"`
 

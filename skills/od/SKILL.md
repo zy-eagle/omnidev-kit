@@ -4,7 +4,7 @@ description: >-
   OmniDev workflow. Activate ONLY when message STARTS WITH /od or $od.
   Attaching @od without /od does NOT start Phase 0 (reference only).
   Resume: /od re or $od re. Advance: /od n, /od ad, etc. Bare 1/n/continue does NOT
-  trigger. No chat-context inference. Supports Cursor, Claude Code, and Codex.
+  trigger. No chat-context inference. Supports Cursor, Claude Code, Codex, and DeepSeek Harness.
 ---
 
 # OmniDev Workflow Skill
@@ -158,7 +158,7 @@ During Phase 3 & 4, proactively use available MCP servers: Database MCP (verify 
 
 ## F. Platform Abstraction Layer (PAL)
 
-OmniDev supports three code-agent platforms: **Cursor**, **Claude Code**, and **Codex**. For any platform-dependent capability, consult this layer before acting — **never hardcode a single platform's mechanism**.
+OmniDev supports four code-agent platforms: **Cursor**, **Claude Code**, **Codex**, and **DeepSeek Harness (DSH)**. For any platform-dependent capability, consult this layer before acting — **never hardcode a single platform's mechanism**.
 
 ### F.1 Platform Detection
 
@@ -169,8 +169,9 @@ On `/od` or `$od` activation, check `platform_override` first; else detect via t
 | 1 | `AskUserQuestion` tool exists | **Claude Code** |
 | 2 | `AskQuestion` tool exists | **Cursor** |
 | 3 | `request_user_input` OR `create_thread` | **Codex** |
-| 4 | `Task` without AskQuestion/AskUserQuestion | **Claude Code** (likely) |
-| 5 | Fallback | **CLI / Other** |
+| 4 | `ask_user_question` tool exists | **DeepSeek Harness (DSH)** |
+| 5 | `Task` without AskQuestion/AskUserQuestion | **Claude Code** (likely) |
+| 6 | Fallback | **CLI / Other** |
 
 Store detected platform in session memory; do not re-detect mid-session.
 
@@ -183,14 +184,15 @@ Store detected platform in session memory; do not re-detect mid-session.
 | **Cursor** | **`AskQuestion` tool — REQUIRED same turn** when present. Copy-paste JSON from interactive-prompt.md **§4**. Chat: short summary only; no YAML metadata dump. |
 | **Claude Code** | **`AskUserQuestion` tool — REQUIRED same turn** at every checkpoint. Copy-paste JSON from interactive-prompt.md **§5**. Works in **all collaboration modes**. |
 | **Codex** | **`request_user_input` tool — REQUIRED same turn** in **Plan AND Default/Code mode**. Copy-paste JSON from interactive-prompt.md **§6**. Enable Default mode: `[features] default_mode_request_user_input = true` in `~/.codex/config.toml`. |
+| **DeepSeek Harness (DSH)** | **`ask_user_question` tool — REQUIRED same turn** at every checkpoint. Copy-paste JSON from interactive-prompt.md **§7**. Multi-select is native; use `multi_select: true` instead of Codex sequential simulation. |
 | **CLI / Other** | §8 Markdown fallback table → §9 minimal text |
 
-#### Mandatory Tool Invocation (Cursor / Claude Code / Codex)
+#### Mandatory Tool Invocation (Cursor / Claude Code / Codex / DSH)
 
 When `interactive_mode=true`:
 
 1. Output **short** summary only (Phase 0 ≤6 lines; phase-end Handoff ≤18 lines per §C.1) — do not paste the full assessment into chat
-2. **Immediately invoke** native tool using §3 catalog + §4/§5/§6 wrapper — **forbidden** to end turn with prose-only options when the tool exists
+2. **Immediately invoke** native tool using §3 catalog + §4/§5/§6/§7 wrapper — **forbidden** to end turn with prose-only options when the tool exists
 3. On tool **absent**, error, or "unavailable in this chat mode" → **copy §8 Markdown table verbatim** same turn + write `pending_decision` (forbid drawn frames) → **STOP — WAIT**. Next: `/od N`, bare `N`, or Send command.
 4. Log `native_attempted: true` + method to **session-log** (do not paste into chat)
 5. Decision points: follow [interactive-prompt.md](engine/interactive-prompt.md) **§3 Decision Matrix** (full Phase 0–5 coverage, including S-level `phase0_s_fastpath`)
@@ -229,6 +231,7 @@ Shared state: `docs/omnidev-state/flow-board.json`. Commands: `/od board` · `/o
 | **All** | Rewrite `flow-board.md`; short chat table; STOP — WAIT only on hard gates / manual pause |
 | **Codex / Claude / CLI** | Wizard via `board_mode` → skip → `board_confirm_start` (§3.10); offer `auto` |
 | **Cursor** | Same wizard (guaranteed) + optional Canvas from `templates/board.canvas.tsx` when `board_cursor_canvas: true` |
+| **DeepSeek Harness (DSH)** | Same wizard via `ask_user_question` (§7); multi-select native for optional-phase skip |
 
 ### F.3 Sub-Agent / Worker Dispatch (maps token-optimization §2, context-lifecycle §10, special-flows §2.2)
 
@@ -239,6 +242,7 @@ Replace all Sub-Agent / Worker references with platform-native mechanisms:
 | **Cursor** | Built-in worker/sub-agent spawn (platform-native parallel workers) |
 | **Claude Code** | `Task` tool — pass instructions as prompt, receive structured output |
 | **Codex** | **Thread-based multi-agent model.** Codex provides multi-agent through thread operations: `create_thread` (spawn agent), `send_message_to_thread` (assign task + await result), `handoff_thread` (transfer ownership). Each thread runs as an independent agent with its own context. |
+| **DeepSeek Harness (DSH)** | `subagent` / `subagent_fork` tools (background by default); collect via completion notice or `list_agents` + `send_message`. `subagent_fork` inherits this conversation's completed turns. |
 | **CLI / Other** | Main agent serial execution only |
 
 #### Codex Thread-Agent Dispatch Protocol
@@ -276,6 +280,7 @@ When `sub_agents` is `auto` or `on` and platform is Codex, dispatch tasks via th
 | **Cursor** | Message starts with `/od …` (or `$od …`) only |
 | **Claude Code** | Message starts with `/od …` (or `$od …`) only |
 | **Codex** | Message starts with `/od …` **or** `$od …` only |
+| **DeepSeek Harness (DSH)** | Message starts with `/od …` (or `$od …`) only |
 
 `@od` attach / skill invoke without `/od` prefix → **not** a workflow trigger (skill may be used as reference).
 
@@ -284,6 +289,7 @@ When `sub_agents` is `auto` or `on` and platform is Codex, dispatch tasks via th
 | **Cursor** | `.cursor/rules/01-omnidev-workflow.mdc` (`alwaysApply: true`) + `AGENTS.md` |
 | **Claude Code** | `CLAUDE.md` + `rules/02-omnidev-workflow.claude.md` |
 | **Codex** | `rules/03-omnidev-workflow.codex.md` + skill `description` |
+| **DeepSeek Harness (DSH)** | `AGENTS.md` + skill `description` (skill catalog lists `od`) |
 
 **Not a trigger**: skill listing / `@od` without `/od` prefix; mid-sentence `/od` mention; bare `n`/`continue` (bare `1`–`9` only with disk `pending_decision`).
 
@@ -301,6 +307,7 @@ Skill discovery scans the following directories in priority order. The first pri
 | 4 | `~/.claude/skills/` | Claude Code (user-level) |
 | 5 | `~/.codex/skills/` | Codex (user-level) |
 | 6 | `~/.agents/skills/` | Generic agent skills (user-level) |
+| 7 | `<session skills catalog>` / DSH skill registry | DeepSeek Harness (user/session-level) |
 
 **Codex note**: Codex's skill system may pre-load skill manifests into app-context `<skills_instructions>`. After scanning `~/.codex/skills/`, cross-reference with any skill descriptors already present in the system context to avoid re-reading already-available metadata.
 
@@ -312,6 +319,7 @@ When Phase 3/4 needs MCP servers, check the platform-specific config:
 |----------|--------------------------|
 | **Cursor** | `.cursor/mcp.json` |
 | **Claude Code** | `.claude/mcp.json` or `~/.claude/mcp.json` |
+| **DeepSeek Harness (DSH)** | Session tool catalog / MCP tools exposed by the harness; no static project config |
 | **Codex** | Use the following tools in order:
 1. `list_mcp_resources` — discover available resources across all MCP servers
 2. `list_mcp_resource_templates` — discover parameterized resource templates
@@ -351,6 +359,7 @@ Step 3: read_mcp_resource
 | **Cursor** | `.cursor/skills/od/` | `~/.cursor/skills/od/` | Project only: `.cursor/rules/` (`.mdc`) + `AGENTS.md` |
 | **Claude Code** | `.claude/skills/od/` | `~/.claude/skills/od/` | N/A — trigger via SKILL.md |
 | **Codex** | Remap to `user` (no project skill path) | `~/.codex/skills/od/` | N/A — see `rules/03-omnidev-workflow.codex.md` |
+| **DeepSeek Harness (DSH)** | N/A (repo `skills/od/` is SSOT) | N/A — harness loads skills from the session skill catalog | N/A — trigger via SKILL.md `description` |
 
 ### F.8 Codex Context Compaction Awareness
 
