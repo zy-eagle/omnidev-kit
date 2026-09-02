@@ -223,6 +223,7 @@ Optional: `config.json` → `install_scope` (`"project"` \| `"user"`) overrides 
 | **Cursor** | `.cursor/skills/od/` + merge `.cursor/rules/` + project `AGENTS.md` | `~/.cursor/skills/od/` only (no project rules / AGENTS) |
 | **Claude Code** | `.claude/skills/od/` | `~/.claude/skills/od/` |
 | **Codex** | No project skill path — **remap to `user`** with one-line notice; install `~/.codex/skills/od/` | `~/.codex/skills/od/` |
+| **DeepSeek Harness (DSH)** | N/A (repo `skills/od/` is SSOT) | `~/.dsh/skills/od/` |
 
 Announce resolved scope + target path in the change summary before confirm.
 
@@ -237,6 +238,7 @@ Announce resolved scope + target path in the change summary before confirm.
    - **Cursor `user`**: `rm -rf ~/.cursor/skills/od/; cp -r …/skills/od/ ~/.cursor/skills/od/`. Skip rules / AGENTS.
    - **Claude Code**: `rm -rf <target>/od/; cp -r …/skills/od/ <target>/od/` (`project` → `.claude/skills/od/`, `user` → `~/.claude/skills/od/`). Skip `rules/`.
    - **Codex**: `rm -rf ~/.codex/skills/od/; cp -r …/skills/od/ ~/.codex/skills/od/`. Skip `rules/`. Prefer `codex skills refresh` after copy.
+   - **DSH**: `rm -rf ~/.dsh/skills/od/; cp -r …/skills/od/ ~/.dsh/skills/od/`. Skip `rules/`. New skill content loads on the next `skill` invocation (on-demand, disk-backed).
 
    **Kit repo layout**: SSOT at `skills/od/` + `rules/`. Maintainers: `scripts/sync-skills.*` then `scripts/check-compliance.*`.
 

@@ -362,7 +362,7 @@ Step 3: read_mcp_resource
 | **Cursor** | `.cursor/skills/od/` | `~/.cursor/skills/od/` | Project only: `.cursor/rules/` (`.mdc`) + `AGENTS.md` |
 | **Claude Code** | `.claude/skills/od/` | `~/.claude/skills/od/` | N/A — trigger via SKILL.md |
 | **Codex** | Remap to `user` (no project skill path) | `~/.codex/skills/od/` | N/A — see `rules/03-omnidev-workflow.codex.md` |
-| **DeepSeek Harness (DSH)** | N/A (repo `skills/od/` is SSOT) | N/A — harness loads skills from the session skill catalog | N/A — trigger via SKILL.md `description` |
+| **DeepSeek Harness (DSH)** | N/A (repo `skills/od/` is SSOT) | `~/.dsh/skills/od/` — harness serves skills from this directory (`filesystem` provider) | N/A — trigger via SKILL.md `description` |
 
 ### F.8 Codex Context Compaction Awareness
 
