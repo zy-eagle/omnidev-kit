@@ -357,14 +357,4 @@ Choose (`/od 1` or bare `1` OK when pending; or full command):
 {"type":"interactive_prompt","method":"cursor_ask|claude_ask|codex_input|dsh_ask|md_table|text_fallback|index_pick","platform":"cursor","decision_point":"phase0_complexity","native_attempted":true,"index":1}
 ```
 
----
 
-## 11. Quick Reference
-
-| Platform | Primary | Fallback |
-|----------|---------|----------|
-| Cursor | §4 | §8 + `/od N` / bare `N` |
-| Claude | §5 | §8 + `/od N` / bare `N` |
-| Codex | §6 (no autoResolution) | §6.1 + §8 + `$od N` |
-| DeepSeek Harness (DSH) | §7 | §8 + `/od N` / bare `N` |
-| CLI | §8 | §9 |

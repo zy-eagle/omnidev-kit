@@ -12,6 +12,7 @@ context_requires:
   read_on_demand:
     - 04-design.md (grep `## Feature {FN}` for current task's feature: field) # default design_split:false
     - features/{FN}.md               # only when design_split:true
+    - 08-spec.md (grep mapped SC-* scenarios; only when spec_mode_active)
   scan:
     - ONLY paths from current task `outputs` and `depends`
   scan_limit: 8                      # reduced from 10 for token savings
@@ -90,6 +91,8 @@ If native UI missing: copy §8 **Markdown table** (`/od y` · `/od ad` · `/od x
 
 Workers: same branch, disjoint files, ≤30 line report. Pre-Dev + Change Impact: main agent only.
 
+When `spec_mode_active`: worker tasks get **two-stage review** before `[x]` — (1) spec compliance vs mapped scenarios, (2) code quality — per [spec-driven.md](../engine/spec-driven.md) §6. Critical findings block `[x]`.
+
 ---
 
 ## 2. Impact Analysis
@@ -139,6 +142,8 @@ Every logic/backend/utility task **must** ship with **UNIT** tests before task `
 2. Create or update test file in same task group
 3. Run quick UNIT for touched files (`npm test -- --findRelatedTests` / `go test ./pkg/...`)
 4. Append to `03-progress.md`: `unit_tests: [TC-F1-U01, TC-F1-U02]`
+
+**TDD RED-GREEN-REFACTOR** (spec-driven §5, when `spec_mode_active` or greenfield): write the failing test first, watch it fail, minimal code to pass, refactor clean — before `[x]`. Never assert completion without a test run in this session (spec-driven §7: record `verify: [command → result]`).
 
 Phase 4 UNIT gate expects these to exist — missing → Phase 4 Gap Backfill (test-strategy §5).
 

@@ -61,6 +61,8 @@ Activate **only** on **Signal A** (`/od` or `$od` line-start prefix) or **Signal
 | B.20 Test Strategy | UNIT required · INT/E2E/SMK/REG by complexity · Gap Backfill | [engine/test-strategy.md](engine/test-strategy.md) |
 | B.21 Deploy | Makefile + one-click deploy · Greenfield docker+k8s · production needs confirm | [phases/05-deploy.md](phases/05-deploy.md) |
 | B.22 Security Audit | Phase 3 exit audit · FAIL→iterate loop · manual confirm before next iter · autopilot auto-iterates | [engine/security-audit.md](engine/security-audit.md) |
+| B.23 Spec-Driven Layer | `spec_mode` off/auto/on · `08-spec.md` delta + SC traceability · verify & archive to `specs.md` | [engine/spec-driven.md](engine/spec-driven.md) §1–§3, §8 |
+| B.24 Execution Discipline | TDD RED-GREEN-REFACTOR · two-stage worker review · junior-bar plans · evidence before complete | [engine/spec-driven.md](engine/spec-driven.md) §4–§7 |
 
 ---
 
@@ -84,6 +86,7 @@ Activate **only** on **Signal A** (`/od` or `$od` line-start prefix) or **Signal
 | `/od auto`, `/od al` | [engine/board.md](engine/board.md) §2.5 autopilot |
 | `/od sy`, `/od db` | [engine/special-flows.md](engine/special-flows.md) §7–§8 |
 | `/od gv`, `/od governance` | [engine/governance.md](engine/governance.md) |
+| `/od spec`, `/od spec verify`, `/od spec archive` | [engine/spec-driven.md](engine/spec-driven.md) §8 |
 | `/od learn`, `/od ln` | [engine/evolution.md](engine/evolution.md) |
 | `/od h`, `/od help` | [engine/commands.md](engine/commands.md) |
 | `/od st`, `/od po` | [engine/stash.md](engine/stash.md) |
@@ -148,7 +151,7 @@ HOT ≤150 · WARM ≤250 · Total ≤300 lines. COLD = disk on-demand only.
 | Type | Behavior |
 |------|----------|
 | **Legacy** | Follow existing conventions 100%. Minimize new dependencies. Match test framework in repo. |
-| **Greenfield** | OpenSpec / TDD / DDD OK. Scaffold tests, CI, deploy manifests. Higher coverage targets. |
+| **Greenfield** | Spec-driven layer (`spec_mode`) + TDD / DDD OK. Scaffold tests, CI, deploy manifests. Higher coverage targets. |
 | **Monorepo** | Tag tasks with `[pkg:name]`; deploy/test per affected package. See Phase 0/2 instructions. |
 
 ## E. MCP Integration

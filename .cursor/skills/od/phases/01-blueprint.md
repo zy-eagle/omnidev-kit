@@ -20,8 +20,9 @@ context_requires:
 
 1. Parse the user's requirement: identify core objectives, key entities, primary workflows, and critical constraints.
 2. Check `00-project-context.md` for existing conventions and domain knowledge that apply.
+3. **Vague requirement?** Clarify Socratic-style before comparing approaches (Superpowers brainstorming): short chunked questions (max 3 per turn), each with a default answer; feed resolved answers into Step 4 Open Questions. Do not restate the whole requirement back.
 
-**Greenfield**: Propose module boundaries aligned with DDD/OpenSpec. **Legacy**: Map to existing modules first; avoid new stacks unless justified.
+**Greenfield**: Propose module boundaries aligned with DDD. Spec-driven layer (spec-driven.md) recommended — resolves via `spec_mode`. **Legacy**: Map to existing modules first; avoid new stacks unless justified.
 
 ---
 

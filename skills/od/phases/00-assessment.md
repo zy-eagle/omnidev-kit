@@ -50,7 +50,7 @@ If multiple `package.json` / `go.mod` at subdirectories or workspace config (`pn
 | Type | Phase 0 behavior |
 |------|------------------|
 | **Legacy** | Scan existing conventions; recommend minimal new dependencies |
-| **Greenfield** | Recommend OpenSpec/TDD structure; suggest CI + coverage from start |
+| **Greenfield** | Spec-driven layer + TDD recommended (`spec_mode`, engine/spec-driven.md); suggest CI + coverage from start |
 
 ---
 

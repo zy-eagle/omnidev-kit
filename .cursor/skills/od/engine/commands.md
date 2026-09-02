@@ -25,6 +25,9 @@ All commands require **`/od` prefix** (except bare index pick — see below). Sh
 | `/od sec` | `/od security` | Security audit of AI output (B.22) — Phase 3 exit gate |
 | `/od sec -i` | — | Confirm start of security fix iteration (manual FAIL loop) |
 | `/od sec --waive` | — | Waive open CRITICAL/HIGH findings via `b0_confirm` |
+| `/od spec` | — | Spec-driven layer status: `spec_mode` resolution + `08-spec.md` delta summary (B.23) |
+| `/od spec verify` | — | Walk SC-* scenarios → passing TC coverage table; gaps → Phase 4 backfill (spec-driven §8) |
+| `/od spec archive` | — | Merge `08-spec.md` into cumulative `specs.md`, archive delta (spec-driven §8) |
 | `/od ch [new requirement]` | `/od change` | Requirement change management |
 | `/od ln` | `/od learn` | Self-learning: error review + rule evolution |
 | `/od ln -r` | — | View learning log and pending proposals |
@@ -115,6 +118,7 @@ Interactive confirmations use platform native prompt (SKILL.md §F.2). User conf
 | `e2e_required_fullstack` | `true` | Force E2E for fullstack requirements |
 | `unit_gate_blocking` | `true` | Unpassed UNIT blocks Phase 4 completion |
 | `security_audit` | `true` | Run B.22 security audit at Phase 3 exit |
+| `spec_mode` | `"auto"` | `off` / `auto` / `on` — B.23 spec-driven layer (`08-spec.md`, TDD, two-stage review) |
 | `security_audit_blocking` | `true` | FAIL blocks Phase 4 until PASS/WAIVED |
 | `security_audit_max_iterations` | `3` | Max security fix loops before escalate |
 | `security_audit_tools` | `"auto"` | `auto` = checklist + repo SAST/secret tools if present |

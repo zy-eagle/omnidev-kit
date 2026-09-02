@@ -55,6 +55,14 @@ context_occupancy:
 
 ---
 
+## Step 0: Spec Delta → `08-spec.md` (only when `spec_mode` active)
+
+When [spec-driven.md](../engine/spec-driven.md) §1 activates the layer (`"on"`, or `"auto"` with L/XL / ≥2 blocking open questions), write `08-spec.md` **before** design:
+
+1. Delta requirements (`ADDED` / `MODIFIED` / `REMOVED`) with SHALL statements + WHEN/THEN scenarios, per spec-driven §2 (≤60 lines).
+2. Assign scenario IDs `SC-F{n}-{nn}` aligned to the feature numbering used below.
+3. When inert: skip this step entirely — no file, no chat mention.
+
 ## Step 1: Design → Index + Feature Files
 
 ### `design_split: false` (default) — Single File
@@ -178,7 +186,9 @@ Each task MUST include feature reference:
 - [ ] **T3** [backend] User service · feature: F1 · outputs: `service/user.go` · depends: T1
 ```
 
-Traceability table: Task Group ↔ Features ↔ TC-IDs.
+Traceability table: Task Group ↔ Features ↔ TC-IDs (when `spec_mode` active: also SC coverage — spec-driven §3).
+
+**Plan quality bar** (spec-driven §4, when active): every task states exact `outputs` paths + a runnable verification command; a task that cannot name its verification returns to Step 2 instead of guessing.
 
 ---
 
@@ -193,6 +203,9 @@ Record token estimate in `metrics.json` if `log_token_estimates: true`.
 - [ ] `layers_required` matches test-strategy matrix (fullstack → E2E present)
 - [ ] `02-plan.md` has `feature:` on every task
 - [ ] Traceability complete
+- [ ] When `spec_mode` active: `08-spec.md` exists, every scenario has ≥1 TC (spec-driven §3)
+- [ ] When `spec_mode` active: every task passes the plan quality bar (spec-driven §4)
+- [ ] Session-log frontmatter `spec_mode_active` matches config resolution (spec-driven §1)
 - [ ] Prior versions archived to `*-history.md` if this is a revision (not first run)
 
 ### Interactive gate (mandatory)

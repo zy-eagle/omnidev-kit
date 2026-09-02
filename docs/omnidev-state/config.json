@@ -37,6 +37,7 @@
   "codex_popup_hint_shown": false,
   "codex_auto_resolve": false,
   "security_audit": true,
+  "spec_mode": "auto",
   "security_audit_blocking": true,
   "security_audit_max_iterations": 3,
   "security_audit_tools": "auto"
