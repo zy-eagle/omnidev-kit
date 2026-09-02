@@ -47,6 +47,8 @@ context_occupancy:
   purge_on_group_complete: ["source file reads", "git diff stat summary retained in 03-progress"]
 ```
 
+> **Path resolution**: bare artifact names above resolve against `docs/omnidev-state/[branch]/` (document-history §1); `00-project-context.md` is global root.
+
 ## 1. Execution Protocol
 
 1. **Safety checkpoint**: Only if `auto_checkpoint: true` → `git stash`. Never auto-commit.

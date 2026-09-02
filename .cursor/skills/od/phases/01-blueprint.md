@@ -16,6 +16,8 @@ context_requires:
     - "*-history.md"
 ```
 
+> **Path resolution**: bare artifact names above resolve against `docs/omnidev-state/[branch]/` (document-history §1); `00-project-context.md` is global root.
+
 ## 1. Requirement Analysis
 
 1. Parse the user's requirement: identify core objectives, key entities, primary workflows, and critical constraints.

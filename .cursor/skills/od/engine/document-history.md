@@ -8,6 +8,13 @@
 
 ## 1. Two-File Pair Model
 
+**Branch isolation (mandatory)**: every requirement artifact lives under its **own branch directory** — never flat in the state root.
+
+- `[branch]` = current git branch name, **sanitized**: `/` → `-`, spaces/underscores → `-` (e.g. `feature/redis-slot-drain` → `feature-redis-slot-drain`).
+- Resolve `[branch]` once per session at activation (activation.md §1); record in session-log frontmatter (`branch:`).
+- The branch directory is created on the **first per-branch artifact write** of the session.
+- Bare artifact names in phase `context_requires` (`02-plan.md`, `features/FN.md`, …) always resolve against `docs/omnidev-state/[branch]/`.
+
 Per branch: `docs/omnidev-state/[branch]/`
 
 | Active (load in workflow) | History (append-only, do NOT load in normal phases) |
@@ -19,20 +26,34 @@ Per branch: `docs/omnidev-state/[branch]/`
 | `05-test-plan.md` | `05-test-plan-history.md` |
 | `05-test-report.md` | `05-test-report-history.md` |
 | `06-release-notes.md` | `06-release-notes-history.md` |
+| `08-spec.md` (spec-driven §2) | `08-spec-history.md` |
 | `features/FN.md` | *(snapshots go to `04-design-history.md` § Feature FN)* |
 
-Global: `docs/omnidev-state/`
+Per branch (session): `docs/omnidev-state/[branch]/` — `session-log.md` only (latest 1, overwritten per session).
+
+Global: `docs/omnidev-state/` (shared across branches — never branch-scoped)
 
 | Active | History |
 |--------|---------|
 | `00-project-context.md` | `00-project-context-history.md` |
-| `session-log.md` (per branch) | `session-log-history.md` (per branch) |
+| `config.json` · `user-preferences.md` · `metrics.json` · `evolution-log.jsonl` · `flow-board.json` · `specs.md` | `00-project-context-history.md` only |
 
 **Forbidden**:
+- Writing per-branch artifacts (`01`–`08`, `features/`) flat into the state root — they belong under `[branch]/`
+- Creating dated history copies `*-history-YYYY-MM-DD.md` — one paired history file per artifact, snapshots appended at the bottom
 - Replacing active file without archiving previous version (except first creation)
 - Deleting or truncating `*-history.md`
 - Loading `*-history.md` during Phase 3/4 normal execution
 - Scattering history across `archive/*-archive-[date].md` for paired artifacts (use paired history file instead)
+
+### 1.1 Legacy Flat-Layout Migration (one-time, per repo)
+
+On activation, if per-branch active artifacts (`0[1-8]*.md`, `features/`) sit flat at `docs/omnidev-state/` root:
+
+1. Detect once; do not silently move anything (B.0).
+2. At the **first artifact write** of the session, propose via `b0_confirm`: move flat artifacts into `docs/omnidev-state/[branch]/` (active + all `*-history*.md` variants, dated files moved as-is — never merged or deleted).
+3. Global files (`config.json`, `user-preferences.md`, `00-project-context*`, `metrics.json`, `session-log*` root copies) stay at root; a root `session-log.md` moves to `[branch]/` when its `branch:` matches.
+4. Record the migration in `metrics.json` (`layout_migrated: <date>`) so it is proposed only once.
 
 ---
 

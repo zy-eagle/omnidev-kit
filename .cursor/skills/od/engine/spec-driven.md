@@ -17,7 +17,7 @@ Record the resolved value in `session-log.md` frontmatter (`spec_mode_active: tr
 
 ## 2. Spec Delta → `08-spec.md` (Phase 2, when active)
 
-Written **before** `04-design.md`. Plain Markdown, ≤60 lines, delta markers like OpenSpec:
+Per-branch artifact: `docs/omnidev-state/[branch]/08-spec.md` (document-history §1). Written **before** `04-design.md`. Plain Markdown, ≤60 lines, delta markers like OpenSpec:
 
 ```markdown
 ---
@@ -103,6 +103,6 @@ Evidence over claims — before **any** completion assertion (task `[x]`, group 
 ## 8. Spec Verify & Archive
 
 - **Verify** (default at Phase 4 entry when active; manual `/od spec verify`): walk each `SC-*` → confirm a passing TC covers it → output ≤12-line coverage table; uncovered scenario → Phase 4 Gap Backfill (test-strategy §5).
-- **Archive** (at Phase 5 exit / `/od ps` when active): merge `08-spec.md` delta into cumulative `docs/omnidev-state/specs.md` (ADDED→append, MODIFIED→replace section, REMOVED→mark struck), then archive `08-spec.md` to `08-spec-history.md` per document-history.md. `specs.md` becomes the long-lived source of truth for future sessions' Phase 1 reads.
+- **Archive** (at Phase 5 exit / `/od ps` when active): merge `08-spec.md` delta into cumulative `docs/omnidev-state/specs.md` (global root — ADDED→append, MODIFIED→replace section, REMOVED→mark struck), then archive `08-spec.md` to `08-spec-history.md` per document-history.md. `specs.md` becomes the long-lived source of truth for future sessions' Phase 1 reads.
 
 Chat budget: spec delta summary ≤6 lines; verify table ≤12 lines; never paste full scenario text into chat.

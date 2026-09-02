@@ -60,6 +60,8 @@ check_pat "skills/od/engine/board.md" 'autopilot' 'Resume-after-confirm' 'Hard g
 check_pat "skills/od/engine/security-audit.md" 'security_iterate_confirm' 'autopilot' '07-security-audit' 'FAIL'
 check_pat "skills/od/phases/02-planning.md" 'phase2_plan_ready'
 check_pat "skills/od/engine/spec-driven.md" 'spec_mode' 'RED-GREEN-REFACTOR' '08-spec.md' 'specs.md' 'Two-Stage Review'
+check_pat "skills/od/engine/document-history.md" 'Per branch' '\[branch\]' 'sanitized' 'Flat-Layout Migration' 'dated history copies'
+check_pat "skills/od/engine/activation.md" 'Branch resolution' 'state_dir'
 check_pat "skills/od/phases/03-development.md" 'Security Audit Gate' 'security-audit' 'RED-GREEN-REFACTOR'
 check_pat "skills/od/phases/05-deploy.md" 'deploy_consent' 'deploy_prod'
 check_pat "docs/omnidev-state/config.json" 'codex_auto_resolve' 'security_audit'

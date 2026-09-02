@@ -55,6 +55,8 @@ context_occupancy:
 
 ---
 
+> **Path resolution**: bare artifact names above resolve against `docs/omnidev-state/[branch]/` (document-history §1); `00-project-context.md` is global root.
+
 ## Step 0: Spec Delta → `08-spec.md` (only when `spec_mode` active)
 
 When [spec-driven.md](../engine/spec-driven.md) §1 activates the layer (`"on"`, or `"auto"` with L/XL / ≥2 blocking open questions), write `08-spec.md` **before** design:

@@ -2,6 +2,8 @@
 → Platform mapping: SKILL.md §F (Platform Abstraction Layer)
 → **Test strategy**: [test-strategy.md](../engine/test-strategy.md) — layer composition, gates, gap backfill
 
+> **Path resolution**: bare artifact names in `context_requires` resolve against `docs/omnidev-state/[branch]/` (document-history §1); `00-project-context.md` is global root.
+
 
 ```yaml
 context_requires:

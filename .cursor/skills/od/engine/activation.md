@@ -50,7 +50,9 @@ On activation, **first response MUST be tool call(s)** — no assistant prose be
 | 2 | This file (`activation.md`) | bootstrap |
 | 3 | Target instruction file per §3 | phase or engine doc |
 
-Optional same turn: `user-preferences.md`, `session-log.md` (`/od re` or in-progress).
+**Branch resolution (same turn, silent)**: read current git branch → sanitize (`/`, spaces → `-`) → `state_dir = docs/omnidev-state/[branch]/` (document-history §1). All per-branch artifacts and session-log resolve against it. Record `branch:` in session snapshots. Flat legacy artifacts at state root → migration flag per document-history §1.1 (propose at first artifact write, do not move silently).
+
+Optional same turn: `user-preferences.md`, `[branch]/session-log.md` (`/od re` or in-progress).
 
 ### 1.1 Config Fallback (config.json not found)
 

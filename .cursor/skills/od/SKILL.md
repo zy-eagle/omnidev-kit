@@ -44,7 +44,7 @@ Activate **only** on **Signal A** (`/od` or `$od` line-start prefix) or **Signal
 | Rule | Short | Reference |
 |------|-------|-----------|
 | B.2 Workflow | Blueprint→Plan→Dev→Test→Deploy · S→P3, M→P2, L/XL→P1 | [activation.md](engine/activation.md) §3 |
-| B.3 State Files | `docs/omnidev-state/` · active+history pair · append-only | [engine/document-history.md](engine/document-history.md) |
+| B.3 State Files | `docs/omnidev-state/` global + `docs/omnidev-state/[branch]/` per-branch artifacts · active+history pair · append-only | [engine/document-history.md](engine/document-history.md) §1 |
 | B.5 Context Lifecycle | HOT≤150 · WARM≤250 · COLD disk on-demand · purge on phase end | [engine/context-lifecycle.md](engine/context-lifecycle.md) |
 | B.6 Config | `/od cfg` · `interactive_mode`/`board_ui`/`auto_checkpoint`/`design_split` | [engine/user-preferences.md](engine/user-preferences.md) · [engine/board.md](engine/board.md) |
 | B.8 Checkpoint | Handoff Block (next/do/continue/skip) ≤18 lines · options · STOP-WAIT · autopilot soft-skips | [engine/special-flows.md](engine/special-flows.md) §3.1 · §C.1 · [board.md](engine/board.md) §2.5 |

@@ -36,7 +36,7 @@ Before sizing, scan the project once (results cached in `00-project-context.md` 
    - Storage (DB, Cache, MQ, Search, S3): scan `config/*.yml`, `.env`, driver imports (`gorm`, `redis`, `kafka`).
    - Third-Party (HTTP APIs, gRPC, SDKs): scan `http.Client`, `axios`, `.proto`, AWS/Sentry SDKs.
 5. **Stability Level**: `high` (if user requested high availability/stability) else `standard`.
-6. Output to `docs/omnidev-state/00-project-context.md` (mark `project_type: legacy` or `greenfield`). Include `## Stack & Layers`, `## Dependency Topology`, and `## Stability Level`.
+6. Output to `docs/omnidev-state/00-project-context.md` (global root, shared across branches — not per-branch; document-history §1). Mark `project_type: legacy` or `greenfield`. Include `## Stack & Layers`, `## Dependency Topology`, and `## Stability Level`.
 
 ### Monorepo Detection
 
